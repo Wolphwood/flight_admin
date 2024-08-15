@@ -152,13 +152,13 @@ lib.callback.register('flight_admin:getPlayerData', function()
             health = "none",
             armor = "none",
             name = "none",
-            noclip = save[k],
-            freeze = freeze[k],
-            bringPlayer = bringPlayer[k],
+            noclip = save[v],
+            freeze = freeze[v],
+            bringPlayer = bringPlayer[v],
             gotoPlayer = gotoPlayer[source]
         }
-        for i = 0, GetNumPlayerIdentifiers(k) - 1 do
-            local identifier = GetPlayerIdentifier(k, i)
+        for i = 0, GetNumPlayerIdentifiers(v) - 1 do
+            local identifier = GetPlayerIdentifier(v, i)
             if identifier:find('license') and not datastore["license"] == "none" then
                 datastore["license"] = identifier
             elseif identifier:find('discord') then
@@ -175,8 +175,8 @@ lib.callback.register('flight_admin:getPlayerData', function()
                 datastore["xbl"] = identifier
             end
         end
-        datastore["name"] = GetPlayerName(k)
-        datastore["id"] = k
+        datastore["name"] = GetPlayerName(v)
+        datastore["id"] = v
         data[#data + 1] = datastore
     end
     return data
