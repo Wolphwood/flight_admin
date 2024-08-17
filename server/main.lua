@@ -337,8 +337,14 @@ end)
 
 RegisterNetEvent('flight_admin:revive', function(id)
     if not Config.perimission('revive') then return end
-    if not id then id = source end
-    print("Attempted to revive id: "..id.." Set your revive function here: server/main.lua")
+    
+    if GetResourceState("ars_ambulancejob") == "started" then
+        local data = {}
+        data.revive = true
+        TriggerClientEvent('ars_ambulancejob:healPlayer', id, data)
+    else
+        print("Attempted to revive id: "..id.." Use 'ars_ambulancejob' or Set your revive function here: server/main.lua")
+    end
 end)
 
 RegisterNetEvent('flight_admin:warnPlayer', function(id)
@@ -396,7 +402,7 @@ end)
 
 
 RegisterNetEvent('flight_admin:trollPlayer', function(data)
-    print(tprint(data))
+    -- print(tprint(data))
 
     local serverId = data.id
     local xPlayer = ESX.GetPlayerFromId(serverId)
