@@ -14,6 +14,8 @@ shared_scripts {
     'config.lua'
 }
 
+shared_script '@es_extended/imports.lua'
+
 server_script 'server/version.lua'
 
 shared_script 'shared/init.lua'

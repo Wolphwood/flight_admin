@@ -1,3 +1,29 @@
+function tprint (tbl, indent)
+    if not indent then indent = 0 end
+    local toprint = string.rep(" ", indent) .. "{\r\n"
+    indent = indent + 2 
+    for k, v in pairs(tbl) do
+      toprint = toprint .. string.rep(" ", indent)
+      if (type(k) == "number") then
+        toprint = toprint .. "[" .. k .. "] = "
+      elseif (type(k) == "string") then
+        toprint = toprint  .. k ..  "= "   
+      end
+      if (type(v) == "number") then
+        toprint = toprint .. v .. ",\r\n"
+      elseif (type(v) == "string") then
+        toprint = toprint .. "\"" .. v .. "\",\r\n"
+      elseif (type(v) == "table") then
+        toprint = toprint .. tprint(v, indent + 2) .. ",\r\n"
+      else
+        toprint = toprint .. "\"" .. tostring(v) .. "\",\r\n"
+      end
+    end
+    toprint = toprint .. string.rep(" ", indent-2) .. "}"
+    return toprint
+end
+
+
 local save, freeze, bringPlayer, gotoPlayer = {}, {}, {}, {}
 
 local function getFileData(path, file)
@@ -349,9 +375,47 @@ RegisterNetEvent('flight_admin:killPlayer', function(player)
     TriggerClientEvent("flight_admin:killPlayer", tonumber(player))
 end)
 
-RegisterNetEvent('flight_admin:trollPlayer', function(data)
-    print("Attempted to troll id: "..data.id.." this event is not ready yet")
+
+
+
+
+local function getSourceFromID(id)
+    while ESX == nil do
+        Wait(100)
+    end
+    return ESX.GetPlayerFromId(id);
+end
+
+
+RegisterNetEvent('flight_admin:log', function(data)
+    print(data)
 end)
+RegisterNetEvent('flight_admin:tlog', function(data)
+    print(tprint(data))
+end)
+
+
+RegisterNetEvent('flight_admin:trollPlayer', function(data)
+    print(tprint(data))
+
+    local serverId = data.id
+    local xPlayer = ESX.GetPlayerFromId(serverId)
+
+    if xPlayer then
+        TriggerClientEvent('flightadmin:applyTrollEffect', serverId, data)
+    else
+        return print("No player found with id: " .. data.id)
+    end
+end)
+
+
+
+
+
+
+
+
+
 
 RegisterNetEvent('flight_admin:bringPlayer', function(player)
     local coords = GetEntityCoords(GetPlayerPed(source))
