@@ -1,3 +1,29 @@
+function tprint (tbl, indent)
+    if not indent then indent = 0 end
+    local toprint = string.rep(" ", indent) .. "{\r\n"
+    indent = indent + 2 
+    for k, v in pairs(tbl) do
+      toprint = toprint .. string.rep(" ", indent)
+      if (type(k) == "number") then
+        toprint = toprint .. "[" .. k .. "] = "
+      elseif (type(k) == "string") then
+        toprint = toprint  .. k ..  "= "   
+      end
+      if (type(v) == "number") then
+        toprint = toprint .. v .. ",\r\n"
+      elseif (type(v) == "string") then
+        toprint = toprint .. "\"" .. v .. "\",\r\n"
+      elseif (type(v) == "table") then
+        toprint = toprint .. tprint(v, indent + 2) .. ",\r\n"
+      else
+        toprint = toprint .. "\"" .. tostring(v) .. "\",\r\n"
+      end
+    end
+    toprint = toprint .. string.rep(" ", indent-2) .. "}"
+    return toprint
+end
+
+
 local save, freeze, bringPlayer, gotoPlayer = {}, {}, {}, {}
 
 local function getFileData(path, file)
@@ -152,13 +178,13 @@ lib.callback.register('flight_admin:getPlayerData', function()
             health = "none",
             armor = "none",
             name = "none",
-            noclip = save[k],
-            freeze = freeze[k],
-            bringPlayer = bringPlayer[k],
+            noclip = save[v],
+            freeze = freeze[v],
+            bringPlayer = bringPlayer[v],
             gotoPlayer = gotoPlayer[source]
         }
-        for i = 0, GetNumPlayerIdentifiers(k) - 1 do
-            local identifier = GetPlayerIdentifier(k, i)
+        for i = 0, GetNumPlayerIdentifiers(v) - 1 do
+            local identifier = GetPlayerIdentifier(v, i)
             if identifier:find('license') and not datastore["license"] == "none" then
                 datastore["license"] = identifier
             elseif identifier:find('discord') then
@@ -175,8 +201,8 @@ lib.callback.register('flight_admin:getPlayerData', function()
                 datastore["xbl"] = identifier
             end
         end
-        datastore["name"] = GetPlayerName(k)
-        datastore["id"] = k
+        datastore["name"] = GetPlayerName(v)
+        datastore["id"] = v
         data[#data + 1] = datastore
     end
     return data
@@ -311,8 +337,14 @@ end)
 
 RegisterNetEvent('flight_admin:revive', function(id)
     if not Config.perimission('revive') then return end
-    if not id then id = source end
-    print("Attempted to revive id: "..id.." Set your revive function here: server/main.lua")
+    
+    if GetResourceState("ars_ambulancejob") == "started" then
+        local data = {}
+        data.revive = true
+        TriggerClientEvent('ars_ambulancejob:healPlayer', id, data)
+    else
+        print("Attempted to revive id: "..id.." Use 'ars_ambulancejob' or Set your revive function here: server/main.lua")
+    end
 end)
 
 RegisterNetEvent('flight_admin:warnPlayer', function(id)
@@ -349,9 +381,47 @@ RegisterNetEvent('flight_admin:killPlayer', function(player)
     TriggerClientEvent("flight_admin:killPlayer", tonumber(player))
 end)
 
-RegisterNetEvent('flight_admin:trollPlayer', function(data)
-    print("Attempted to troll id: "..data.id.." this event is not ready yet")
+
+
+
+
+local function getSourceFromID(id)
+    while ESX == nil do
+        Wait(100)
+    end
+    return ESX.GetPlayerFromId(id);
+end
+
+
+RegisterNetEvent('flight_admin:log', function(data)
+    print(data)
 end)
+RegisterNetEvent('flight_admin:tlog', function(data)
+    print(tprint(data))
+end)
+
+
+RegisterNetEvent('flight_admin:trollPlayer', function(data)
+    -- print(tprint(data))
+
+    local serverId = data.id
+    local xPlayer = ESX.GetPlayerFromId(serverId)
+
+    if xPlayer then
+        TriggerClientEvent('flightadmin:applyTrollEffect', serverId, data)
+    else
+        return print("No player found with id: " .. data.id)
+    end
+end)
+
+
+
+
+
+
+
+
+
 
 RegisterNetEvent('flight_admin:bringPlayer', function(player)
     local coords = GetEntityCoords(GetPlayerPed(source))

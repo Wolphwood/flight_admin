@@ -129,7 +129,29 @@ interface Locale {
   ui_spawn_by_name: string
   ui_no_vehicle_found: string
   ui_weapons: string
+
   ui_troll: string
+  ui_troll_action_ragdoll: string
+  ui_troll_action_animals: string
+  ui_troll_action_taser: string
+  ui_troll_action_drunk: string
+  ui_troll_action_randomDriving: string
+  ui_troll_action_fire: string
+  ui_troll_action_switchAnimal: string
+  ui_troll_action_teleport: string
+
+  ui_troll_arg_position: string
+  ui_troll_arg_rotation: string
+  ui_troll_arg_duration_s: string
+  ui_troll_arg_amplifier: string
+  ui_troll_arg_animation: string
+  ui_troll_arg_animation_anm_a: string
+  ui_troll_arg_animation_anm_b: string
+  ui_troll_arg_animation_anm_c: string
+  ui_troll_arg_animation_anm_slightlydrunk: string
+  ui_troll_arg_animation_anm_moderatedrunk: string
+  ui_troll_arg_animation_anm_verydrunk: string
+  
   ui_give_weapon_by_name: string
   ui_give_weapon: string
   ui_no_weapon_found: string
@@ -492,7 +514,30 @@ const LocaleProvider: React.FC<{ children: React.ReactNode }> = ({ children }) =
     ui_spawn_by_name: '',
     ui_no_vehicle_found: '',
     ui_weapons: '',
+    
     ui_troll: '',
+    
+    ui_troll_action_ragdoll: '',
+    ui_troll_action_animals: '',
+    ui_troll_action_taser: '',
+    ui_troll_action_drunk: '',
+    ui_troll_action_randomDriving: '',
+    ui_troll_action_fire: '',
+    ui_troll_action_switchAnimal: '',
+    ui_troll_action_teleport: '',
+
+    ui_troll_arg_position: '',
+    ui_troll_arg_rotation: '',
+    ui_troll_arg_duration_s: '',
+    ui_troll_arg_amplifier: '',
+    ui_troll_arg_animation: '',
+    ui_troll_arg_animation_anm_a: '',
+    ui_troll_arg_animation_anm_b: '',
+    ui_troll_arg_animation_anm_c: '',
+    ui_troll_arg_animation_anm_slightlydrunk: '',
+    ui_troll_arg_animation_anm_moderatedrunk: '',
+    ui_troll_arg_animation_anm_verydrunk: '',
+
     ui_give_weapon_by_name: '',
     ui_give_weapon: '',
     ui_no_weapon_found: '',

@@ -298,7 +298,7 @@ const Players: React.FC = () => {
               size='xs'
               onClick={() => {
                 openModal({
-                  title: locale.ui_tp_coords,
+                  title: locale.ui_troll,
                   size: 'sm',
                   children: <TrollMenu id={playerList.id}/>,
                 })  

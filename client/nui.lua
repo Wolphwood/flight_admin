@@ -1,4 +1,94 @@
-local isSpectating, bringback ,goback = false, nil, nil
+local isSpectating, bringback, goback = false, nil, nil
+
+local DRUNK_ANIM_SET = "move_m@drunk@a"
+
+local function applyDrunkEffect(duration, amplifier)
+    local playerPed = PlayerPedId()
+    local isDrunk = true
+
+    -- Charger l'ensemble d'animations saoul
+    RequestAnimSet(DRUNK_ANIM_SET)
+    while not HasAnimSetLoaded(DRUNK_ANIM_SET) do
+        Wait(5)
+    end
+
+    -- Appliquer l'effet saoul
+    SetPedMovementClipset(playerPed, DRUNK_ANIM_SET, 0.25)
+    ShakeGameplayCam("DRUNK_SHAKE", amplifier)
+    SetPedIsDrunk(playerPed, true)
+    SetTransitionTimecycleModifier("spectator5", amplifier)
+
+    -- Tâches aléatoires si le joueur conduit
+    CreateThread(function()
+        while isDrunk do
+            local vehPedIsIn = GetVehiclePedIsIn(playerPed, false)
+            local isPedInVehicleAndDriving = (vehPedIsIn ~= 0) and (GetPedInVehicleSeat(vehPedIsIn, -1) == playerPed)
+
+            if isPedInVehicleAndDriving then
+                local randomTask = math.random(1, 3) -- Remplacer par les vraies tâches aléatoires
+                TaskVehicleTempAction(playerPed, vehPedIsIn, randomTask, 500)
+            end
+
+            Wait(5000)
+        end
+    end)
+
+    -- Nettoyage après la durée de l'effet
+    Wait(duration)
+    isDrunk = false
+    SetTransitionTimecycleModifier("default", 10.00)
+    StopGameplayCamShaking(true)
+    ResetPedMovementClipset(playerPed, 0.0)
+    RemoveAnimSet(DRUNK_ANIM_SET)
+    SetPedIsDrunk(playerPed, false)
+end
+
+local function splitString(inputStr)
+    local sanitizedStr = inputStr:gsub("[; /]", ",")
+    
+    local result = {}
+    for value in sanitizedStr:gmatch("[^,]+") do
+        table.insert(result, value)
+    end
+
+    return result;
+end
+
+local function parseRelativeValue(value, current)
+    if value == "~" then
+        return current
+    elseif value:sub(1, 1) == "~" then
+        local offset = tonumber(value:sub(2)) or 0
+        return current + offset
+    else
+        return tonumber(value) or current
+    end
+end
+
+RegisterNetEvent('flightadmin:applyTrollEffect', function(effect)
+    local playerPed = PlayerPedId()
+    local coords = GetEntityCoords(playerPed)
+    local rots = GetEntityRotation(playerPed)
+
+    if effect.value == "ragdoll" then
+        if not IsPedRagdoll(playerPed) then
+            SetPedToRagdoll(playerPed, effect.duration * 1000, effect.duration * 1000, 0, true, true, false)
+        else
+            ClearPedTasksImmediately(playerPed)
+        end
+    elseif effect.value == "drunk" then
+        applyDrunkEffect(effect.duration * 1000, effect.amplifier)
+    elseif effect.value == "teleport" then
+        local pos = splitString(effect.pos);
+        local rot = splitString(effect.rot);
+
+        local pos_x, pos_y, pos_z = parseRelativeValue(pos[1], coords.x), parseRelativeValue(pos[2], coords.y), parseRelativeValue(pos[3], coords.z);
+        local rot_x, rot_y, rot_z = parseRelativeValue(rot[1], rots.x), parseRelativeValue(rot[2], rots.y), parseRelativeValue(rot[3], rots.z);
+
+        SetEntityRotation(playerPed, rot_x, rot_y, rot_z, 2, true)
+        SetEntityCoords(playerPed, pos_x, pos_y, pos_z, false, false, true, false)
+    end
+end)
 
 RegisterNUICallback('flight_admin:tabSelected', function(newTab, cb)
     cb(1)
