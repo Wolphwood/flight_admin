@@ -11,7 +11,7 @@ import SendAnnouncement from './modals/SendAnnouncement'
 import { setClipboard } from '../../../../utils/setClipboard'
 import SetCoords from './modals/SetCoords'
 import { useRecoilState } from 'recoil'
-import { positionAtom } from '../../../../atoms/position'
+import { positionAtom, groundPositionAtom } from '../../../../atoms/position'
 import { worldFreezeTimeAtom } from '../../../../atoms/world'
 import { useLocales } from '../../../../providers/LocaleProvider'
 import { FaMapMarkerAlt } from 'react-icons/fa'
@@ -24,16 +24,20 @@ const Home: React.FC = () => {
   const lastLocation = getLastLocation()
   const interior = getInteriorData()
   const [currentCoords, setCurrentCoords] = useRecoilState(positionAtom)
+  const [currentGroundCoords, setCurrentGroundCoords] = useRecoilState(groundPositionAtom)
   const [currentPlayers, setCurrentPlayers] = useState(0)
   const [currentUpTime, setCurrentUpTime] = useState(0)
   const [currentNextRestart, setNextRestart] = useState(0)
   const [currentHeading, setCurrentHeading] = useState('0.000')
   const [timeFrozen, setTimeFrozen] = useRecoilState(worldFreezeTimeAtom)
   const [copiedCoords, setCopiedCoords] = useState(false)
+  const [copiedGroundCoords, setCopiedGroundCoords] = useState(false)
   const [noclipActive, setNoclip] = useState(false)
 
-  useNuiEvent('playerCoords', (data: { coords: string, heading: string }) => {
+  useNuiEvent('playerCoords', (data: { coords: string, ground: string, heading: string }) => {
+    console.log(data)
     setCurrentCoords(data.coords)
+    setCurrentGroundCoords(data.ground)
     setCurrentHeading(data.heading)
   })
 
@@ -169,6 +173,27 @@ const Home: React.FC = () => {
               }
             >{locale.ui_save_location}</Button>
           </Group>
+
+          <Space h='md' />
+          
+          <Group position='apart'>
+            <Group><Text>{locale.ui_gound_coords}:</Text><Text color='blue.4' >{currentGroundCoords}</Text></Group>
+          </Group>
+
+          <Space h='sm' />
+
+          <Group grow>
+            <Button
+              color={copiedGroundCoords ? 'teal' : 'blue.4'}
+              variant='light'
+              size='xs'
+              onClick={() => {
+                setClipboard(currentGroundCoords + ', ' + currentHeading)
+                setCopiedGroundCoords(true)
+              }}
+            >{copiedGroundCoords ? locale.ui_copied_coords : locale.ui_copy_coords}</Button>
+          </Group>
+
         </Paper>
         
         {/* LAST LOCATION */}

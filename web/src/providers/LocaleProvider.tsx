@@ -36,6 +36,7 @@ interface Locale {
   ui_hash: string
   ui_identifier: string
   ui_coords: string
+  ui_gound_coords: string
   ui_tp_coords: string
   ui_players: string
   ui_uptime: string
@@ -237,6 +238,7 @@ debugData(
         ui_hash: "Hash",
         ui_identifier: "Identifier",
         ui_coords: "Coords",
+        ui_gound_coords: "Coords (gorund)",
         ui_tp_coords: "TP to Coords",
         ui_players: "Players",
         ui_uptime: "Uptime",
@@ -424,6 +426,7 @@ const LocaleProvider: React.FC<{ children: React.ReactNode }> = ({ children }) =
     ui_hash: '',
     ui_identifier: '',
     ui_coords: '',
+    ui_gound_coords: '',
     ui_tp_coords: '',
     ui_players: '',
     ui_uptime: '',

@@ -1,5 +1,7 @@
 local isSpectating, bringback, goback = false, nil, nil
 
+TriggerServerEvent('flight_admin:log', 'Flight Admin is fully loaded :)')
+
 local function applyDrunkEffect(animation, duration, amplifier)
     print(animation, duration, amplifier)
     
@@ -63,14 +65,6 @@ local function parseRelativeValue(value, current)
     else
         return tonumber(value) or current
     end
-end
-
-local function getPlayerHeight(playerPed)
-    local model = GetEntityModel(playerPed)
-    local minVector, maxVector = GetModelDimensions(model)
-    local height = maxVector.z - minVector.z
-
-    return height
 end
 
 RegisterNetEvent('flightadmin:applyTrollEffect', function(effect)

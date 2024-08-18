@@ -31,6 +31,7 @@
     "ui_hash": "Hash",
     "ui_identifier": "Identificador",
     "ui_coords": "Coords",
+    "ui_gound_coords": "Coords (ground)",
     "ui_tp_coords": "TP para Coords",
     "ui_players": "Jogadores",
     "ui_uptime": "Conectado",
