@@ -4,10 +4,10 @@ lua54 'yes'
 game 'gta5'
 
 name         'flight_admin'
-version      '1.1.0'
+version      '1.1.1'
 description  'The admin menu everyone needs'
-author       'DevTheBully'
-repository   'https://github.com/DevTheBully/flight_admin'
+author       'Wolphwood (originally DevTheBully)'
+repository   'https://github.com/Wolphwood/flight_admin'
 
 shared_scripts {
     '@ox_lib/init.lua',

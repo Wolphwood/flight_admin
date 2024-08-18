@@ -65,6 +65,14 @@ local function parseRelativeValue(value, current)
     end
 end
 
+local function getPlayerHeight(playerPed)
+    local model = GetEntityModel(playerPed)
+    local minVector, maxVector = GetModelDimensions(model)
+    local height = maxVector.z - minVector.z
+
+    return height
+end
+
 RegisterNetEvent('flightadmin:applyTrollEffect', function(effect)
     local playerPed = PlayerPedId()
     local coords = GetEntityCoords(playerPed)
@@ -82,11 +90,13 @@ RegisterNetEvent('flightadmin:applyTrollEffect', function(effect)
         local pos = splitString(effect.pos);
         local rot = splitString(effect.rot);
 
+        local h = getPlayerHeight(playerPed)
+
         local pos_x, pos_y, pos_z = parseRelativeValue(pos[1], coords.x), parseRelativeValue(pos[2], coords.y), parseRelativeValue(pos[3], coords.z);
         local rot_x, rot_y, rot_z = parseRelativeValue(rot[1], rots.x), parseRelativeValue(rot[2], rots.y), parseRelativeValue(rot[3], rots.z);
 
         SetEntityRotation(playerPed, rot_x, rot_y, rot_z, 2, true)
-        SetEntityCoords(playerPed, pos_x, pos_y, pos_z, false, false, true, false)
+        SetEntityCoords(playerPed, pos_x, pos_y, pos_z - (h/2), false, false, true, false)
     end
 end)
 
