@@ -192,5 +192,11 @@
   "ui_meters": "meters",
   "ui_flags": "Flags",
   "ui_room": "Room",
-  "ui_radio_station": "Radio Station"
+  "ui_radio_station": "Radio Station",
+
+  "copied_model_name_clipboard": "Model name copied to clipboard",
+  "no_model_from_hash": "No model found from hash",
+  "no_entity_selected": "No entity selected",
+
+  "": ""
 }

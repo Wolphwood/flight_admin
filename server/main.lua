@@ -112,6 +112,12 @@ local function filterCustomLocations()
     return customLocations
 end
 
+wUtils_Models = require('server.models')
+
+lib.callback.register('flight_admin:getObjectByHash', function(source, hash)
+    return wUtils_Models.getObjectByHash(hash);
+end)
+
 lib.callback.register('flight_admin:getData', function()
     local data = {}
     

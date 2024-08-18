@@ -192,5 +192,11 @@
     "ui_meters": "meter",
     "ui_flags": "Flags",
     "ui_room": "Raum",
-    "ui_radio_station": "Radiosender"
-  }
+    "ui_radio_station": "Radiosender",
+
+    "copied_model_name_clipboard": "Modellname in die Zwischenablage kopiert",
+    "no_model_from_hash": "Kein Modell vom Hash gefunden",
+    "no_entity_selected": "Keine Entität ausgewählt",
+
+    "": ""
+}

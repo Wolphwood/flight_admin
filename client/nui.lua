@@ -1,19 +1,19 @@
 local isSpectating, bringback, goback = false, nil, nil
 
-local DRUNK_ANIM_SET = "move_m@drunk@a"
-
-local function applyDrunkEffect(duration, amplifier)
+local function applyDrunkEffect(animation, duration, amplifier)
+    print(animation, duration, amplifier)
+    
     local playerPed = PlayerPedId()
     local isDrunk = true
 
     -- Charger l'ensemble d'animations saoul
-    RequestAnimSet(DRUNK_ANIM_SET)
-    while not HasAnimSetLoaded(DRUNK_ANIM_SET) do
+    RequestAnimSet(animation)
+    while not HasAnimSetLoaded(animation) do
         Wait(5)
     end
 
     -- Appliquer l'effet saoul
-    SetPedMovementClipset(playerPed, DRUNK_ANIM_SET, 0.25)
+    SetPedMovementClipset(playerPed, animation, 0.25)
     ShakeGameplayCam("DRUNK_SHAKE", amplifier)
     SetPedIsDrunk(playerPed, true)
     SetTransitionTimecycleModifier("spectator5", amplifier)
@@ -25,11 +25,11 @@ local function applyDrunkEffect(duration, amplifier)
             local isPedInVehicleAndDriving = (vehPedIsIn ~= 0) and (GetPedInVehicleSeat(vehPedIsIn, -1) == playerPed)
 
             if isPedInVehicleAndDriving then
-                local randomTask = math.random(1, 3) -- Remplacer par les vraies tâches aléatoires
-                TaskVehicleTempAction(playerPed, vehPedIsIn, randomTask, 500)
+                local randomTask = math.round(math.random(1, 8))
+                TaskVehicleTempAction(playerPed, vehPedIsIn, randomTask, math.round(math.random(100,500)))
             end
 
-            Wait(5000)
+            Wait(math.round(math.random(500,5000)))
         end
     end)
 
@@ -39,7 +39,7 @@ local function applyDrunkEffect(duration, amplifier)
     SetTransitionTimecycleModifier("default", 10.00)
     StopGameplayCamShaking(true)
     ResetPedMovementClipset(playerPed, 0.0)
-    RemoveAnimSet(DRUNK_ANIM_SET)
+    RemoveAnimSet(animation)
     SetPedIsDrunk(playerPed, false)
 end
 
@@ -85,7 +85,7 @@ RegisterNetEvent('flightadmin:applyTrollEffect', function(effect)
             ClearPedTasksImmediately(playerPed)
         end
     elseif effect.value == "drunk" then
-        applyDrunkEffect(effect.duration * 1000, effect.amplifier)
+        applyDrunkEffect(effect.animation, effect.duration * 1000, effect.amplifier)
     elseif effect.value == "teleport" then
         local pos = splitString(effect.pos);
         local rot = splitString(effect.rot);

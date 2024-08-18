@@ -192,5 +192,11 @@
   "ui_meters": "mètres",
   "ui_flags": "Drapeaux",
   "ui_room": "Salle",
-  "ui_radio_station": "Station de radio"
+  "ui_radio_station": "Station de radio",
+
+  "copied_model_name_clipboard": "Nom du modèle copié dans le press-papier",
+  "no_model_from_hash": "Aucun modèle trouvé depuis le hash",
+  "no_entity_selected": "Aucune entité selectionnée",
+
+  "": ""
 }

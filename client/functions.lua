@@ -472,6 +472,28 @@ FUNC.initTarget = function()
             end
         },
         {
+            name = 'ox:option_copy_object_name',
+            icon = 'fa-solid fa-clipboard-list',
+            label = 'Copy Object Name',
+            distance = 10,
+            onSelect = function(data)
+                if data.entity then
+                    local hash = GetEntityModel(data.entity)
+                    local model = lib.callback.await('flight_admin:getObjectByHash', false, tostring(hash))
+
+                    if model then
+                        lib.setClipboard(model.name)
+                        lib.notify({type='success', description=locale('copied_model_name_clipboard')})
+                    else
+                        lib.setClipboard(hash)
+                        lib.notify({type='error', description=locale('no_model_from_hash')})
+                    end
+                else
+                    lib.notify({type='error', description='no_entity_selected'})
+                end
+            end
+        },
+        {
             name = 'ox:option4',
             icon = 'fa-solid fa-down-long',
             label = 'Snap to ground',

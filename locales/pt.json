@@ -192,5 +192,11 @@
     "ui_meters": "meters",
     "ui_flags": "Flags",
     "ui_room": "Sala/quarto",
-    "ui_radio_station": "Estações de rádio"
-  }
+    "ui_radio_station": "Estações de rádio",
+
+    "copied_model_name_clipboard": "Nome do modelo copiado para a área de transferência",
+    "no_model_from_hash": "Nenhum modelo encontrado a partir do hash",
+    "no_entity_selected": "Nenhuma entidade selecionada",
+
+    "": ""
+}
