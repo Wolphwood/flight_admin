@@ -40,8 +40,8 @@ const Nav: React.FC = () => {
           <NavIcon color='cyan.4' tooltip={locale.ui_weapons} Icon={GiPistolGun} to='/weapon'  handleClick={() => fetchNui('flight_admin:tabSelected', 'weapons')}/>
           <NavIcon color='cyan.4' tooltip={locale.ui_audio} Icon={HiSpeakerWave} to='/audio'  handleClick={() => fetchNui('flight_admin:tabSelected', 'audio')}/>
           <CgLoadbar fontSize={34}/>
-          <NavIcon color='dark.2' tooltip={"Discord"} Icon={FaDiscord} to='' handleClick={() => fetchNui('flight_admin:openBrowser', { url: 'https://discord.gg/dXzkPaRaq3' })}/>
-          <NavIcon color='dark.2' tooltip={"Github"} Icon={ImGithub} to='' handleClick={() => fetchNui('flight_admin:openBrowser', { url: 'https://github.com/DevTheBully/flight_admin/' })}/>
+          <NavIcon color='dark.2' tooltip={"Discord"} Icon={FaDiscord} to='' handleClick={() => fetchNui('flight_admin:openBrowser', { url: 'https://discord.gg/ZxPUPVws8u' })}/>
+          <NavIcon color='dark.2' tooltip={"Github"} Icon={ImGithub} to='' handleClick={() => fetchNui('flight_admin:openBrowser', { url: 'https://github.com/Wolphwood/flight_admin' })}/>
         </Stack>
       </Navbar.Section>
     </Navbar>
