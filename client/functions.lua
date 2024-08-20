@@ -570,7 +570,7 @@ end
 
 FUNC.loadPage = function(listType, activePage, filter, checkboxes, spectateBool)
     -- TriggerServerEvent('flight_admin:tlog', Client.data[listType])
-    TriggerServerEvent('flight_admin:tlog', checkboxes)
+    -- TriggerServerEvent('flight_admin:tlog', checkboxes)
 
     local totalList = Client.data[listType]
     local filteredList = {}

@@ -114,9 +114,9 @@ lib.callback.register('flight_admin:getData', function()
                 for l, location in pairs(oxShops[k].locations) do
                     table.insert(formatedShopLocations, {
                         shop= "true",
-                        y= string.format("%.3f", location.y),
-                        z= string.format("%.3f", location.z),
-                        x= string.format("%.3f", location.x),
+                        y= tonumber(string.format("%.3f", location.y)),
+                        z= tonumber(string.format("%.3f", location.z)),
+                        x= tonumber(string.format("%.3f", location.x)),
                         heading= 0,
                         name= oxShops[k].name .." #".. l,
                     })
