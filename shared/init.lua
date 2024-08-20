@@ -37,6 +37,13 @@ function tprint (tbl, indent)
     return toprint
 end
 
+function table.merge(t1, t2)
+    for k,v in ipairs(t2) do
+        table.insert(t1, v)
+    end
+    return t1
+end
+
 function getModelHeight(playerPed)
     local model = GetEntityModel(playerPed)
     local minVector, maxVector = GetModelDimensions(model)
@@ -45,7 +52,8 @@ function getModelHeight(playerPed)
     return height
 end
 
-CreateThread(function()    
+CreateThread(function()
+
     if IsDuplicityVersion() then
         Server = {}
     else

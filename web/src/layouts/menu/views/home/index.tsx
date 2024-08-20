@@ -54,6 +54,12 @@ const Home: React.FC = () => {
     }, 1000)
   }, [copiedCoords, setCopiedCoords])
 
+  useEffect(() => {
+    setTimeout(() => {
+      if (copiedGroundCoords) setCopiedGroundCoords(false)
+    }, 1000)
+  }, [copiedGroundCoords, setCopiedGroundCoords])
+
   return (
     <SimpleGrid cols={1}>
       <Stack>

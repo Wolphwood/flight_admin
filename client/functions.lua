@@ -569,6 +569,9 @@ FUNC.getPages = function(page, table, itemPerPage)
 end
 
 FUNC.loadPage = function(listType, activePage, filter, checkboxes, spectateBool)
+    -- TriggerServerEvent('flight_admin:tlog', Client.data[listType])
+    TriggerServerEvent('flight_admin:tlog', checkboxes)
+
     local totalList = Client.data[listType]
     local filteredList = {}
 
@@ -589,7 +592,11 @@ FUNC.loadPage = function(listType, activePage, filter, checkboxes, spectateBool)
 
         if listType == 'locations' then
             for i, value in pairs(totalList) do
-                if (value.custom and checkboxes.custom) or (not value.custom and checkboxes.vanilla) then
+                local custom = value.custom and checkboxes.custom
+                local shop = value.shop and checkboxes.shop
+                local vanilla = not value.custom and not value.shop and checkboxes.vanilla
+
+                if custom or shop or vanilla then
                     if (not filter or filter == '') or string.find(string.lower(value.name), string.lower(filter)) then
                         table.insert(searchResult, value)
                     end

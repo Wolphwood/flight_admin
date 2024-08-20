@@ -1,7 +1,7 @@
 import { Accordion, Badge, Button, Center, Checkbox, Group, Pagination, Paper, ScrollArea, Stack, Text } from '@mantine/core'
 import { openModal } from '@mantine/modals'
 import CreateLocation from './components/modals/CreateLocation'
-import { Location, getSearchLocationInput, locationsActivePageAtom, locationCustomFilterAtom, locationsPageCountAtom, locationVanillaFilterAtom, locationsPageContentAtom } from '../../../../atoms/location'
+import { Location, getSearchLocationInput, locationsActivePageAtom, locationCustomFilterAtom, locationShopFilterAtom, locationsPageCountAtom, locationVanillaFilterAtom, locationsPageContentAtom } from '../../../../atoms/location'
 import LocationSearch from './components/LocationSearch'
 import { setClipboard } from '../../../../utils/setClipboard'
 import { useEffect, useState } from 'react'
@@ -29,6 +29,7 @@ const Locations: React.FC = () => {
   // Checkboxes
   const [checkedVanilla, setCheckedVanilla] = useRecoilState(locationVanillaFilterAtom)
   const [checkedCustom, setCheckedCustom] = useRecoilState(locationCustomFilterAtom)
+  const [checkedShop, setcheckedShop] = useRecoilState(locationShopFilterAtom)
 
   // Accordion
   const [currentAccordionItem, setAccordionItem] = useState<string|null>('0')
@@ -47,7 +48,7 @@ const Locations: React.FC = () => {
           <Stack spacing={0}>
             <Group position='apart'>
               <Text color='blue.4' size='md' weight={500}>{location.name}</Text>
-              <Badge color={location.custom ? 'green.4' : 'blue.4'}>{location.custom ? locale.ui_custom : locale.ui_vanilla}</Badge>
+              <Badge color={location.custom ? 'green.4' : location.shop ? 'indigo' : 'blue.4'}>{location.custom ? locale.ui_custom : location.shop ? locale.ui_shop : locale.ui_vanilla}</Badge>
             </Group>
             <Text size='xs'>{locale.ui_coords}: {location.x}, {location.y}, {location.z}</Text>
           </Stack>
@@ -120,10 +121,10 @@ const Locations: React.FC = () => {
             label={locale.ui_show_custom_locations}
             size='sm'
             color='blue.4'
-            disabled={!checkedVanilla}
+            // disabled={!checkedVanilla}
             checked={checkedCustom}
             onChange={(e) => {
-              fetchNui('flight_admin:loadPages', { type: 'locations', activePage: 1, filter: searchLocationValue, checkboxes: {vanilla: checkedVanilla, custom: e.currentTarget.checked} })
+              fetchNui('flight_admin:loadPages', { type: 'locations', activePage: 1, filter: searchLocationValue, checkboxes: {vanilla: checkedVanilla, custom: e.currentTarget.checked, shop: checkedShop} })
               setPage(1)
               setCheckedCustom(e.currentTarget.checked)
             }}
@@ -132,12 +133,24 @@ const Locations: React.FC = () => {
             label={locale.ui_show_vanilla_locations}
             size='sm'
             color='blue.4'
-            disabled={!checkedCustom}
+            // disabled={!checkedCustom}
             checked={checkedVanilla}
             onChange={(e) => {
-              fetchNui('flight_admin:loadPages', { type: 'locations', activePage: 1, filter: searchLocationValue, checkboxes: {vanilla: e.currentTarget.checked, custom: checkedCustom} })
+              fetchNui('flight_admin:loadPages', { type: 'locations', activePage: 1, filter: searchLocationValue, checkboxes: {vanilla: e.currentTarget.checked, custom: checkedCustom, shop: checkedShop} })
               setPage(1)
               setCheckedVanilla(e.currentTarget.checked)
+            }}
+          />
+          <Checkbox
+            label={locale.ui_show_shop_locations}
+            size='sm'
+            color='blue.4'
+            // disabled={!checkedShop}
+            checked={checkedShop}
+            onChange={(e) => {
+              fetchNui('flight_admin:loadPages', { type: 'locations', activePage: 1, filter: searchLocationValue, checkboxes: {vanilla: checkedVanilla, custom: checkedCustom, shop: e.currentTarget.checked} })
+              setPage(1)
+              setcheckedShop(e.currentTarget.checked)
             }}
           />
         </Group>
@@ -174,7 +187,7 @@ const Locations: React.FC = () => {
             size='sm'
             page={activePage}
             onChange={(value) => {
-              fetchNui('flight_admin:loadPages', { type: 'locations', activePage: value, filter: searchLocationValue, checkboxes: {vanilla: checkedVanilla, custom: checkedCustom} })
+              fetchNui('flight_admin:loadPages', { type: 'locations', activePage: value, filter: searchLocationValue, checkboxes: {vanilla: checkedVanilla, custom: checkedCustom, shop: checkedShop} })
               setPage(value)
               setAccordionItem('0')
             }}

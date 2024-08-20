@@ -113,12 +113,14 @@ interface Locale {
   ui_bring_back: string
   ui_show_custom_locations: string
   ui_show_vanilla_locations: string
+  ui_show_shop_locations: string
   ui_create_custom_location: string
   ui_search: string
   ui_rename: string
   ui_delete: string
   ui_vanilla: string
   ui_custom: string
+  ui_shop: string
   ui_peds: string
   ui_no_ped_found: string
   ui_set_by_name: string
@@ -315,12 +317,14 @@ debugData(
         ui_bring_back: "Bring Back",
         ui_show_custom_locations: "Show custom locations",
         ui_show_vanilla_locations: "Show vanilla locations",
+        ui_show_shop_locations: "Show shop locations",
         ui_create_custom_location: "Create custom location",
         ui_search: "Search",
         ui_rename: "Rename",
         ui_delete: "Delete",
         ui_vanilla: "Vanilla",
         ui_custom: "Custom",
+        ui_shop: "Shop",
         ui_peds: "Peds",
         ui_no_ped_found: "No ped found",
         ui_set_by_name: "Set by name",
@@ -500,12 +504,14 @@ const LocaleProvider: React.FC<{ children: React.ReactNode }> = ({ children }) =
     ui_tp_into_veh: '',
     ui_show_custom_locations: '',
     ui_show_vanilla_locations: '',
+    ui_show_shop_locations: '',
     ui_create_custom_location: '',
     ui_search: '',
     ui_rename: '',
     ui_delete: '',
     ui_vanilla: '',
     ui_custom: '',
+    ui_shop: '',
     ui_peds: '',
     ui_no_ped_found: '',
     ui_set_by_name: '',

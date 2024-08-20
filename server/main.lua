@@ -88,7 +88,7 @@ end
 
 lib.callback.register('flight_admin:getData', function()
     local data = {}
-    
+
     local customLocations = getFileData('shared/data', 'locations.json')
     local locations = formatVanillaInteriors(getFileData('shared/data', 'mloInteriors.json'))
     for _, v in ipairs(customLocations) do
@@ -96,9 +96,37 @@ lib.callback.register('flight_admin:getData', function()
         table.insert(locations, v)
     end
     Server.locations = locations
+    
+    -- {
+    --     z= 28.0,
+    --     heading= 230.0,
+    --     custom= "true",
+    --     y= -1048.0,
+    --     x= -67.0,
+    --     name= "Location test 5",
+    -- }
+
+    local oxShops = exports['ox_inventory']:getDataShops();    
+    local formatedShopLocations = {}
+    if (oxShops) then
+        for k, shop in pairs(oxShops) do
+            if (oxShops[k].locations) then
+                for l, location in pairs(oxShops[k].locations) do
+                    table.insert(formatedShopLocations, {
+                        shop= "true",
+                        y= string.format("%.3f", location.y),
+                        z= string.format("%.3f", location.z),
+                        x= string.format("%.3f", location.x),
+                        heading= 0,
+                        name= oxShops[k].name .." #".. l,
+                    })
+                end
+            end
+        end
+    end
 
     return {
-        locations = locations,
+        locations = table.merge(locations, formatedShopLocations),
         peds = getFileData('shared/data', 'pedList.json'),
         vehicles = getFileData('shared/data', 'vehicleList.json'),
         weapons = getFileData('shared/data', 'weaponList.json'),

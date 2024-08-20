@@ -57,6 +57,7 @@ export const locationsPageContentAtom = atom<Location[]>({ key: 'locationsPageCo
 // Filter Checkboxes
 export const locationVanillaFilterAtom = atom<boolean>({ key: 'locationVanillaFilter', default: true })
 export const locationCustomFilterAtom = atom<boolean>({ key: 'locationCustomFilter', default: true })
+export const locationShopFilterAtom = atom<boolean>({ key: 'locationShopsFilter', default: true })
 
 export const getLastLocation = () => useRecoilValue(lastLocationsAtom)
 export const getSearchLocationInput = () => useRecoilValue(locationSearchAtom) as string
