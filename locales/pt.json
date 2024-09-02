@@ -31,6 +31,7 @@
     "ui_hash": "Hash",
     "ui_identifier": "Identificador",
     "ui_coords": "Coords",
+    "ui_gound_coords": "Coords (ground)",
     "ui_tp_coords": "TP para Coords",
     "ui_players": "Jogadores",
     "ui_uptime": "Conectado",
@@ -106,12 +107,14 @@
     "ui_bring_back": "Trazer de volta",
     "ui_show_custom_locations": "Mostrar locais personalizados",
     "ui_show_vanilla_locations": "Mostrar locais defaut",
+    "ui_show_shop_locations": "Mostrar locais de lojas",
     "ui_create_custom_location": "Criar local personalizado",
     "ui_search": "Procurar",
     "ui_rename": "Renomear",
     "ui_delete": "Apagar",
     "ui_vanilla": "Defaut",
     "ui_custom": "Customizado",
+    "ui_shop": "Loja",
     "ui_peds": "Peds",
     "ui_no_ped_found": "Ped não encontrado",
     "ui_set_by_name": "Defenir pelo nome",
@@ -192,5 +195,11 @@
     "ui_meters": "meters",
     "ui_flags": "Flags",
     "ui_room": "Sala/quarto",
-    "ui_radio_station": "Estações de rádio"
-  }
+    "ui_radio_station": "Estações de rádio",
+
+    "copied_model_name_clipboard": "Nome do modelo copiado para a área de transferência",
+    "no_model_from_hash": "Nenhum modelo encontrado a partir do hash",
+    "no_entity_selected": "Nenhuma entidade selecionada",
+
+    "": ""
+}

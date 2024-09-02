@@ -1,0 +1,100 @@
+[
+    {
+      "value": "ragdoll",
+      "label": "ui_troll_action_ragdoll",
+      "arguments": [
+        {
+          "type": "number",
+          "value": "duration",
+          "label": "ui_troll_arg_duration_s",
+          "default": 10
+        }
+      ]
+    },
+    {
+      "value": "drunk",
+      "label": "ui_troll_action_drunk",
+      "arguments": [
+        {
+          "type": "number",
+          "value": "duration",
+          "label": "ui_troll_arg_duration_s",
+          "default": 10
+        },
+        {
+          "type": "number",
+          "value": "amplifier",
+          "label": "ui_troll_arg_amplifier",
+          "default": 3
+        },
+        {
+          "type": "select",
+          "value": "animation",
+          "label": "ui_troll_arg_animation",
+          "options": [
+            {
+              "value": "move_m@drunk@a",
+              "label": "ui_troll_arg_animation_anm_a",
+              "selected": true
+            },
+            {
+              "value": "move_m@drunk@b",
+              "label": "ui_troll_arg_animation_anm_b"
+            },
+            {
+              "value": "move_m@drunk@c",
+              "label": "ui_troll_arg_animation_anm_c"
+            },
+            {
+              "value": "move_m@drunk@slightlydrunk",
+              "label": "ui_troll_arg_animation_anm_slightlydrunk"
+            },
+            {
+              "value": "move_m@drunk@moderatedrunk",
+              "label": "ui_troll_arg_animation_anm_moderatedrunk"
+            },
+            {
+              "value": "move_m@drunk@verydrunk",
+              "label": "ui_troll_arg_animation_anm_verydrunk"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "value": "teleport",
+      "label": "ui_troll_action_teleport",
+      "arguments": [
+        {
+          "type": "text",
+          "value": "pos",
+          "label": "ui_troll_arg_position",
+          "default": "~;~;~"
+        },
+        {
+          "type": "text",
+          "value": "rot",
+          "label": "ui_troll_arg_rotation",
+          "default": "~;~;~"
+        }
+      ]
+    },
+    {
+      "value": "teleport2",
+      "label": "TEST",
+      "arguments": [
+        {
+          "type": "text",
+          "value": "pos",
+          "label": "ui_troll_arg_position",
+          "default": "~;~;~"
+        },
+        {
+          "type": "text",
+          "value": "rot",
+          "label": "ui_troll_arg_rotation",
+          "default": "~;~;~"
+        }
+      ]
+    }
+  ]

@@ -7,7 +7,7 @@ import { AiFillEdit } from 'react-icons/ai'
 import { useLocales } from '../../../../../providers/LocaleProvider'
 
 const InteriorElement: React.FC = () => {
-  const { locale } = useLocales()
+  const { getLocale } = useLocales()
   const interior = getInteriorData()
   const [portalEditingIndex, setPortalEditingIndex] = useRecoilState(portalEditingIndexAtom)
   const handlers = useRef<NumberInputHandlers>()
@@ -29,17 +29,17 @@ const InteriorElement: React.FC = () => {
     <>
       {/* Current interior infos */}
       <Paper p='md'>
-        <Text size={24} weight={600}>{locale.ui_current_interior}</Text>
+        <Text size={24} weight={600}>{getLocale("ui_current_interior")}</Text>
         <Space h='xs' />
-        <Group><Text>{locale.ui_interior_id}:</Text><Text color='blue.4' > { interior.interiorId }</Text></Group>
-        <Group><Text>{locale.ui_room_count}:</Text><Text color='blue.4' > { interior.roomCount }</Text></Group>
-        <Group><Text>{locale.ui_portal_count}:</Text><Text color='blue.4' > { interior.portalCount }</Text></Group>
-        <Group><Text>{locale.ui_current_room}:</Text><Text color='blue.4' > { interior.currentRoom?.index } - { interior.currentRoom?.name }</Text></Group>
+        <Group><Text>{getLocale("ui_interior_id")}:</Text><Text color='blue.4' > { interior.interiorId }</Text></Group>
+        <Group><Text>{getLocale("ui_room_count")}:</Text><Text color='blue.4' > { interior.roomCount }</Text></Group>
+        <Group><Text>{getLocale("ui_portal_count")}:</Text><Text color='blue.4' > { interior.portalCount }</Text></Group>
+        <Group><Text>{getLocale("ui_current_room")}:</Text><Text color='blue.4' > { interior.currentRoom?.index } - { interior.currentRoom?.name }</Text></Group>
       </Paper>
 
       {/* Portal drawing */}
       <Paper p='md'>
-        <Text size={24} weight={600}>{locale.ui_portals}</Text>
+        <Text size={24} weight={600}>{getLocale("ui_portals")}</Text>
         
         <Checkbox.Group
           orientation='horizontal'
@@ -48,10 +48,10 @@ const InteriorElement: React.FC = () => {
           value={portalDebugCheckboxesValue}
           onChange={setPortalDebugCheckboxesValue}
         >
-          <Checkbox color='blue.4' value='portalInfos' label={locale.ui_infos} />
-          <Checkbox color='blue.4' value='portalPoly' label={locale.ui_fill_portals} />
-          <Checkbox color='blue.4' value='portalLines' label={locale.ui_outline_portals} />
-          <Checkbox color='blue.4' value='portalCorners' label={locale.ui_corcers_portals} />
+          <Checkbox color='blue.4' value='portalInfos' label={getLocale("ui_infos")} />
+          <Checkbox color='blue.4' value='portalPoly' label={getLocale("ui_fill_portals")} />
+          <Checkbox color='blue.4' value='portalLines' label={getLocale("ui_outline_portals")} />
+          <Checkbox color='blue.4' value='portalCorners' label={getLocale("ui_corcers_portals")} />
         </Checkbox.Group>
 
         <Space h='sm' />
@@ -92,7 +92,7 @@ const InteriorElement: React.FC = () => {
           {
             portalData && <>
               <Group>
-                <Text>{locale.ui_flag}:</Text>
+                <Text>{getLocale("ui_flag")}:</Text>
                 <Text color='blue.4'>{portalData ? portalData.flags.total : 'Unknown'}</Text>
                 
                 <Popover position='right-start' withArrow shadow='md'>
@@ -113,32 +113,32 @@ const InteriorElement: React.FC = () => {
                         fetchNui('flight_admin:setPortalFlagCheckbox', { flags: v, portalIndex: portalEditingIndex })
                       }}
                     >
-                      <Checkbox color='blue.4' value='1' label={"1 - " + locale.ui_portal_flag_1} />
-                      <Checkbox color='blue.4' value='2' label={"2 - " + locale.ui_portal_flag_2} />
-                      <Checkbox color='blue.4' value='4' label={"4 - " + locale.ui_portal_flag_4} />
-                      <Checkbox color='blue.4' value='8' label={"8 - " + locale.ui_portal_flag_8} />
-                      <Checkbox color='blue.4' value='16' label={"16 -" + locale.ui_portal_flag_16} />
-                      <Checkbox color='blue.4' value='32' label={"32 -" + locale.ui_portal_flag_32} />
-                      <Checkbox color='blue.4' value='64' label={"64 -" + locale.ui_portal_flag_64} />
-                      <Checkbox color='blue.4' value='128' label={"128 - " + locale.ui_portal_flag_128} />
-                      <Checkbox color='blue.4' value='256' label={"256 - " + locale.ui_portal_flag_256} />
-                      <Checkbox color='blue.4' value='512' label={"512 - " + locale.ui_portal_flag_512} />
-                      <Checkbox color='blue.4' value='1024' label={"1024 - " + locale.ui_portal_flag_1024} />
-                      <Checkbox color='blue.4' value='2048' label={"2048 - " + locale.ui_portal_flag_2048} />
-                      <Checkbox color='blue.4' value='4096' label={"4096 - " + locale.ui_portal_flag_4096} />
-                      <Checkbox color='blue.4' value='8192' label={"8192 - " + locale.ui_portal_flag_8192} />
+                      <Checkbox color='blue.4' value='1' label={"1 - " + getLocale("ui_portal_flag_1")} />
+                      <Checkbox color='blue.4' value='2' label={"2 - " + getLocale("ui_portal_flag_2")} />
+                      <Checkbox color='blue.4' value='4' label={"4 - " + getLocale("ui_portal_flag_4")} />
+                      <Checkbox color='blue.4' value='8' label={"8 - " + getLocale("ui_portal_flag_8")} />
+                      <Checkbox color='blue.4' value='16' label={"16 -" + getLocale("ui_portal_flag_16")} />
+                      <Checkbox color='blue.4' value='32' label={"32 -" + getLocale("ui_portal_flag_32")} />
+                      <Checkbox color='blue.4' value='64' label={"64 -" + getLocale("ui_portal_flag_64")} />
+                      <Checkbox color='blue.4' value='128' label={"128 - " + getLocale("ui_portal_flag_128")} />
+                      <Checkbox color='blue.4' value='256' label={"256 - " + getLocale("ui_portal_flag_256")} />
+                      <Checkbox color='blue.4' value='512' label={"512 - " + getLocale("ui_portal_flag_512")} />
+                      <Checkbox color='blue.4' value='1024' label={"1024 - " + getLocale("ui_portal_flag_1024")} />
+                      <Checkbox color='blue.4' value='2048' label={"2048 - " + getLocale("ui_portal_flag_2048")} />
+                      <Checkbox color='blue.4' value='4096' label={"4096 - " + getLocale("ui_portal_flag_4096")} />
+                      <Checkbox color='blue.4' value='8192' label={"8192 - " + getLocale("ui_portal_flag_8192")} />
                     </Checkbox.Group>
                   </Popover.Dropdown>
                 </Popover>
               </Group>
 
               <Group>
-                <Text>{locale.ui_room_from}:</Text>
+                <Text>{getLocale("ui_room_from")}:</Text>
                 <Text color='blue.4'>{portalData ? portalData.roomFrom : 'Unknown'}</Text>
               </Group>
               
               <Group>
-                <Text>{locale.ui_room_to}:</Text>
+                <Text>{getLocale("ui_room_to")}:</Text>
                 <Text color='blue.4'>{portalData ? portalData.roomTo : 'Unknown'}</Text>
               </Group>
             </>

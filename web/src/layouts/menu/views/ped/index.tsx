@@ -10,7 +10,7 @@ import { useNuiEvent } from '../../../../hooks/useNuiEvent'
 import { useLocales } from '../../../../providers/LocaleProvider'
 
 const Ped: React.FC = () => {
-  const { locale } = useLocales()
+  const { getLocale } = useLocales()
   const searchPedValue = getSearchPedInput()
   const [pageContent, setPageContent] = useRecoilState(pedsPageContentAtom)
   const [pageCount, setPageCount] = useRecoilState(pedsPageCountAtom)
@@ -47,7 +47,7 @@ const Ped: React.FC = () => {
       <Accordion.Item key={index} value={index.toString()}>
         <Accordion.Control>
           <Text size='md' weight={500}>• {pedList.name}</Text>
-          <Text size='xs'>{locale.ui_hash}: {pedList.hash}</Text>
+          <Text size='xs'>{getLocale("ui_hash")}: {pedList.hash}</Text>
         </Accordion.Control>
         <Accordion.Panel>
           <Group grow spacing='xs'> 
@@ -75,7 +75,7 @@ const Ped: React.FC = () => {
               size='xs'
               onClick={() => { fetchNui('flight_admin:changePed', { name: pedList.name, hash: pedList.hash }) }}
             >
-              {locale.ui_set_ped}
+              {getLocale("ui_set_ped")}
             </Button>
             <Button
               variant='light'
@@ -86,7 +86,7 @@ const Ped: React.FC = () => {
                 setCopiedPedName(true)
               }}
             >
-              {copiedPedName ? locale.ui_copied_name : locale.ui_copy_name}
+              {copiedPedName ? getLocale("ui_copied_name") : getLocale("ui_copy_name")}
             </Button>
             <Button
               variant='light'
@@ -97,7 +97,7 @@ const Ped: React.FC = () => {
                 setCopiedPedHash(true)
               }}
             >
-              {copiedPedHash ? locale.ui_copied_hash : locale.ui_copy_hash}
+              {copiedPedHash ? getLocale("ui_copied_hash") : getLocale("ui_copy_hash")}
             </Button>                     
           </Group>
         </Accordion.Panel>
@@ -106,7 +106,7 @@ const Ped: React.FC = () => {
 
   return(
     <Stack>
-      <Text size={20}>{locale.ui_peds}</Text>
+      <Text size={20}>{getLocale("ui_peds")}</Text>
       <Group grow>
         <PedSearch/>
         <Button
@@ -116,7 +116,7 @@ const Ped: React.FC = () => {
           color='blue.4'
           onClick={() => { fetchNui('flight_admin:changePed', { name: `${searchPedValue}` }) }}
         >
-          {locale.ui_set_by_name}
+          {getLocale("ui_set_by_name")}
         </Button>
       </Group>
       <ScrollArea style={{ height: 575 }} scrollbarSize={0}>
@@ -124,7 +124,7 @@ const Ped: React.FC = () => {
           <Accordion variant='contained' radius='sm' value={currentAccordionItem} onChange={setAccordionItem}>
             {PedList ? PedList : 
               <Paper p='md'>
-                <Text size='md' weight={600} color='red.4'>{locale.ui_no_ped_found}</Text>
+                <Text size='md' weight={600} color='red.4'>{getLocale("ui_no_ped_found")}</Text>
               </Paper>
             }
             </Accordion>

@@ -12,7 +12,48 @@ end
 
 lib.locale()
 
-CreateThread(function()    
+function tprint (tbl, indent)
+    if not indent then indent = 0 end
+    local toprint = string.rep(" ", indent) .. "{\r\n"
+    indent = indent + 2 
+    for k, v in pairs(tbl) do
+      toprint = toprint .. string.rep(" ", indent)
+      if (type(k) == "number") then
+        toprint = toprint .. "[" .. k .. "] = "
+      elseif (type(k) == "string") then
+        toprint = toprint  .. k ..  "= "   
+      end
+      if (type(v) == "number") then
+        toprint = toprint .. v .. ",\r\n"
+      elseif (type(v) == "string") then
+        toprint = toprint .. "\"" .. v .. "\",\r\n"
+      elseif (type(v) == "table") then
+        toprint = toprint .. tprint(v, indent + 2) .. ",\r\n"
+      else
+        toprint = toprint .. "\"" .. tostring(v) .. "\",\r\n"
+      end
+    end
+    toprint = toprint .. string.rep(" ", indent-2) .. "}"
+    return toprint
+end
+
+function table.merge(t1, t2)
+    for k,v in ipairs(t2) do
+        table.insert(t1, v)
+    end
+    return t1
+end
+
+function GetPlayerHeight(playerPed)
+    local model = GetEntityModel(playerPed)
+    local minVector, maxVector = GetModelDimensions(model)
+    local height = maxVector.z - minVector.z
+
+    return height
+end
+
+CreateThread(function()
+
     if IsDuplicityVersion() then
         Server = {}
     else
@@ -62,6 +103,16 @@ CreateThread(function()
             end
             SendNUIMessage({
                 action = 'setLocale',
+                data = json.decode(JSON)
+            })
+        end)
+
+        -- Load locale
+        RegisterNUICallback('loadTrolls', function(_, cb)
+            cb(1)
+            JSON = LoadResourceFile(RESOURCE_NAME, 'shared/data/trolls.json')
+            SendNUIMessage({
+                action = 'setTrolls',
                 data = json.decode(JSON)
             })
         end)

@@ -6,7 +6,7 @@ import { fetchNui } from '../../../../../../utils/fetchNui'
 import { useLocales } from '../../../../../../providers/LocaleProvider'
 
 const AddEntity: React.FC = () => {
-  const { locale } = useLocales()
+  const { getLocale } = useLocales()
   const [entityName, setEntityName] = useRecoilState(ObjectNameAtom)
 
   return (
@@ -22,7 +22,7 @@ const AddEntity: React.FC = () => {
           fetchNui('flight_admin:addEntity', entityName)
         }}
       >
-        {locale.ui_confirm}
+        {getLocale("ui_confirm")}
       </Button>
     </Stack>
   )

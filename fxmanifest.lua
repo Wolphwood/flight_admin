@@ -4,7 +4,7 @@ lua54 'yes'
 game 'gta5'
 
 name         'flight_admin'
-version      '1.1.1'
+version      '1.2.0-b3'
 description  'The admin menu everyone needs'
 author       'Wolphwood (originally DevTheBully)'
 repository   'https://github.com/Wolphwood/flight_admin'

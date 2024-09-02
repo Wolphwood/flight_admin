@@ -1,19 +1,21 @@
 local isSpectating, bringback, goback = false, nil, nil
 
-local DRUNK_ANIM_SET = "move_m@drunk@a"
+TriggerServerEvent('flight_admin:log', 'Flight Admin is fully loaded :)')
 
-local function applyDrunkEffect(duration, amplifier)
+local function applyDrunkEffect(animation, duration, amplifier)
+    print(animation, duration, amplifier)
+    
     local playerPed = PlayerPedId()
     local isDrunk = true
 
     -- Charger l'ensemble d'animations saoul
-    RequestAnimSet(DRUNK_ANIM_SET)
-    while not HasAnimSetLoaded(DRUNK_ANIM_SET) do
+    RequestAnimSet(animation)
+    while not HasAnimSetLoaded(animation) do
         Wait(5)
     end
 
     -- Appliquer l'effet saoul
-    SetPedMovementClipset(playerPed, DRUNK_ANIM_SET, 0.25)
+    SetPedMovementClipset(playerPed, animation, 0.25)
     ShakeGameplayCam("DRUNK_SHAKE", amplifier)
     SetPedIsDrunk(playerPed, true)
     SetTransitionTimecycleModifier("spectator5", amplifier)
@@ -25,11 +27,11 @@ local function applyDrunkEffect(duration, amplifier)
             local isPedInVehicleAndDriving = (vehPedIsIn ~= 0) and (GetPedInVehicleSeat(vehPedIsIn, -1) == playerPed)
 
             if isPedInVehicleAndDriving then
-                local randomTask = math.random(1, 3) -- Remplacer par les vraies tâches aléatoires
-                TaskVehicleTempAction(playerPed, vehPedIsIn, randomTask, 500)
+                local randomTask = math.round(math.random(1, 8))
+                TaskVehicleTempAction(playerPed, vehPedIsIn, randomTask, math.round(math.random(100,500)))
             end
 
-            Wait(5000)
+            Wait(math.round(math.random(500,5000)))
         end
     end)
 
@@ -39,7 +41,7 @@ local function applyDrunkEffect(duration, amplifier)
     SetTransitionTimecycleModifier("default", 10.00)
     StopGameplayCamShaking(true)
     ResetPedMovementClipset(playerPed, 0.0)
-    RemoveAnimSet(DRUNK_ANIM_SET)
+    RemoveAnimSet(animation)
     SetPedIsDrunk(playerPed, false)
 end
 
@@ -65,14 +67,6 @@ local function parseRelativeValue(value, current)
     end
 end
 
-local function getPlayerHeight(playerPed)
-    local model = GetEntityModel(playerPed)
-    local minVector, maxVector = GetModelDimensions(model)
-    local height = maxVector.z - minVector.z
-
-    return height
-end
-
 RegisterNetEvent('flightadmin:applyTrollEffect', function(effect)
     local playerPed = PlayerPedId()
     local coords = GetEntityCoords(playerPed)
@@ -85,12 +79,12 @@ RegisterNetEvent('flightadmin:applyTrollEffect', function(effect)
             ClearPedTasksImmediately(playerPed)
         end
     elseif effect.value == "drunk" then
-        applyDrunkEffect(effect.duration * 1000, effect.amplifier)
+        applyDrunkEffect(effect.animation, effect.duration * 1000, effect.amplifier)
     elseif effect.value == "teleport" then
         local pos = splitString(effect.pos);
         local rot = splitString(effect.rot);
 
-        local h = getPlayerHeight(playerPed)
+        local h = GetPlayerHeight(playerPed)
 
         local pos_x, pos_y, pos_z = parseRelativeValue(pos[1], coords.x), parseRelativeValue(pos[2], coords.y), parseRelativeValue(pos[3], coords.z);
         local rot_x, rot_y, rot_z = parseRelativeValue(rot[1], rots.x), parseRelativeValue(rot[2], rots.y), parseRelativeValue(rot[3], rots.z);
@@ -421,22 +415,36 @@ end)
 
 RegisterNUICallback('flight_admin:bringPlayer', function(id, cb)
     cb(1)
-    TriggerServerEvent("flight_admin:bringPlayer", id)
+    local h = GetPlayerHeight(GetPlayerPed(GetPlayerFromServerId(id)))
+    TriggerServerEvent("flight_admin:bringPlayer", id, h)
+end)
+
+RegisterNUICallback('flight_admin:placeMarkerAtPlayer', function(id, cb)
+    cb(1)
+    TriggerServerEvent("flight_admin:placeMarkerAtPlayer", id)
+end)
+
+RegisterNUICallback('flight_admin:placeMarker', function(coords, cb)
+    cb(1)
+    TriggerEvent("flight_admin:placeMarker", coords)
 end)
 
 RegisterNUICallback('flight_admin:bringBackPlayer', function(id, cb)
     cb(1)
-    TriggerServerEvent("flight_admin:bringBackPlayer", id)
+    local h = GetPlayerHeight(GetPlayerPed(GetPlayerFromServerId(id)))
+    TriggerServerEvent("flight_admin:bringBackPlayer", id, h)
 end)
 
 RegisterNUICallback('flight_admin:gotoPlayer', function(id, cb)
     cb(1)
-    TriggerServerEvent("flight_admin:gotoPlayer", id)
+    local h = GetPlayerHeight(GetPlayerPed(GetPlayerFromServerId(id)))
+    TriggerServerEvent("flight_admin:gotoPlayer", id, h)
 end)
 
 RegisterNUICallback('flight_admin:goBackPlayer', function(id, cb)
     cb(1)
-    TriggerServerEvent("flight_admin:goBackPlayer", id)
+    local h = GetPlayerHeight(GetPlayerPed(GetPlayerFromServerId(id)))
+    TriggerServerEvent("flight_admin:goBackPlayer", id, h)
 end)
 
 RegisterNUICallback('flight_admin:kickPlayer', function(data, cb)
@@ -473,6 +481,22 @@ RegisterNUICallback('flight_admin:giveWeapon', function(weaponName, cb)
     end
 end)
 
+RegisterNUICallback('flight_admin:giveWeaponAmmo', function(weaponName, cb)
+    cb(1)
+    if Shared.ox_inventory then
+        lib.callback('flight_admin:giveWeaponAmmoToPlayer', false, function(result)
+            if result then
+                lib.notify({type = 'success', description = locale('ammo_gave')})
+            else
+                lib.notify({type = 'error', description = locale('ammo_cant_carry')})
+            end
+        end, weaponName)
+        return
+    else
+        GiveWeaponToPed(cache.ped, joaat(weaponName), 999, false, true)
+    end
+end)
+
 RegisterNUICallback('flight_admin:setDay', function(_, cb)
     cb(1)
     FUNC.setClock(12)
@@ -481,7 +505,6 @@ end)
 
 RegisterNUICallback('flight_admin:setMaxHealth', function(id, cb)
     cb(1)
-    print(id)
     if id then
         local playerPed = PlayerPedId()
         SetEntityHealth(playerPed, GetEntityMaxHealth(playerPed))
@@ -973,6 +996,10 @@ RegisterNetEvent('flight_admin:updatePlayerData', function()
         Client.data.players = data
         FUNC.loadPage('players', 1, nil, nil, isSpectating)
     end)
+end)
+
+RegisterNetEvent('flight_admin:placeMarker', function(coords)
+    SetNewWaypoint(coords.x, coords.y)
 end)
 
 RegisterNetEvent('flight_admin:setNoClip', function(bool)

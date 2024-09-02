@@ -8,7 +8,7 @@ import { worldFreezeTimeAtom, worldFreezeWeatherAtom, worldHourAtom, worldMinute
 import { useLocales } from '../../../../providers/LocaleProvider'
 
 const World: React.FC = () => {
-  const { locale } = useLocales()
+  const { getLocale } = useLocales()
   const [hourValue, setHourValue] = useRecoilState(worldHourAtom)
   const [minuteValue, setMinuteValue] = useRecoilState(worldMinuteAtom)
   const [weatherValue, setWeatherValue] = useRecoilState(worldWeatherAtom)
@@ -32,7 +32,7 @@ const World: React.FC = () => {
         {/* Time    */}
         <Paper p='md'>  
           <Group position='apart'>
-            <Text size={20} weight={600}>{locale.ui_time}</Text>
+            <Text size={20} weight={600}>{getLocale("ui_time")}</Text>
             <AiOutlineClockCircle size={24} />
           </Group>
           
@@ -73,14 +73,14 @@ const World: React.FC = () => {
               variant='light'
               onClick={() => fetchNui('flight_admin:getClock')}
             >
-              {locale.ui_sync}
+              {getLocale("ui_sync")}
             </Button>
           </Group>
 
           <Space h='sm' />
 
           <Group>
-            <Checkbox label={locale.ui_freeze_time} checked={timeFrozen} onChange={(e) => {
+            <Checkbox label={getLocale("ui_freeze_time")} checked={timeFrozen} onChange={(e) => {
               setTimeFrozen(e.currentTarget.checked)
               fetchNui('flight_admin:freezeTime', e.currentTarget.checked)
             }} />
@@ -90,14 +90,14 @@ const World: React.FC = () => {
         {/* Weather */}
         <Paper p='md'>
           <Group position='apart'>
-            <Text size={20} weight={600}>{locale.ui_weather}</Text>
+            <Text size={20} weight={600}>{getLocale("ui_weather")}</Text>
             <TiWeatherPartlySunny size={24} />
           </Group>
 
           <Group>
             <Select
-              label={locale.ui_choose_weather}
-              placeholder={locale.ui_current_weather}
+              label={getLocale("ui_choose_weather")}
+              placeholder={getLocale("ui_current_weather")}
               defaultValue={weatherValue}
               value={weatherValue}
               onChange={(value) => {
@@ -127,7 +127,7 @@ const World: React.FC = () => {
           <Space h='sm' />
           
           <Group>
-            <Checkbox label={locale.ui_freeze_weather} checked={weatherFrozen} onChange={(e) => {
+            <Checkbox label={getLocale("ui_freeze_weather")} checked={weatherFrozen} onChange={(e) => {
               setWeatherFrozen(e.currentTarget.checked)
               fetchNui('flight_admin:freezeWeather', e.currentTarget.checked)
             }} />

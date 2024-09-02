@@ -41,12 +41,14 @@ CreateThread(function()
     while true do
         if Client.isMenuOpen and Client.currentTab == 'home' then
             local coords = GetEntityCoords(cache.ped)
-
+            local h = GetPlayerHeight(cache.ped)
+            
             if #(coords - oldCoords) > 0.5 then
                 SendNUIMessage({
                     action = 'playerCoords',
                     data = {
                         coords = FUNC.round(coords.x, 3) .. ', ' .. FUNC.round(coords.y, 3) .. ', ' .. FUNC.round(coords.z, 3),
+                        ground = FUNC.round(coords.x, 3) .. ', ' .. FUNC.round(coords.y, 3) .. ', ' .. FUNC.round(coords.z - h/2, 3),
                         heading = tostring(FUNC.round(GetEntityHeading(cache.ped), 3))
                     }
                 })

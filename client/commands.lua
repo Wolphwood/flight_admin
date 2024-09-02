@@ -4,6 +4,17 @@ RegisterCommand('flight_admin:open', function()
     FUNC.openUI()
 end) RegisterKeyMapping('flight_admin:open', locale('command_openui', '~o~>~w~'), 'keyboard', Config.openMenuKey)
 
+_oxtarget_enabledavdancedsettings = true
+RegisterCommand('oxadvtarget', function()
+    if _oxtarget_enabledavdancedsettings then
+        _oxtarget_enabledavdancedsettings = false
+        lib.notify({title = 'Flight Admin | oxTarget', description = "Disabled advanced settings", type = 'success'})
+    else
+        _oxtarget_enabledavdancedsettings = true
+        lib.notify({title = 'Flight Admin | oxTarget', description = "Enabled advanced settings", type = 'success'})
+    end
+end)
+
 RegisterCommand('goback', function()
     if not Config.perimission('teleport') then return end
 

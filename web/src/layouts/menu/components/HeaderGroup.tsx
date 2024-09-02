@@ -11,7 +11,7 @@ import { useExitListener } from '../../../hooks/useExitListener'
 import { useEffect, useState } from 'react'
 
 const HeaderGroup: React.FC<{data: Version}> = ({ data }) => {
-  const { locale } = useLocales()
+  const { getLocale } = useLocales()
   const [visible, setVisible] = useRecoilState(menuVisibilityAtom)
 
   useNuiEvent('setMenuVisible', () => setVisible(true))
@@ -38,7 +38,7 @@ const HeaderGroup: React.FC<{data: Version}> = ({ data }) => {
           >{data.currentVersion}</Text>
         </Group>
         <Group>
-          <Tooltip label={locale.ui_exit} position='bottom' transition='scale-y'>
+          <Tooltip label={getLocale("ui_exit")} position='bottom' transition='scale-y'>
             <ActionIcon
               color='red.4'
               style={{ margin: '5px', width: '40px', height: '40px' }}

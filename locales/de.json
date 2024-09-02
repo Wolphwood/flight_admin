@@ -31,6 +31,7 @@
     "ui_hash": "Hash",
     "ui_identifier": "Identifier",
     "ui_coords": "Koordinaten",
+    "ui_gound_coords": "Koordinaten (ground)",
     "ui_tp_coords": "Zu Koordinaten Teleportieren",
     "ui_players": "Spieler",
     "ui_uptime": "Onlinezeit",
@@ -106,12 +107,14 @@
     "ui_bring_back": "Zurückbringen",
     "ui_show_custom_locations": "Benutzerdefinierte Standorte anzeigen",
     "ui_show_vanilla_locations": "Vanille-Standorte anzeigen",
+    "ui_show_shop_locations": "Shop-Standorte anzeigen",
     "ui_create_custom_location": "Benutzerdefinierten Standort erstellen",
     "ui_search": "Suchen",
     "ui_rename": "Umbenennen",
     "ui_delete": "Löschen",
     "ui_vanilla": "Vanilla",
     "ui_custom": "Individuell",
+    "ui_shop": "Shop",
     "ui_peds": "Peds",
     "ui_no_ped_found": "Kein Ped gefunden",
     "ui_set_by_name": "Mit names setzen",
@@ -192,5 +195,11 @@
     "ui_meters": "meter",
     "ui_flags": "Flags",
     "ui_room": "Raum",
-    "ui_radio_station": "Radiosender"
-  }
+    "ui_radio_station": "Radiosender",
+
+    "copied_model_name_clipboard": "Modellname in die Zwischenablage kopiert",
+    "no_model_from_hash": "Kein Modell vom Hash gefunden",
+    "no_entity_selected": "Keine Entität ausgewählt",
+
+    "": ""
+}

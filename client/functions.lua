@@ -244,10 +244,13 @@ end
 
 FUNC.setMenuPlayerCoords = function()
     local coords = GetEntityCoords(cache.ped)
+    local h = GetPlayerHeight(cache.ped)
+
     SendNUIMessage({
         action = 'playerCoords',
         data = {
             coords = FUNC.round(coords.x, 3) .. ', ' .. FUNC.round(coords.y, 3) .. ', ' .. FUNC.round(coords.z, 3),
+            ground = FUNC.round(coords.x, 3) .. ', ' .. FUNC.round(coords.y, 3) .. ', ' .. FUNC.round(coords.z - h/2, 3),
             heading = tostring(FUNC.round(GetEntityHeading(cache.ped), 3))
         }
     })
@@ -436,15 +439,73 @@ end
 FUNC.initTarget = function()
     if not Config.perimission('target') then return end
 
+    local function canSeeAdvancedSettings()
+        return _oxtarget_enabledavdancedsettings
+    end
+
     exports.ox_target:addGlobalObject({
         {
             name = 'ox:option1',
             icon = 'fa-solid fa-clipboard-list',
             label = 'Copy coords',
             distance = 10,
+            canInteract = canSeeAdvancedSettings,
             onSelect = function(data)
                 lib.setClipboard(data.coords.x .. ', ' .. data.coords.y .. ', ' .. data.coords.z)
                 lib.notify({type='success', description=locale('copied_coords_clipboard')})
+            end
+        },
+        {
+            name = 'ox:copy_entity_coords',
+            icon = 'fa-solid fa-clipboard-list',
+            label = 'Copy Entity coords',
+            distance = 10,
+            canInteract = canSeeAdvancedSettings,
+            onSelect = function(data)
+                if data.entity then
+                    coords = GetEntityCoords(data.entity)
+                    local pos_x, pos_y, pos_z = coords.x, coords.y, coords.z
+
+                    lib.setClipboard(pos_x .. ', ' .. pos_y .. ', ' .. pos_z)
+                    lib.notify({type='success', description=locale('copied_coords_clipboard')})
+                else
+                    lib.notify({type='error', description='no_entity_selected'})
+                end
+            end
+        },
+        {
+            name = 'ox:copy_entity_ground_coords',
+            icon = 'fa-solid fa-clipboard-list',
+            label = 'Copy Entity ground coords',
+            distance = 10,
+            canInteract = canSeeAdvancedSettings,
+            onSelect = function(data)
+                if data.entity then
+                    coords = GetEntityCoords(data.entity)
+                    
+                    local h = GetPlayerHeight(data.entity)
+                    local pos_x, pos_y, pos_z = coords.x, coords.y, coords.z - h/2
+
+                    lib.setClipboard(pos_x .. ', ' .. pos_y .. ', ' .. pos_z)
+                    lib.notify({type='success', description=locale('copied_coords_clipboard')})
+                else
+                    lib.notify({type='error', description='no_entity_selected'})
+                end
+            end
+        },
+        {
+            name = 'ox:option_copy_object_name',
+            icon = 'fa-solid fa-clipboard-list',
+            label = 'Copy Object Name',
+            distance = 10,
+            canInteract = canSeeAdvancedSettings,
+            onSelect = function(data)
+                if data.entity then
+                    lib.setClipboard(GetEntityArchetypeName(data.entity))
+                    lib.notify({type='success', description=locale('copied_model_name_clipboard')})
+                else
+                    lib.notify({type='error', description='no_entity_selected'})
+                end
             end
         },
         {
@@ -453,7 +514,7 @@ FUNC.initTarget = function()
             label = 'Move object',
             distance = 10,
             canInteract = function()
-                return Client.gizmoEntity == nil
+                return canSeeAdvancedSettings() and Client.gizmoEntity == nil
             end,
             onSelect = function(data)
                 SendNUIMessage({
@@ -476,6 +537,7 @@ FUNC.initTarget = function()
             icon = 'fa-solid fa-down-long',
             label = 'Snap to ground',
             distance = 10,
+            canInteract = canSeeAdvancedSettings,
             onSelect = function(data)
                 PlaceObjectOnGroundProperly(data.entity)
             end
@@ -485,6 +547,7 @@ FUNC.initTarget = function()
             icon = 'fa-solid fa-trash',
             label = 'Delete entity',
             distance = 10,
+            canInteract = canSeeAdvancedSettings,
             onSelect = function(data)
                 SetEntityAsMissionEntity(data.entity)
                 DeleteEntity(data.entity)
@@ -506,6 +569,9 @@ FUNC.getPages = function(page, table, itemPerPage)
 end
 
 FUNC.loadPage = function(listType, activePage, filter, checkboxes, spectateBool)
+    -- TriggerServerEvent('flight_admin:tlog', Client.data[listType])
+    -- TriggerServerEvent('flight_admin:tlog', checkboxes)
+
     local totalList = Client.data[listType]
     local filteredList = {}
 
@@ -526,7 +592,11 @@ FUNC.loadPage = function(listType, activePage, filter, checkboxes, spectateBool)
 
         if listType == 'locations' then
             for i, value in pairs(totalList) do
-                if (value.custom and checkboxes.custom) or (not value.custom and checkboxes.vanilla) then
+                local custom = value.custom and checkboxes.custom
+                local shop = value.shop and checkboxes.shop
+                local vanilla = not value.custom and not value.shop and checkboxes.vanilla
+
+                if custom or shop or vanilla then
                     if (not filter or filter == '') or string.find(string.lower(value.name), string.lower(filter)) then
                         table.insert(searchResult, value)
                     end

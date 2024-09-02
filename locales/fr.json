@@ -1,4 +1,23 @@
 {
+  "ui.home.current_coords.title": "Coordonnées actuelles",
+  "ui.home.current_coords.coords": "Coordonnées :",
+  "ui.home.current_coords.heading": "Direction :",
+  "ui.home.current_coords.button.copy": "Copier",
+  "ui.home.current_coords.button.copy_heading": "Copier avec rotation",
+  "ui.home.current_coords.button.define": "Définir",
+  "ui.home.current_coords.button.save": "Enregistrer",
+  
+  "ui.home.current_coords.coords.ground": "Coordonnées au sol :",
+  "ui.home.current_coords.button.copy.ground": "Copier",
+  "ui.home.current_coords.button.copy_heading.ground": "Copier avec rotation",
+  
+  "ui.home.current_coords.button.copied": "Copiées",
+
+  "ui.home.current_coords.modal.define.title": "Définir les coordonnées",
+  "ui.home.current_coords.modal.save.title": "Sauvegarder les coordonnées",
+
+
+
   "cannot_goback": "Aucun dernier emplacement trouvé. Vous devez d'abord vous téléporter quelque part",
   "no_marker": "Vous n'avez défini aucun marqueur",
   "command_tpm": "%s Se téléporter au marqueur",
@@ -12,7 +31,9 @@
   "custom_location_created": "Emplacement personnalisé créé avec succès",
   "vehicle_upgraded": "Véhicule amélioré avec succès !",
   "weapon_gave": "Vous venez de recevoir une arme",
-  "weapon_cant_carry": "Vous ne pouvez pas recevoir cette arme",
+  "weapon_cant_carry": "Vous ne pouvez pas porter cette arme",
+  "ammo_gave": "Vous venez de recevoir des munitions",
+  "ammo_cant_carry": "Vous ne pouvez pas porter ces munitions",
   "max_health_set": "Santé maximale définie avec succès",
   "entity_cant_be_loaded": "L'entité ne peut pas être chargée...",
   "entity_doesnt_exist": "L'entité n'existe pas",
@@ -22,15 +43,20 @@
   "ui_world": "Monde",
   "ui_exit": "Quitter",
   "ui_copy_coords": "Copier les coordonnées",
+  "ui_copy_coords_heading": "Copier les coordonnées et la rotation",
   "ui_copied_coords": "Coordonnées copiées",
   "ui_copy_name": "Copier le nom",
   "ui_copied_name": "Nom copié",
+  "ui_copy_ammoname": "Copier le nom de la munition",
+  "ui_copied_ammoname": "Nom copié",
   "ui_copy_hash": "Copier le hash",
   "ui_copied_hash": "Hash copié",
   "ui_name": "Nom",
   "ui_hash": "Hash",
+  "ui_weapon": "Hash",
   "ui_identifier": "Identifiant",
   "ui_coords": "Coordonnées",
+  "ui_gound_coords": "Coordonnées (au sol)",
   "ui_tp_coords": "TP aux coordonnées",
   "ui_players": "Joueurs",
   "ui_uptime": "Temps de disponibilité",
@@ -104,14 +130,17 @@
   "ui_tp_into_veh": "TP dans le véhicule",
   "ui_goto_back": "Retourner",
   "ui_bring_back": "Ramener",
+  "ui_place_marker": "Localiser (GPS)",
   "ui_show_custom_locations": "Afficher les emplacements personnalisés",
   "ui_show_vanilla_locations": "Afficher les emplacements de base",
+  "ui_show_shop_locations": "Afficher les emplacements de magasin",
   "ui_create_custom_location": "Créer un emplacement personnalisé",
   "ui_search": "Rechercher",
   "ui_rename": "Renommer",
   "ui_delete": "Supprimer",
   "ui_vanilla": "Vanille",
   "ui_custom": "Personnalisé",
+  "ui_shop": "Magasin",
   "ui_peds": "Peds",
   "ui_no_ped_found": "Aucun ped trouvé",
   "ui_set_by_name": "Définir par nom",
@@ -148,7 +177,8 @@
   "ui_troll_arg_animation_anm_verydrunk": "Très ivre",
 
   "ui_give_weapon_by_name": "Donner une arme par nom",
-  "ui_give_weapon": "Donner",
+  "ui_give_weapon": "Donner Arme",
+  "ui_give_ammo": "Donner Munition",
   "ui_no_weapon_found": "Aucune arme trouvée",
   "ui_set_coords_as_string": "Définir comme chaîne de caractères",
   "warn_message": "Message d'avertissement",
@@ -192,5 +222,11 @@
   "ui_meters": "mètres",
   "ui_flags": "Drapeaux",
   "ui_room": "Salle",
-  "ui_radio_station": "Station de radio"
+  "ui_radio_station": "Station de radio",
+
+  "copied_model_name_clipboard": "Nom du modèle copié dans le press-papier",
+  "no_model_from_hash": "Aucun modèle trouvé depuis le hash",
+  "no_entity_selected": "Aucune entité selectionnée",
+
+  "": ""
 }

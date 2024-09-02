@@ -7,7 +7,7 @@ import { locationCustomFilterAtom } from '../../../../../atoms/location'
 import { useLocales } from '../../../../../providers/LocaleProvider'
 
 const SendWarn = (props: {id: any }) => {
-  const { locale } = useLocales()
+  const { getLocale } = useLocales()
   const [reason, setReason] = useState('')
   const setCustomLocationCheckbox = useSetRecoilState(locationCustomFilterAtom)
 
@@ -24,7 +24,7 @@ const SendWarn = (props: {id: any }) => {
           fetchNui('flight_admin:warnPlayer', {id: props.id, reason: reason})
         }}
       >
-        {locale.ui_confirm}
+        {getLocale("ui_confirm")}
       </Button>
     </Stack>
   )
