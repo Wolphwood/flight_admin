@@ -481,6 +481,22 @@ RegisterNUICallback('flight_admin:giveWeapon', function(weaponName, cb)
     end
 end)
 
+RegisterNUICallback('flight_admin:giveWeaponAmmo', function(weaponName, cb)
+    cb(1)
+    if Shared.ox_inventory then
+        lib.callback('flight_admin:giveWeaponAmmoToPlayer', false, function(result)
+            if result then
+                lib.notify({type = 'success', description = locale('ammo_gave')})
+            else
+                lib.notify({type = 'error', description = locale('ammo_cant_carry')})
+            end
+        end, weaponName)
+        return
+    else
+        GiveWeaponToPed(cache.ped, joaat(weaponName), 999, false, true)
+    end
+end)
+
 RegisterNUICallback('flight_admin:setDay', function(_, cb)
     cb(1)
     FUNC.setClock(12)

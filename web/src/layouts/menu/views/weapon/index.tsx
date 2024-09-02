@@ -125,7 +125,7 @@ const Weapon: React.FC = () => {
                         color={copiedWeaponAmmoName ? 'teal' : 'blue.4'}
                         size='xs'
                         onClick={() => {
-                          setClipboard(weaponList.name)
+                          setClipboard(weaponList.ammoname)
                           setCopiedWeaponAmmoName(true)
                         }}
                       >

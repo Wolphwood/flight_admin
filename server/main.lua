@@ -333,6 +333,17 @@ if Shared.ox_inventory then
         
         return success
     end)
+
+    lib.callback.register('flight_admin:giveWeaponAmmoToPlayer', function(source, ammoName)
+        local success = false
+
+        if exports.ox_inventory:CanCarryItem(source, ammoName, 100) then
+            exports.ox_inventory:AddItem(source, ammoName, 100)
+            success = true
+        end
+        
+        return success
+    end)
 end
 
 RegisterCommand('flag', function(source, args)
