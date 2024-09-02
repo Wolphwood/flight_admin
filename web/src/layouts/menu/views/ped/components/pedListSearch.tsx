@@ -8,7 +8,7 @@ import { useLocales } from '../../../../../providers/LocaleProvider'
 import { fetchNui } from '../../../../../utils/fetchNui'
 
 const PedSearch: React.FC = () => {
-  const { locale } = useLocales()
+  const { getLocale } = useLocales()
   const [searchPed, setSearchPed] = useState('')
   const setPedSearch = useSetRecoilState(pedListSearchAtom)
   const [debouncedPedSearch] = useDebouncedValue(searchPed, 200)
@@ -22,7 +22,7 @@ const PedSearch: React.FC = () => {
   return (
     <>
       <TextInput
-        placeholder={locale.ui_search}
+        placeholder={getLocale("ui_search")}
         icon={<TbSearch size={20} />}
         value={searchPed}
         onChange={(e) => {

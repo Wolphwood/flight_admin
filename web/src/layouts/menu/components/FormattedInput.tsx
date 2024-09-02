@@ -9,11 +9,11 @@ interface Props {
 }
 
 const FormattedInput: React.FC<Props> = ({ value, onChange, description }) => {
-  const { locale } = useLocales()
+  const { getLocale } = useLocales()
 
   return (
     <NumberInput
-      label={locale.ui_amount}
+      label={getLocale("ui_amount")}
       value={value}
       onChange={onChange}
       hideControls

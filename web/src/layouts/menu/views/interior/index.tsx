@@ -5,7 +5,7 @@ import RoomsElement from './components/RoomsElement'
 import { useLocales } from '../../../../providers/LocaleProvider'
 
 const Interior: React.FC = () => {
-  const { locale } = useLocales()
+  const { getLocale } = useLocales()
   const interior = getInteriorData()
 
   return (
@@ -15,9 +15,9 @@ const Interior: React.FC = () => {
           interior?.interiorId <= 0
           ?
           <Paper p='md'>
-              <Text size={24} weight={600}>{locale.ui_current_interior}</Text>
+              <Text size={24} weight={600}>{getLocale("ui_current_interior")}</Text>
               <Space h='sm' />
-              <Text color='red.4'>{locale.ui_not_in_interior}</Text>
+              <Text color='red.4'>{getLocale("ui_not_in_interior")}</Text>
           </Paper>
           :
           <>

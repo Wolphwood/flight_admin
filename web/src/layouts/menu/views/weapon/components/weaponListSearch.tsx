@@ -9,7 +9,7 @@ import { useNuiEvent } from '../../../../../hooks/useNuiEvent'
 import { fetchNui } from '../../../../../utils/fetchNui'
 
 const WeaponSearch: React.FC = () => {
-  const { locale } = useLocales()
+  const { getLocale } = useLocales()
   const [searchWeapon, setSearchWeapon] = useState('')
   const setWeaponSearch = useSetRecoilState(weaponsListSearchAtom)
   const [debouncedWeaponSearch] = useDebouncedValue(searchWeapon, 200)
@@ -23,7 +23,7 @@ const WeaponSearch: React.FC = () => {
   return (
     <>
       <TextInput
-        placeholder={locale.ui_search}
+        placeholder={getLocale("ui_search")}
         icon={<TbSearch size={20} />}
         value={searchWeapon}
         onChange={(e) => {

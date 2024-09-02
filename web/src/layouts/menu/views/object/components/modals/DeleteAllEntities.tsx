@@ -4,7 +4,7 @@ import { fetchNui } from '../../../../../../utils/fetchNui'
 import { useLocales } from '../../../../../../providers/LocaleProvider'
 
 const DeleteAllEntities = () => {
-  const { locale } = useLocales()
+  const { getLocale } = useLocales()
 
   return (
     <Stack>
@@ -18,7 +18,7 @@ const DeleteAllEntities = () => {
             fetchNui('flight_admin:deleteAllEntities')
           }}
         >
-          {locale.ui_confirm}
+          {getLocale("ui_confirm")}
         </Button>
         <Button
           uppercase
@@ -28,7 +28,7 @@ const DeleteAllEntities = () => {
             closeAllModals()
           }}
         >
-          {locale.ui_cancel}
+          {getLocale("ui_cancel")}
         </Button>
       </Group>
     </Stack>

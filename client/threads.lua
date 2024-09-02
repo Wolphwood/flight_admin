@@ -41,7 +41,7 @@ CreateThread(function()
     while true do
         if Client.isMenuOpen and Client.currentTab == 'home' then
             local coords = GetEntityCoords(cache.ped)
-            local h = getModelHeight(cache.ped)
+            local h = GetPlayerHeight(cache.ped)
             
             if #(coords - oldCoords) > 0.5 then
                 SendNUIMessage({

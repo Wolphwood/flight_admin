@@ -105,6 +105,7 @@
   "ui_tp_into_veh": "TP into Veh.",
   "ui_goto_back": "Go Back",
   "ui_bring_back": "Bring Back",
+  "ui_place_marker": "Marker (GPS)",
   "ui_show_custom_locations": "Show custom locations",
   "ui_show_vanilla_locations": "Show vanilla locations",
   "ui_show_shop_locations": "Show shop locations",

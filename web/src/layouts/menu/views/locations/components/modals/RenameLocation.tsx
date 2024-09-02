@@ -5,13 +5,13 @@ import { fetchNui } from '../../../../../../utils/fetchNui'
 import { useLocales } from '../../../../../../providers/LocaleProvider'
 
 const RenameLocation = (props: {defaultName: string}) => {
-  const { locale } = useLocales()
+  const { getLocale } = useLocales()
   const { defaultName } = props
   const [newName, setNewName] = useState(defaultName)
 
   return (
     <Stack>
-      <TextInput label={locale.ui_location_name} value={newName} onChange={(e) => setNewName(e.target.value)} />
+      <TextInput label={getLocale("ui_location_name")} value={newName} onChange={(e) => setNewName(e.target.value)} />
       <Button
         uppercase
         disabled={newName === '' || newName === defaultName}
@@ -25,7 +25,7 @@ const RenameLocation = (props: {defaultName: string}) => {
           }
         }}
       >
-        {locale.ui_confirm}
+        {getLocale("ui_confirm")}
       </Button>
     </Stack>
   )

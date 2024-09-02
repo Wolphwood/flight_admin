@@ -8,7 +8,7 @@ import { fetchNui } from '../../../../../utils/fetchNui'
 import { useLocales } from '../../../../../providers/LocaleProvider'
 
 const VehicleSearch: React.FC = () => {
-  const { locale } = useLocales()
+  const { getLocale } = useLocales()
   const [searchVehicle, setSearchVehicle] = useState('')
   const setVehicleSearch = useSetRecoilState(vehicleListSearchAtom)
   const [debouncedVehicleSearch] = useDebouncedValue(searchVehicle, 200)
@@ -22,7 +22,7 @@ const VehicleSearch: React.FC = () => {
   return (
     <>
       <TextInput
-        placeholder={locale.ui_search}
+        placeholder={getLocale("ui_search")}
         icon={<TbSearch size={20} />}
         value={searchVehicle}
         onChange={(e) => {

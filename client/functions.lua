@@ -244,7 +244,7 @@ end
 
 FUNC.setMenuPlayerCoords = function()
     local coords = GetEntityCoords(cache.ped)
-    local h = getModelHeight(cache.ped)
+    local h = GetPlayerHeight(cache.ped)
 
     SendNUIMessage({
         action = 'playerCoords',
@@ -483,7 +483,7 @@ FUNC.initTarget = function()
                 if data.entity then
                     coords = GetEntityCoords(data.entity)
                     
-                    local h = getModelHeight(data.entity)
+                    local h = GetPlayerHeight(data.entity)
                     local pos_x, pos_y, pos_z = coords.x, coords.y, coords.z - h/2
 
                     lib.setClipboard(pos_x .. ', ' .. pos_y .. ', ' .. pos_z)

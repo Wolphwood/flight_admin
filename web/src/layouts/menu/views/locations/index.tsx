@@ -1,4 +1,4 @@
-import { Accordion, Badge, Button, Center, Checkbox, Group, Pagination, Paper, ScrollArea, Stack, Text } from '@mantine/core'
+import { Accordion, Badge, Button, Center, Checkbox, Group, Pagination, Paper, ScrollArea, Space, Stack, Text } from '@mantine/core'
 import { openModal } from '@mantine/modals'
 import CreateLocation from './components/modals/CreateLocation'
 import { Location, getSearchLocationInput, locationsActivePageAtom, locationCustomFilterAtom, locationShopFilterAtom, locationsPageCountAtom, locationVanillaFilterAtom, locationsPageContentAtom } from '../../../../atoms/location'
@@ -13,7 +13,7 @@ import DeleteLocation from './components/modals/DeleteLocation'
 import { useLocales } from '../../../../providers/LocaleProvider'
 
 const Locations: React.FC = () => {
-  const { locale } = useLocales()
+  const { getLocale } = useLocales()
   const searchLocationValue = getSearchLocationInput()
   const [pageContent, setPageContent] = useRecoilState(locationsPageContentAtom)
   const [pageCount, setPageCount] = useRecoilState(locationsPageCountAtom)
@@ -48,66 +48,86 @@ const Locations: React.FC = () => {
           <Stack spacing={0}>
             <Group position='apart'>
               <Text color='blue.4' size='md' weight={500}>{location.name}</Text>
-              <Badge color={location.custom ? 'green.4' : location.shop ? 'indigo' : 'blue.4'}>{location.custom ? locale.ui_custom : location.shop ? locale.ui_shop : locale.ui_vanilla}</Badge>
+              <Badge color={location.custom ? 'green.4' : location.shop ? 'indigo' : 'blue.4'}>{location.custom ? getLocale("ui_custom") : location.shop ? getLocale("ui_shop") : getLocale("ui_vanilla")}</Badge>
             </Group>
-            <Text size='xs'>{locale.ui_coords}: {location.x}, {location.y}, {location.z}</Text>
+            <Text size='xs'>{getLocale("ui_coords")}: {location.x.toFixed(3)}, {location.y.toFixed(3)}, {location.z.toFixed(3)}</Text>
           </Stack>
         </Accordion.Control>
         <Accordion.Panel>
-          <Group grow spacing='xs'>
-            <Button
-              variant='light'
-              color='blue.4'
-              size='xs'
-              onClick={() =>
-                fetchNui('flight_admin:teleport', { name: location.name, x: location.x, y: location.y, z: location.z, heading: location.heading })
-              }
-            >
-              {locale.ui_teleport}
-            </Button>
-            <Button
-              variant='light'
-              color={copied ? 'teal' : 'blue.4'}
-              size='xs'
-              onClick={() => {
-                setClipboard(location.x + ', ' + location.y + ', ' + location.z)
-                setCopied(true)
-              }}
-            >
-              {copied ? locale.ui_copied_coords : locale.ui_copy_coords}
-            </Button>
-            {location.custom &&
+          <Paper>
+            <Group grow spacing='xs'>
               <Button
                 variant='light'
-                color='blue.4'
+                color={copied ? 'teal' : 'blue.4'}
                 size='xs'
                 onClick={() => {
-                  openModal({
-                    title: locale.ui_rename,
-                    children: <RenameLocation defaultName={location.name} />,
-                    size: 'xs',
-                  })
+                  fetchNui('flight_admin:placeMarker', { x: location.x, y: location.y, z: location.z })
                 }}
               >
-                {locale.ui_rename}
+                {getLocale("ui_place_marker")}
               </Button>
-            }
-            {location.custom &&
               <Button
                 variant='light'
                 color='blue.4'
                 size='xs'
+                onClick={() =>
+                  fetchNui('flight_admin:teleport', { name: location.name, x: location.x, y: location.y, z: location.z, heading: location.heading })
+                }
+              >
+                {getLocale("ui_teleport")}
+              </Button>
+              <Button
+                variant='light'
+                color={copied ? 'teal' : 'blue.4'}
+                size='xs'
                 onClick={() => {
-                  openModal({
-                    title: locale.ui_delete,
-                    children: <DeleteLocation name={location.name} />,
-                    size: 'xs',
-                  })
-                  setAccordionItem(null)
+                  setClipboard(location.x + ', ' + location.y + ', ' + location.z)
+                  setCopied(true)
                 }}
-              >{locale.ui_delete}</Button>
+              >
+                {copied ? getLocale("ui_copied_coords") : getLocale("ui_copy_coords")}
+              </Button>
+            </Group>
+            
+            {
+              location.custom ?
+                <>
+                  <Space h="md" />
+                  <Group grow spacing='xs'>
+                    <Button
+                      variant='light'
+                      color='blue.4'
+                      size='xs'
+                      onClick={() => {
+                        openModal({
+                          title: getLocale("ui_rename"),
+                          children: <RenameLocation defaultName={location.name} />,
+                          size: 'xs',
+                        })
+                      }}
+                    >
+                      {getLocale("ui_rename")}
+                    </Button>
+                    <Button
+                      variant='light'
+                      color='blue.4'
+                      size='xs'
+                      onClick={() => {
+                        openModal({
+                          title: getLocale("ui_delete"),
+                          children: <DeleteLocation name={location.name} />,
+                          size: 'xs',
+                        })
+                        setAccordionItem(null)
+                      }}
+                    >
+                      {getLocale("ui_delete")}
+                    </Button>
+                  </Group>
+                </>
+              : ''
             }
-          </Group>
+          </Paper>
         </Accordion.Panel>
       </Accordion.Item>
   ))
@@ -115,10 +135,10 @@ const Locations: React.FC = () => {
   return (
     <>
       <Stack>
-        <Text size={20}>{locale.ui_locations}</Text>
+        <Text size={20}>{getLocale("ui_locations")}</Text>
         <Group grow>            
           <Checkbox
-            label={locale.ui_show_custom_locations}
+            label={getLocale("ui_show_custom_locations")}
             size='sm'
             color='blue.4'
             // disabled={!checkedVanilla}
@@ -130,7 +150,7 @@ const Locations: React.FC = () => {
             }}
           />
           <Checkbox
-            label={locale.ui_show_vanilla_locations}
+            label={getLocale("ui_show_vanilla_locations")}
             size='sm'
             color='blue.4'
             // disabled={!checkedCustom}
@@ -142,7 +162,7 @@ const Locations: React.FC = () => {
             }}
           />
           <Checkbox
-            label={locale.ui_show_shop_locations}
+            label={getLocale("ui_show_shop_locations")}
             size='sm'
             color='blue.4'
             // disabled={!checkedShop}
@@ -161,12 +181,12 @@ const Locations: React.FC = () => {
           color='blue.4'
           onClick={() =>
             openModal({
-              title: locale.ui_create_custom_location,
+              title: getLocale("ui_create_custom_location"),
               size: 'xs',
               children: <CreateLocation />,
             })
           }
-        >{locale.ui_create_custom_location}</Button>
+        >{getLocale("ui_create_custom_location")}</Button>
         
         <LocationSearch />
 
@@ -175,7 +195,7 @@ const Locations: React.FC = () => {
             <Accordion chevronPosition='left' variant='contained' radius='sm' value={currentAccordionItem} onChange={setAccordionItem}>
               {Locationlist ? Locationlist :
                 <Paper p='md'>
-                  <Text size='md' weight={600} color='red.4'>{locale.ui_no_location_found}</Text>
+                  <Text size='md' weight={600} color='red.4'>{getLocale("ui_no_location_found")}</Text>
                 </Paper>
               }
             </Accordion>

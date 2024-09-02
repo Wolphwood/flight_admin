@@ -6,13 +6,13 @@ import { fetchNui } from '../../../../../../utils/fetchNui'
 import { useLocales } from '../../../../../../providers/LocaleProvider'
 
 const DeleteLocation = (props: {name: string}) => {
-  const { locale } = useLocales()
+  const { getLocale } = useLocales()
   const { name } = props
   const setCustomLocationCheckbox = useSetRecoilState(locationCustomFilterAtom)
 
   return (
     <Stack>
-      <Text>{locale.ui_delete} '{name}' ?</Text>
+      <Text>{getLocale("ui_delete")} '{name}' ?</Text>
       <Group grow>
         <Button
           uppercase
@@ -24,7 +24,7 @@ const DeleteLocation = (props: {name: string}) => {
             setCustomLocationCheckbox(true)
           }}
         >
-          {locale.ui_confirm}
+          {getLocale("ui_confirm")}
         </Button>
         <Button
           uppercase
@@ -34,7 +34,7 @@ const DeleteLocation = (props: {name: string}) => {
             closeAllModals()
           }}
         >
-          {locale.ui_cancel}
+          {getLocale("ui_cancel")}
         </Button>
       </Group>
     </Stack>

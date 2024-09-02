@@ -7,13 +7,13 @@ import { locationCustomFilterAtom } from '../../../../../../atoms/location'
 import { useLocales } from '../../../../../../providers/LocaleProvider'
 
 const CreateLocation: React.FC = () => {
-  const { locale } = useLocales()
+  const { getLocale } = useLocales()
   const [locationName, setLocationName] = useState('')
   const setCustomLocationCheckbox = useSetRecoilState(locationCustomFilterAtom)
 
   return (
     <Stack>
-      <TextInput label={locale.ui_location_name} description={locale.ui_create_location_description} value={locationName} onChange={(e) => setLocationName(e.target.value)} />
+      <TextInput label={getLocale("ui_location_name")} description={getLocale("ui_create_location_description")} value={locationName} onChange={(e) => setLocationName(e.target.value)} />
       <Button
         uppercase
         disabled={locationName === ''}
@@ -25,7 +25,7 @@ const CreateLocation: React.FC = () => {
           setCustomLocationCheckbox(true)
         }}
       >
-        {locale.ui_confirm}
+        {getLocale("ui_confirm")}
       </Button>
     </Stack>
   )

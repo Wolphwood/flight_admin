@@ -125,11 +125,20 @@ lib.callback.register('flight_admin:getData', function()
         end
     end
 
+    Weapons = {};
+    for v,k in pairs(GetOxInventoryWeapons()) do
+        k['name'] = v;
+        table.insert(Weapons, k);
+    end
+
+    -- This file contain name and hash of weapons, but is it usefull ?
+    -- weapons = getFileData('shared/data', 'weaponList.json'),
+
     return {
         locations = table.merge(locations, formatedShopLocations),
         peds = getFileData('shared/data', 'pedList.json'),
         vehicles = getFileData('shared/data', 'vehicleList.json'),
-        weapons = getFileData('shared/data', 'weaponList.json'),
+        weapons = Weapons,
         timecycles = formatTimecycles(getFileData('shared/data', 'timecycleModifiers.json')),
         staticEmitters = formatStaticEmitters(getFileData('shared/data', 'staticEmitters.json')),
         radioStations = formatRadioStations(getFileData('shared/data', 'radioStations.json'))
@@ -264,7 +273,7 @@ lib.callback.register('flight_admin:deleteLocation', function(source, data)
 end)
 
 if Shared.ox_inventory then
-    local function getAmmo(weaponName)
+    local function ox()
         local file = ('data/%s.lua'):format('weapons')
         local datafile = LoadResourceFile('ox_inventory', file)
         local path = ('@@%s/%s'):format('ox_inventory', file)
@@ -280,7 +289,24 @@ if Shared.ox_inventory then
             return error(err, 0)
         end
 
-        return func().Weapons[weaponName:upper()].ammoname
+        return func();
+    end
+
+    local data = ox();
+    
+    local function getWeapons()
+        return data.Weapons;
+    end
+    local function getAmmo(weaponName)
+        return data.Weapons[weaponName:upper()].ammoname
+    end
+
+    function GetOxInventoryWeapons()
+        return data.Weapons;
+    end
+
+    function GetOxInventoryAmmos()
+        return data.Ammo;
     end
 
     lib.callback.register('flight_admin:giveWeaponToPlayer', function(source, weaponName)
@@ -289,14 +315,19 @@ if Shared.ox_inventory then
         local ammoName = getAmmo(weaponName)
 
         if exports.ox_inventory:CanCarryItem(source, weaponName, 1) then
-            exports.ox_inventory:AddItem(source, weaponName, 1, { ammo = 100 })
-            success = true
+            if ammoName ~= nil then
+                exports.ox_inventory:AddItem(source, weaponName, 1, { ammo = 100 })
+                success = true
 
-            if exports.ox_inventory:CanCarryItem(source, ammoName, 1) then
-                local ammoCount = exports.ox_inventory:Search(source, 'count', ammoName)
-                if ammoCount < 100 then
-                    exports.ox_inventory:AddItem(source, ammoName, 100 - ammoCount)
+                if exports.ox_inventory:CanCarryItem(source, ammoName, 1) then
+                    local ammoCount = exports.ox_inventory:Search(source, 'count', ammoName)
+                    if ammoCount < 100 then
+                        exports.ox_inventory:AddItem(source, ammoName, 100 - ammoCount)
+                    end
                 end
+            else
+                exports.ox_inventory:AddItem(source, weaponName, 1)
+                success = true
             end
         end
         
@@ -417,38 +448,35 @@ RegisterNetEvent('flight_admin:trollPlayer', function(data)
 end)
 
 
+RegisterNetEvent('flight_admin:placeMarkerAtPlayer', function(player)
+    local coords = GetEntityCoords(GetPlayerPed(player))
+    TriggerClientEvent("flight_admin:placeMarker", source, coords)
+end)
 
-
-
-
-
-
-
-
-RegisterNetEvent('flight_admin:bringPlayer', function(player)
+RegisterNetEvent('flight_admin:bringPlayer', function(player, height)
     local coords = GetEntityCoords(GetPlayerPed(source))
-    SetEntityCoords(GetPlayerPed(tonumber(player)), coords.x, coords.y, coords.z)
-    bringPlayer[tonumber(player)] = coords
+    SetEntityCoords(GetPlayerPed(tonumber(player)), coords.x, coords.y, coords.z - (height / 2))
+    bringPlayer[tostring(player)] = coords
     TriggerClientEvent("flight_admin:updatePlayerData", source)
 end)
 
-RegisterNetEvent('flight_admin:bringBackPlayer', function(player)
-    local coords = bringPlayer[tonumber(player)]
-    SetEntityCoords(GetPlayerPed(tonumber(player)), coords.x, coords.y, coords.z)
-    bringPlayer[tonumber(player)] = nil
+RegisterNetEvent('flight_admin:bringBackPlayer', function(player, height)
+    local coords = bringPlayer[tostring(player)]
+    SetEntityCoords(GetPlayerPed(tonumber(player)), coords.x, coords.y, coords.z - (height / 2))
+    bringPlayer[tostring(player)] = nil
     TriggerClientEvent("flight_admin:updatePlayerData", source)
 end)
 
-RegisterNetEvent('flight_admin:gotoPlayer', function(player)
+RegisterNetEvent('flight_admin:gotoPlayer', function(player, height)
     local coords = GetEntityCoords(GetPlayerPed(tonumber(player)))
-    SetEntityCoords(GetPlayerPed(source), coords.x, coords.y, coords.z)
+    SetEntityCoords(GetPlayerPed(source), coords.x, coords.y, coords.z - (height / 2))
     gotoPlayer[source] = GetEntityCoords(GetPlayerPed(tonumber(source)))
     TriggerClientEvent("flight_admin:updatePlayerData", source)
 end)
 
-RegisterNetEvent('flight_admin:goBackPlayer', function(player)
+RegisterNetEvent('flight_admin:goBackPlayer', function(player, height)
     local coords = gotoPlayer[source]
-    SetEntityCoords(GetPlayerPed(source), coords.x, coords.y, coords.z)
+    SetEntityCoords(GetPlayerPed(source), coords.x, coords.y, coords.z - (height / 2))
     gotoPlayer[source] = nil
     TriggerClientEvent("flight_admin:updatePlayerData", source)
 end)

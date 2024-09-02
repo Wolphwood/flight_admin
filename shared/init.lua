@@ -44,7 +44,7 @@ function table.merge(t1, t2)
     return t1
 end
 
-function getModelHeight(playerPed)
+function GetPlayerHeight(playerPed)
     local model = GetEntityModel(playerPed)
     local minVector, maxVector = GetModelDimensions(model)
     local height = maxVector.z - minVector.z
@@ -103,6 +103,16 @@ CreateThread(function()
             end
             SendNUIMessage({
                 action = 'setLocale',
+                data = json.decode(JSON)
+            })
+        end)
+
+        -- Load locale
+        RegisterNUICallback('loadTrolls', function(_, cb)
+            cb(1)
+            JSON = LoadResourceFile(RESOURCE_NAME, 'shared/data/trolls.json')
+            SendNUIMessage({
+                action = 'setTrolls',
                 data = json.decode(JSON)
             })
         end)

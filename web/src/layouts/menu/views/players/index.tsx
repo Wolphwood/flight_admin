@@ -18,7 +18,7 @@ import TrollMenu from './modals/TrollMenu'
 import YeetPlayer from './modals/YeetPlayer'
 
 const Players: React.FC = () => {
-  const { locale } = useLocales()
+  const { getLocale } = useLocales()
   const searchPlayerValue = getSearchPlayerInput()
   const [pageContent, setPageContent] = useRecoilState(playersPageContentAtom)
   const [pageCount, setPageCount] = useRecoilState(playersPageCountAtom)
@@ -69,6 +69,7 @@ const Players: React.FC = () => {
   useEffect(() => { setTimeout(() => { if (pressKill) setPressKill(false)}, 1000)}, [pressKill, setPressKill])
 
 
+  console.log(JSON.stringify(pageContent ?? [], null, 2))
 
   const PlayerList = pageContent?.map((playerList: any, index: number) => (
       <Accordion.Item key={index} value={index.toString()}>
@@ -182,7 +183,7 @@ const Players: React.FC = () => {
                 fetchNui('flight_admin:revive', playerList.id)
               }}
             >
-              {pressRevive ? locale.ui_revived : locale.ui_revive}
+              {pressRevive ? getLocale("ui_revived") : getLocale("ui_revive")}
             </Button>
             <Button
               variant='light'
@@ -193,7 +194,7 @@ const Players: React.FC = () => {
                 fetchNui('flight_admin:setMaxHealth', playerList.id)
               }}
             >
-              {pressHeal ? locale.ui_healed : locale.ui_heal}
+              {pressHeal ? getLocale("ui_healed") : getLocale("ui_heal")}
             </Button>              
             <Button
               variant='light'
@@ -203,7 +204,7 @@ const Players: React.FC = () => {
                 fetchNui('flight_admin:setNoClip', playerList.id)
               }}
             >
-              {playerList.noclip ? locale.ui_exit_noclip : locale.ui_noclip}
+              {playerList.noclip ? getLocale("ui_exit_noclip") : getLocale("ui_noclip")}
             </Button>     
           </Group>
           <Space h='xs' />
@@ -217,7 +218,7 @@ const Players: React.FC = () => {
                 setPressTpIntoVeh(true)
               }}
             >
-              {locale.ui_tp_into_veh}
+              {getLocale("ui_tp_into_veh")}
             </Button>
             <Button
               variant='light'
@@ -231,7 +232,7 @@ const Players: React.FC = () => {
                 })
               }}
             >
-              {locale.ui_warn}
+              {getLocale("ui_warn")}
             </Button>
             <Button
               variant='light'
@@ -239,13 +240,13 @@ const Players: React.FC = () => {
               size='xs'
               onClick={() => {
                 openModal({
-                  title: locale.ui_tp_coords,
+                  title: getLocale("ui_tp_coords"),
                   size: 'sm',
                   children: <SetCoords id = {playerList.id}/>,
                 })  
               }}
             >
-              {locale.ui_tp_coords}
+              {getLocale("ui_tp_coords")}
             </Button>
             <Button
               variant='light'
@@ -256,7 +257,7 @@ const Players: React.FC = () => {
                 fetchNui('flight_admin:tpMarkerPlayer', playerList.id)
               }}
             >
-              {locale.ui_tpm}
+              {getLocale("ui_tpm")}
             </Button>                     
           </Group>
           <Space h='md' />
@@ -269,7 +270,7 @@ const Players: React.FC = () => {
                 fetchNui('flight_admin:spectatePlayer', playerList.id)
               }}
             >
-              {pressSpectate ? "Exit Spectate" : locale.ui_spectate}
+              {pressSpectate ? "Exit Spectate" : getLocale("ui_spectate")}
             </Button>
             <Button
               variant='light'
@@ -290,7 +291,7 @@ const Players: React.FC = () => {
                 setPressKill(true)
               }}
             >
-              {locale.ui_kill}
+              {getLocale("ui_kill")}
             </Button>
             <Button
               variant='light'
@@ -298,19 +299,19 @@ const Players: React.FC = () => {
               size='xs'
               onClick={() => {
                 openModal({
-                  title: locale.ui_troll,
+                  title: getLocale("ui_troll"),
                   size: 'sm',
                   children: <TrollMenu id={playerList.id}/>,
                 })  
               }}
             >
-              {locale.ui_troll}
+              {getLocale("ui_troll")}
             </Button>                     
           </Group>
 
           <Space h='md' />
           <Group grow spacing='xs'> 
-            <Button
+          <Button
               variant='light'
               color={'blue.4'}
               size='xs'
@@ -318,7 +319,7 @@ const Players: React.FC = () => {
                 fetchNui('flight_admin:bringPlayer', playerList.id)
               }}
             >
-              {locale.ui_bring}
+              {getLocale("ui_bring")}
             </Button>
             { playerList.bringPlayer ? 
               <Button
@@ -329,9 +330,19 @@ const Players: React.FC = () => {
                   fetchNui('flight_admin:bringBackPlayer', playerList.id)
                 }}
               >
-                {locale.ui_bring_back}
+                {getLocale("ui_bring_back")}
               </Button> 
             : ''}
+            <Button
+              variant='light'
+              color={'blue.4'}
+              size='xs'
+              onClick={() => {
+                fetchNui('flight_admin:placeMarkerAtPlayer', playerList.id)
+              }}
+            >
+              {getLocale("ui_place_marker")}
+            </Button>
             { playerList.gotoPlayer ? 
               <Button
                 variant='light'
@@ -341,7 +352,7 @@ const Players: React.FC = () => {
                   fetchNui('flight_admin:goBackPlayer', playerList.id)
                 }}
               >
-                {locale.ui_goto_back}
+                {getLocale("ui_goto_back")}
               </Button> 
             : ''}
             <Button
@@ -352,7 +363,7 @@ const Players: React.FC = () => {
                 fetchNui('flight_admin:gotoPlayer', playerList.id)
               }}
             >
-              {locale.ui_goto}
+              {getLocale("ui_goto")}
             </Button>
           </Group>
           <Space h='md' />
@@ -362,26 +373,26 @@ const Players: React.FC = () => {
               color={'orange.4'}
               size='xs'
               onClick={() => openModal({
-                title: locale.ui_tp_coords,
+                title: getLocale("ui_tp_coords"),
                 size: 'sm',
                 children: <YeetPlayer type = "kick" id = {playerList.id}/>,
               })  
               }
             >
-              {locale.ui_kick}
+              {getLocale("ui_kick")}
             </Button>
             <Button
               variant='light'
               color={'red.4'}
               size='xs'
               onClick={() => openModal({
-                title: locale.ui_tp_coords,
+                title: getLocale("ui_tp_coords"),
                 size: 'sm',
                 children: <YeetPlayer id = {playerList.id} type = "ban"/>,
               })  
               }
             >
-              {locale.ui_ban}
+              {getLocale("ui_ban")}
             </Button>
           </Group>
         </Accordion.Panel>
@@ -390,7 +401,7 @@ const Players: React.FC = () => {
 
   return(
     <Stack>
-      <Text size={20}>{locale.ui_players}</Text>
+      <Text size={20}>{getLocale("ui_players")}</Text>
       <Group grow>
         <PlayerSearch/>
         {/* <Button
@@ -400,7 +411,7 @@ const Players: React.FC = () => {
           color='blue.4'
           onClick={() => fetchNui('flight_admin:spawnVehicle', searchPlayerValue)}
         >
-          {locale.ui_spawn_by_name}
+          {getLocale("ui_spawn_by_name")}
         </Button> */}
       </Group>
       <ScrollArea style={{ height: 575 }} scrollbarSize={0}>

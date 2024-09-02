@@ -71,7 +71,7 @@ debugData([
 ])
 
 const Object: React.FC = () => {
-    const { locale } = useLocales()
+    const { getLocale } = useLocales()
     const [objectList, setObjectList] = useRecoilState(ObjectListAtom)
     const [currentAccordionItem, setAccordionItem] = useState<string|null>(null)
     
@@ -117,14 +117,14 @@ const Object: React.FC = () => {
         <>
         {/* TITLE */}
         <Group position='apart'>
-            <Text size={20}>{locale.ui_object_spawner}</Text>
+            <Text size={20}>{getLocale("ui_object_spawner")}</Text>
             <Group position='apart'>
             <ActionIcon
                 size='xl'
                 color='blue.4'
                 onClick={() =>
                     openModal({
-                        title: locale.ui_add_entity,
+                        title: getLocale("ui_add_entity"),
                         size: 'xs',
                         children: <AddEntity />
                     })
@@ -138,7 +138,7 @@ const Object: React.FC = () => {
                 color='red.4'
                 onClick={() =>
                     openModal({
-                        title: locale.ui_delete_all_entities,
+                        title: getLocale("ui_delete_all_entities"),
                         size: 'md',
                         children: <DeleteAllEntities />
                     })
@@ -187,7 +187,7 @@ const Object: React.FC = () => {
                                         onClick={() => {
                                             fetchNui('flight_admin:goToEntity', entity)
                                         }}
-                                    >{locale.ui_goto}</Button>
+                                    >{getLocale("ui_goto")}</Button>
                                     <Button
                                         variant='light'
                                         color={copiedCoords ? 'teal' : 'blue.4'}
@@ -196,7 +196,7 @@ const Object: React.FC = () => {
                                             setClipboard(entity.position.x + ', ' + entity.position.y + ', ' + entity.position.z)
                                             setCopiedCoords(true)
                                         }}
-                                    >{copiedCoords ? locale.ui_copied_coords : locale.ui_copy_coords}</Button>
+                                    >{copiedCoords ? getLocale("ui_copied_coords") : getLocale("ui_copy_coords")}</Button>
                                     <Button
                                         variant='light'
                                         color={copiedName ? 'teal' : 'blue.4'}
@@ -205,7 +205,7 @@ const Object: React.FC = () => {
                                             setClipboard(entity.name)
                                             setCopiedName(true)
                                         }}
-                                    >{copiedName ? locale.ui_copied_name : locale.ui_copy_name}</Button>
+                                    >{copiedName ? getLocale("ui_copied_name") : getLocale("ui_copy_name")}</Button>
                                 </Group>
                                 <Space h='xs' />
                                 <Group grow>
@@ -216,7 +216,7 @@ const Object: React.FC = () => {
                                         onClick={() => {
                                             fetchNui('flight_admin:snapEntityToGround', entity)
                                         }}
-                                    >{locale.ui_snap_to_ground}</Button>
+                                    >{getLocale("ui_snap_to_ground")}</Button>
                                     <Button
                                         variant='light'
                                         color='blue.4'
@@ -224,7 +224,7 @@ const Object: React.FC = () => {
                                         onClick={() => {
                                             fetchNui('flight_admin:addEntity', entity.name)
                                         }}
-                                    >{locale.ui_duplicate}</Button>                                            
+                                    >{getLocale("ui_duplicate")}</Button>                                            
                                     <Button
                                         variant='light'
                                         color='blue.4'
@@ -233,7 +233,7 @@ const Object: React.FC = () => {
                                             fetchNui('flight_admin:deleteEntity', entity.handle)
                                             setAccordionItem(null)
                                         }}
-                                    >{locale.ui_delete}</Button>
+                                    >{getLocale("ui_delete")}</Button>
                                 </Group>
                             </Accordion.Panel>
                         </Accordion.Item>

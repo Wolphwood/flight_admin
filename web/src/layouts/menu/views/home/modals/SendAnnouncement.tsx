@@ -5,12 +5,12 @@ import { fetchNui } from '../../../../../utils/fetchNui'
 import { useLocales } from '../../../../../providers/LocaleProvider'
 
 const SendAnnouncement: React.FC = () => {
-  const { locale } = useLocales()
+  const { getLocale } = useLocales()
   const [message, setMessage] = useState('')
 
   return (
     <Stack>
-      <TextInput label={locale.ui_announcement_name} description={locale.ui_announcement_description} value={message} onChange={(e) => setMessage(e.target.value)} />
+      <TextInput label={getLocale("ui_announcement_name")} description={getLocale("ui_announcement_description")} value={message} onChange={(e) => setMessage(e.target.value)} />
       <Button
         uppercase
         disabled={message === ''}
@@ -21,7 +21,7 @@ const SendAnnouncement: React.FC = () => {
           fetchNui('flight_admin:Announce', message)
         }}
       >
-        {locale.ui_confirm}
+        {getLocale("ui_confirm")}
       </Button>
     </Stack>
   )

@@ -5,12 +5,12 @@ import { useLocales } from '../../../../../providers/LocaleProvider'
 import { fetchNui } from '../../../../../utils/fetchNui'
 
 const WarnAll: React.FC = () => {
-    const { locale } = useLocales()
+    const { getLocale } = useLocales()
     const [warnMessage, setWarnMessage] = useState('')
 
     return (
         <Stack>
-            <Text weight={500}>{locale.warn_message}</Text>
+            <Text weight={500}>{getLocale("warn_message")}</Text>
             <TextInput value={warnMessage} onChange={(e) => setWarnMessage(e.target.value)} />
             <Button
                 uppercase
@@ -21,7 +21,7 @@ const WarnAll: React.FC = () => {
                     closeAllModals()
                     fetchNui('flight_admin:warnAll', warnMessage)
                 }}
-            >{locale.ui_confirm}</Button>
+            >{getLocale("ui_confirm")}</Button>
         </Stack>
         )
     }

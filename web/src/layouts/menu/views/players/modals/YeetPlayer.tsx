@@ -5,10 +5,10 @@ import { useLocales } from '../../../../../providers/LocaleProvider'
 import { fetchNui } from '../../../../../utils/fetchNui'
 
 const YeetPlayer = (props: {id: any, type: string}) => {
-    const { locale } = useLocales()
+    const { getLocale } = useLocales()
     const [reason, setReason] = useState("No Reason")
     const [duration, setDuration] = useState(1)
-    console.log(props.type);
+    // console.log(props.type);
     
     return (
         <Stack>
@@ -33,7 +33,7 @@ const YeetPlayer = (props: {id: any, type: string}) => {
                         fetchNui('flight_admin:kickPlayer', { id: props.id, reason: reason })
                     }
                 }}
-            >{locale.ui_confirm}</Button>
+            >{getLocale("ui_confirm")}</Button>
         </Stack>
         )
     }

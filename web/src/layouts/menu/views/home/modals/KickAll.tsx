@@ -5,12 +5,12 @@ import { fetchNui } from '../../../../../utils/fetchNui'
 import { useLocales } from '../../../../../providers/LocaleProvider'
 
 const KickAll: React.FC = () => {
-  const { locale } = useLocales()
+  const { getLocale } = useLocales()
   const [kickMessage, setKickMessage] = useState('')
 
   return (
     <Stack>
-      <TextInput label={locale.ui_confirm_kickAll_name} description={locale.ui_confirm_kickAll_description} value={kickMessage} onChange={(e) => setKickMessage(e.target.value)} />
+      <TextInput label={getLocale("ui_confirm_kickAll_name")} description={getLocale("ui_confirm_kickAll_description")} value={kickMessage} onChange={(e) => setKickMessage(e.target.value)} />
       <Button
         uppercase
         disabled={kickMessage === ''}
@@ -21,7 +21,7 @@ const KickAll: React.FC = () => {
           fetchNui('flight_admin:kickAll', kickMessage)
         }}
       >
-        {locale.ui_confirm}
+        {getLocale("ui_confirm")}
       </Button>
     </Stack>
   )

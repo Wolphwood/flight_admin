@@ -84,7 +84,7 @@ RegisterNetEvent('flightadmin:applyTrollEffect', function(effect)
         local pos = splitString(effect.pos);
         local rot = splitString(effect.rot);
 
-        local h = getPlayerHeight(playerPed)
+        local h = GetPlayerHeight(playerPed)
 
         local pos_x, pos_y, pos_z = parseRelativeValue(pos[1], coords.x), parseRelativeValue(pos[2], coords.y), parseRelativeValue(pos[3], coords.z);
         local rot_x, rot_y, rot_z = parseRelativeValue(rot[1], rots.x), parseRelativeValue(rot[2], rots.y), parseRelativeValue(rot[3], rots.z);
@@ -415,22 +415,36 @@ end)
 
 RegisterNUICallback('flight_admin:bringPlayer', function(id, cb)
     cb(1)
-    TriggerServerEvent("flight_admin:bringPlayer", id)
+    local h = GetPlayerHeight(GetPlayerPed(GetPlayerFromServerId(id)))
+    TriggerServerEvent("flight_admin:bringPlayer", id, h)
+end)
+
+RegisterNUICallback('flight_admin:placeMarkerAtPlayer', function(id, cb)
+    cb(1)
+    TriggerServerEvent("flight_admin:placeMarkerAtPlayer", id)
+end)
+
+RegisterNUICallback('flight_admin:placeMarker', function(coords, cb)
+    cb(1)
+    TriggerEvent("flight_admin:placeMarker", coords)
 end)
 
 RegisterNUICallback('flight_admin:bringBackPlayer', function(id, cb)
     cb(1)
-    TriggerServerEvent("flight_admin:bringBackPlayer", id)
+    local h = GetPlayerHeight(GetPlayerPed(GetPlayerFromServerId(id)))
+    TriggerServerEvent("flight_admin:bringBackPlayer", id, h)
 end)
 
 RegisterNUICallback('flight_admin:gotoPlayer', function(id, cb)
     cb(1)
-    TriggerServerEvent("flight_admin:gotoPlayer", id)
+    local h = GetPlayerHeight(GetPlayerPed(GetPlayerFromServerId(id)))
+    TriggerServerEvent("flight_admin:gotoPlayer", id, h)
 end)
 
 RegisterNUICallback('flight_admin:goBackPlayer', function(id, cb)
     cb(1)
-    TriggerServerEvent("flight_admin:goBackPlayer", id)
+    local h = GetPlayerHeight(GetPlayerPed(GetPlayerFromServerId(id)))
+    TriggerServerEvent("flight_admin:goBackPlayer", id, h)
 end)
 
 RegisterNUICallback('flight_admin:kickPlayer', function(data, cb)
@@ -475,7 +489,6 @@ end)
 
 RegisterNUICallback('flight_admin:setMaxHealth', function(id, cb)
     cb(1)
-    print(id)
     if id then
         local playerPed = PlayerPedId()
         SetEntityHealth(playerPed, GetEntityMaxHealth(playerPed))
@@ -967,6 +980,10 @@ RegisterNetEvent('flight_admin:updatePlayerData', function()
         Client.data.players = data
         FUNC.loadPage('players', 1, nil, nil, isSpectating)
     end)
+end)
+
+RegisterNetEvent('flight_admin:placeMarker', function(coords)
+    SetNewWaypoint(coords.x, coords.y)
 end)
 
 RegisterNetEvent('flight_admin:setNoClip', function(bool)
