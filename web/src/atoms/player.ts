@@ -1,7 +1,9 @@
 import { atom, useRecoilValue } from 'recoil'
 
 export interface PlayerInfo {
+  identifier: string,
   license: string,
+  license2: string,
   discord: string,
   steam: string,
   fivem: string,
@@ -16,11 +18,28 @@ export interface PlayerInfo {
   freeze: boolean,
   bringPlayer: boolean,
   gotoPlayer: boolean,
+  job: {
+    name: string,
+    grade: string | number
+  }
 }
+
+export interface JobInfo {
+  name: string;
+  label: string;
+  grades: {
+    grade: number;
+    label: string;
+    name: string;
+  }[];
+}
+
 
 const mockPlayerList: PlayerInfo[] = [
     {
+      identifier: "none",
       license: "license:abcdefg1234567hbhgvjtshygv",
+      license2: "license2:abcdefg1234567hbhgvjtshygv",
       discord: "823961539442507836",
       steam: "steam:110000346eadsa",
       fivem: "fivem:1135749",
@@ -31,13 +50,19 @@ const mockPlayerList: PlayerInfo[] = [
       rank: 2,
       label: "Moderator",
       name:"Connor Papazarcadas",
-      noclip: false,
-      freeze: false,
-      bringPlayer: false,
-      gotoPlayer: false,
+      noclip: true,
+      freeze: true,
+      bringPlayer: true,
+      gotoPlayer: true,
+      job: {
+        name: 'job1',
+        grade: 0
+      }
     },
     {
+      identifier: "none",
       license: "license:WFEASDFg12dfagdfbvhygv",
+      license2: "license2:WFEASDFg12dfagdfbvhygv",
       discord: "1234261539442507836",
       steam: "steam:2624625466346eadsa",
       fivem: "fivem:1135749",
@@ -52,9 +77,15 @@ const mockPlayerList: PlayerInfo[] = [
       freeze: false,
       bringPlayer: false,
       gotoPlayer: false,
+      job: {
+        name: 'job2',
+        grade: 1
+      }
     },    
     {
+      identifier: "none",
       license: "license:WFEASDFg12dfagdfbvhygv",
+      license2: "license2:WFEASDFg12dfagdfbvhygv",
       discord: "1234261539442507836",
       steam: "steam:2624625466346eadsa",
       fivem: "fivem:1135749",
@@ -69,9 +100,15 @@ const mockPlayerList: PlayerInfo[] = [
       freeze: false,
       bringPlayer: false,
       gotoPlayer: false,
+      job: {
+        name: 'job3',
+        grade: 3
+      }
     },    
     {
+      identifier: "none",
       license: "license:WFEASDFg12dfagdfbvhygv",
+      license2: "license2:WFEASDFg12dfagdfbvhygv",
       discord: "1234261539442507836",
       steam: "steam:2624625466346eadsa",
       fivem: "fivem:1135749",
@@ -86,9 +123,15 @@ const mockPlayerList: PlayerInfo[] = [
       freeze: false,
       bringPlayer: false,
       gotoPlayer: false,
+      job: {
+        name: 'job1',
+        grade: 0
+      }
     },    
     {
+      identifier: "none",
       license: "license:WFEASDFg12dfagdfbvhygv",
+      license2: "license2:WFEASDFg12dfagdfbvhygv",
       discord: "1234261539442507836",
       steam: "steam:2624625466346eadsa",
       fivem: "fivem:1135749",
@@ -103,9 +146,15 @@ const mockPlayerList: PlayerInfo[] = [
       freeze: false,
       bringPlayer: false,
       gotoPlayer: false,
+      job: {
+        name: 'job1',
+        grade: 2
+      }
     },    
     {
+      identifier: "none",
       license: "license:WFEASDFg12dfagdfbvhygv",
+      license2: "license2:WFEASDFg12dfagdfbvhygv",
       discord: "1234261539442507836",
       steam: "steam:2624625466346eadsa",
       fivem: "fivem:1135749",
@@ -120,12 +169,51 @@ const mockPlayerList: PlayerInfo[] = [
       freeze: false,
       bringPlayer: false,
       gotoPlayer: false,
+      job: {
+        name: 'job2',
+        grade: 4
+      }
     },
+]
+
+const mockJobs: JobInfo[] = [
+  {
+    name: 'job1',
+    label: "Nom du job 1",
+    grades: [
+      { grade: 0, label: "Nom du poste 1.0", name: 'postname1_0' },
+      { grade: 1, label: "Nom du poste 1.1", name: 'postname1_1' },
+      { grade: 2, label: "Nom du poste 1.2", name: 'postname1_2' },
+      { grade: 3, label: "Nom du poste 1.3", name: 'postname1_3' },
+    ]
+  },
+  {
+    name: 'job2',
+    label: "Nom du job 2",
+    grades: [
+      { grade: 0, label: "Nom du poste 2.0", name: 'postname2_0' },
+      { grade: 1, label: "Nom du poste 2.1", name: 'postname2_1' },
+      { grade: 2, label: "Nom du poste 2.2", name: 'postname2_2' },
+      { grade: 3, label: "Nom du poste 2.3", name: 'postname2_3' },
+    ]
+  },
+  {
+    name: 'job3',
+    label: "Nom du job 2",
+    grades: [
+      { grade: 0, label: "Nom du poste 3.0", name: 'postname3_0' },
+      { grade: 1, label: "Nom du poste 3.1", name: 'postname3_1' },
+      { grade: 2, label: "Nom du poste 3.2", name: 'postname3_2' },
+      { grade: 3, label: "Nom du poste 3.3", name: 'postname3_3' },
+    ]
+  }
 ]
 
 export const playerListSearchAtom = atom<string>({ key: 'playerListSearch', default: '' })
 export const playersActivePageAtom = atom<number>({ key: 'playerActivePage', default: 1 })
 export const playersPageCountAtom = atom<number>({ key: 'playerPageCount', default: 1})
 export const playersPageContentAtom = atom<PlayerInfo[]>({ key: 'playersPageContent', default: mockPlayerList })
+
+export const jobsContentAtom = atom<JobInfo[]>({ key: 'jobsContent', default: mockJobs })
 
 export const getSearchPlayerInput = () => useRecoilValue(playerListSearchAtom) as string

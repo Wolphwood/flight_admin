@@ -1,16 +1,15 @@
 import { useState } from 'react'
 import { closeAllModals } from '@mantine/modals'
 import { Stack, Button, TextInput } from '@mantine/core'
-import { fetchNui } from '../../../../../utils/fetchNui'
-import { useLocales } from '../../../../../providers/LocaleProvider'
+import { fetchNui } from '@/utils/fetchNui'
+import { GetLocale, GetForcedStringLocale } from '@/utils/Locale'
 
 const KickAll: React.FC = () => {
-  const { getLocale } = useLocales()
   const [kickMessage, setKickMessage] = useState('')
 
   return (
     <Stack>
-      <TextInput label={getLocale("ui_confirm_kickAll_name")} description={getLocale("ui_confirm_kickAll_description")} value={kickMessage} onChange={(e) => setKickMessage(e.target.value)} />
+      <TextInput label={GetForcedStringLocale("ui_confirm_kickAll_name")} description={GetLocale("ui_confirm_kickAll_description")} value={kickMessage} onChange={(e) => setKickMessage(e.target.value)} />
       <Button
         uppercase
         disabled={kickMessage === ''}
@@ -21,7 +20,7 @@ const KickAll: React.FC = () => {
           fetchNui('flight_admin:kickAll', kickMessage)
         }}
       >
-        {getLocale("ui_confirm")}
+        {GetLocale("ui_confirm")}
       </Button>
     </Stack>
   )

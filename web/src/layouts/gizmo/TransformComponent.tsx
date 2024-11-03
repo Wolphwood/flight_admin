@@ -1,7 +1,7 @@
 import { Suspense, useRef, useState, useEffect } from 'react'
 import { TransformControls } from '@react-three/drei'
-import { useNuiEvent } from '../../hooks/useNuiEvent'
-import { fetchNui } from '../../utils/fetchNui'
+import { useNuiEvent } from '@/hooks/useNuiEvent'
+import { fetchNui } from '@/utils/fetchNui'
 import { Mesh, MathUtils } from 'three'
 
 export const TransformComponent = () => {

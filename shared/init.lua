@@ -87,7 +87,7 @@ CreateThread(function()
             FUNC.initTarget()
         end
 
-        -- Load locale
+        -- Load locale (old)
         RegisterNUICallback('loadLocale', function(_, cb)
             cb(1)
             local locale = Config.language or 'en'
@@ -105,6 +105,12 @@ CreateThread(function()
                 action = 'setLocale',
                 data = json.decode(JSON)
             })
+        end)
+
+        -- Get Locales
+        RegisterNUICallback("getLocales", function(data, cb)
+            local locales = lib.callback.await('flight_admin:getLangFiles')
+            cb(locales)
         end)
 
         -- Load locale

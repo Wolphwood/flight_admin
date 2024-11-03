@@ -3,14 +3,13 @@ import { useDebouncedValue } from '@mantine/hooks'
 import { useEffect, useState } from 'react'
 import { BsClipboard, BsFillStopFill, BsPlayFill } from 'react-icons/bs'
 import { useRecoilState } from 'recoil'
-import { drawStaticEmittersAtom, radioStationsListAtom, StaticEmitter, staticEmittersDrawDistanceAtom, staticEmittersListAtom } from '../../../../atoms/audio'
-import { useNuiEvent } from '../../../../hooks/useNuiEvent'
-import { useLocales } from "../../../../providers/LocaleProvider"
-import { fetchNui } from '../../../../utils/fetchNui'
-import { setClipboard } from '../../../../utils/setClipboard'
+import { drawStaticEmittersAtom, radioStationsListAtom, StaticEmitter, staticEmittersDrawDistanceAtom, staticEmittersListAtom } from '@/atoms/audio'
+import { useNuiEvent } from '@/hooks/useNuiEvent'
+import { GetLocale, GetForcedStringLocale } from '@/utils/Locale'
+import { fetchNui } from '@/utils/fetchNui'
+import { setClipboard } from '@/utils/setClipboard'
 
 const Audio: React.FC = () => {
-    const { getLocale } = useLocales()
     const [checked, setChecked] = useRecoilState(drawStaticEmittersAtom)
     const [drawDistance, setDrawDistance] = useRecoilState(staticEmittersDrawDistanceAtom)
     const [closestEmitter, setClosestEmitter] = useRecoilState(staticEmittersListAtom)
@@ -37,17 +36,17 @@ const Audio: React.FC = () => {
 
     return (
         <>
-            <Text size={20}>{getLocale("ui_audio")}</Text>
+            <Text size={20}>{GetLocale("ui_audio")}</Text>
 
             <Space h='sm' />
 
             <Paper p='md'>
-                <Text size={22}>{getLocale("ui_static_emitters")}</Text>
+                <Text size={22}>{GetLocale("ui_static_emitters")}</Text>
                 
                 <Space h='md' />
                 
                 <Checkbox
-                    label={getLocale("ui_draw_static_emitters")}
+                    label={GetForcedStringLocale("ui_draw_static_emitters")}
                     checked={checked}
                     onChange={(e) => setChecked(e.currentTarget.checked)}
                 />
@@ -55,7 +54,7 @@ const Audio: React.FC = () => {
                 <Space h='sm' />
 
                 <Group position='apart'>
-                    <Text size={14}>{getLocale("ui_draw_distance")}</Text>
+                    <Text size={14}>{GetLocale("ui_draw_distance")}</Text>
                     <NumberInput
                         disabled={!checked}
                         defaultValue={drawDistance}
@@ -67,8 +66,8 @@ const Audio: React.FC = () => {
                         onChange={(value) => setDrawDistance(value!)}
                         formatter={(value) =>
                             !Number.isNaN(parseFloat(value!))
-                            ? `${value} ${getLocale("ui_meters")}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-                            : ` ${getLocale("ui_meters")}`
+                            ? `${value} ${GetLocale("ui_meters")}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+                            : ` ${GetLocale("ui_meters")}`
                         }
                     />
                 </Group>
@@ -76,7 +75,7 @@ const Audio: React.FC = () => {
                 <Slider
                     disabled={!checked}
                     value={drawDistance}
-                    label={(value) => `${value} ${getLocale("ui_meters")}`}
+                    label={(value) => `${value} ${GetLocale("ui_meters")}`}
                     onChange={(value) => setDrawDistance(value)}
                     min={1}
                     max={100}
@@ -95,20 +94,20 @@ const Audio: React.FC = () => {
                 
             <Paper p='md'>
                 <Group position='apart'>
-                    <Text size={22}>{getLocale("ui_closest_emitter_info")}</Text>
+                    <Text size={22}>{GetLocale("ui_closest_emitter_info")}</Text>
                     <Button
                         color='blue.4'
                         variant='light'
                         onClick={() => fetchNui('flight_admin:getClosestStaticEmitter')}
                     >
-                        {getLocale("ui_refresh")}
+                        {GetLocale("ui_refresh")}
                     </Button>
                 </Group>
 
                 <Space h='md' />
 
                 <Group position='apart'>
-                    <Text size={14}>{getLocale("ui_name")}</Text>
+                    <Text size={14}>{GetLocale("ui_name")}</Text>
                     <Group>
                         <Text color='blue.4' size={14}>{closestEmitter.name}</Text>
                         <ActionIcon
@@ -120,7 +119,7 @@ const Audio: React.FC = () => {
                 <Divider my={5} />
 
                 <Group position='apart'>
-                    <Text size={14}>{getLocale("ui_coords")}</Text>
+                    <Text size={14}>{GetLocale("ui_coords")}</Text>
                     <Group>
                         <Text color='blue.4' size={14}>{closestEmitter.coords}</Text>
                         <ActionIcon
@@ -132,9 +131,9 @@ const Audio: React.FC = () => {
                 <Divider my={5} />
 
                 <Group position='apart'>
-                    <Text size={14}>{getLocale("ui_distance")}</Text>
+                    <Text size={14}>{GetLocale("ui_distance")}</Text>
                     <Group>
-                        <Text color='blue.4' size={14}>{closestEmitter.distance} {getLocale("ui_meters")}</Text>
+                        <Text color='blue.4' size={14}>{closestEmitter.distance} {GetLocale("ui_meters")}</Text>
                         <ActionIcon
                             onClick={() => setClipboard(closestEmitter.distance.toString())}
                         ><BsClipboard /></ActionIcon>
@@ -144,7 +143,7 @@ const Audio: React.FC = () => {
                 <Divider my={5} />
 
                 <Group position='apart'>
-                    <Text size={14}>{getLocale("ui_flags")}</Text>
+                    <Text size={14}>{GetLocale("ui_flags")}</Text>
                     <Group>
                         <Text color='blue.4' size={14}>{closestEmitter.flags}</Text>
                         <ActionIcon
@@ -156,7 +155,7 @@ const Audio: React.FC = () => {
                 <Divider my={5} />
 
                 <Group position='apart'>
-                    <Text size={14}>{getLocale("ui_interior")}</Text>
+                    <Text size={14}>{GetLocale("ui_interior")}</Text>
                     <Group>
                         <Text color='blue.4' size={14}>{closestEmitter.interior}</Text>
                         <ActionIcon
@@ -168,7 +167,7 @@ const Audio: React.FC = () => {
                 <Divider my={5} />
 
                 <Group position='apart'>
-                    <Text size={14}>{getLocale("ui_room")}</Text>
+                    <Text size={14}>{GetLocale("ui_room")}</Text>
                     <Group>
                         <Text color='blue.4' size={14}>{closestEmitter.room}</Text>
                         <ActionIcon
@@ -180,12 +179,12 @@ const Audio: React.FC = () => {
                 <Divider my={5} />
 
                 <Group position='apart'>
-                    <Text size={14}>{getLocale("ui_radio_station")}</Text>
+                    <Text size={14}>{GetLocale("ui_radio_station")}</Text>
                     <Group>
                         <Select
                             color='blue.4'
                             searchable
-                            nothingFound={getLocale("ui_no_timecycle_found")}
+                            nothingFound={GetLocale("ui_no_timecycle_found")}
                             data={radioStationsList}
                             value={radioStation}
                             onChange={(value) => {

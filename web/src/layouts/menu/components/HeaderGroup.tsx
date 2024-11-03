@@ -2,16 +2,17 @@ import { ActionIcon, Group, Header, Text, Title, Tooltip } from '@mantine/core'
 import { useRecoilState } from 'recoil'
 import { TbLogout } from 'react-icons/tb'
 import { GiCancel } from 'react-icons/gi'
-import { menuVisibilityAtom } from '../../../atoms/visibility'
-import { Version } from '../../../atoms/version'
-import { useNuiEvent } from '../../../hooks/useNuiEvent'
-import { fetchNui } from '../../../utils/fetchNui'
-import { useLocales } from '../../../providers/LocaleProvider'
-import { useExitListener } from '../../../hooks/useExitListener'
+import { menuVisibilityAtom } from '@/atoms/visibility'
+import { Version } from '@/atoms/version'
+import { useNuiEvent } from '@/hooks/useNuiEvent'
+import { fetchNui } from '@/utils/fetchNui'
+import { useExitListener } from '@/hooks/useExitListener'
 import { useEffect, useState } from 'react'
 
+
+import { GetLocale, GetForcedStringLocale } from '@/utils/Locale'
+
 const HeaderGroup: React.FC<{data: Version}> = ({ data }) => {
-  const { getLocale } = useLocales()
   const [visible, setVisible] = useRecoilState(menuVisibilityAtom)
 
   useNuiEvent('setMenuVisible', () => setVisible(true))
@@ -38,7 +39,7 @@ const HeaderGroup: React.FC<{data: Version}> = ({ data }) => {
           >{data.currentVersion}</Text>
         </Group>
         <Group>
-          <Tooltip label={getLocale("ui_exit")} position='bottom' transition='scale-y'>
+          <Tooltip label={GetForcedStringLocale("ui_exit")} position='bottom' transition='scale-y'>
             <ActionIcon
               color='red.4'
               style={{ margin: '5px', width: '40px', height: '40px' }}

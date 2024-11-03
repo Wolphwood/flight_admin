@@ -1,10 +1,9 @@
 import { Button, Group, Stack, Text } from '@mantine/core'
 import { closeAllModals } from '@mantine/modals'
-import { fetchNui } from '../../../../../../utils/fetchNui'
-import { useLocales } from '../../../../../../providers/LocaleProvider'
+import { fetchNui } from '@/utils/fetchNui'
+import { GetLocale, GetForcedStringLocale } from '@/utils/Locale'
 
 const DeleteAllEntities = () => {
-  const { getLocale } = useLocales()
 
   return (
     <Stack>
@@ -18,7 +17,7 @@ const DeleteAllEntities = () => {
             fetchNui('flight_admin:deleteAllEntities')
           }}
         >
-          {getLocale("ui_confirm")}
+          {GetLocale("ui_confirm")}
         </Button>
         <Button
           uppercase
@@ -28,7 +27,7 @@ const DeleteAllEntities = () => {
             closeAllModals()
           }}
         >
-          {getLocale("ui_cancel")}
+          {GetLocale("ui_cancel")}
         </Button>
       </Group>
     </Stack>

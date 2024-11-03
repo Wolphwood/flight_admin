@@ -1,16 +1,15 @@
 import { Accordion, Button, Group, Paper, ScrollArea, Stack, Text, Image, Space, Grid, Col, Center, Pagination } from '@mantine/core'
 import { useEffect, useState} from 'react'
 import { useRecoilState, useSetRecoilState } from 'recoil'
-import { getSearchWeaponInput, weaponsPageCountAtom, weaponsActivePageAtom, weaponsPageContentAtom, WeaponProp } from '../../../../atoms/weapon'
-import { displayImageAtom, imagePathAtom } from '../../../../atoms/imgPreview'
-import { setClipboard } from '../../../../utils/setClipboard'
+import { getSearchWeaponInput, weaponsPageCountAtom, weaponsActivePageAtom, weaponsPageContentAtom, WeaponProp } from '@/atoms/weapon'
+import { displayImageAtom, imagePathAtom } from '@/atoms/imgPreview'
+import { setClipboard } from '@/utils/setClipboard'
 import WeaponSearch from './components/weaponListSearch'
-import { fetchNui } from '../../../../utils/fetchNui'
-import { useNuiEvent } from '../../../../hooks/useNuiEvent'
-import { useLocales } from '../../../../providers/LocaleProvider'
+import { fetchNui } from '@/utils/fetchNui'
+import { useNuiEvent } from '@/hooks/useNuiEvent'
+import { GetLocale, GetForcedStringLocale } from '@/utils/Locale'
 
 const Weapon: React.FC = () => {
-  const { getLocale } = useLocales()
   const searchWeaponValue = getSearchWeaponInput()
   const [pageContent, setPageContent] = useRecoilState(weaponsPageContentAtom)
   const [pageCount, setPageCount] = useRecoilState(weaponsPageCountAtom)
@@ -48,7 +47,7 @@ const Weapon: React.FC = () => {
       <Accordion.Item key={index} value={index.toString()}>
         <Accordion.Control>
           <Text size='md' weight={500}>• {weaponList.label}</Text>
-          <Text size='xs'>{getLocale("ui_weapon")}: {weaponList.name}</Text>
+          <Text size='xs'>{GetLocale("ui_weapon")}: {weaponList.name}</Text>
         </Accordion.Control>
         <Accordion.Panel>
           <Grid>
@@ -81,7 +80,7 @@ const Weapon: React.FC = () => {
                     size='xs'
                     onClick={() => fetchNui('flight_admin:giveWeapon', weaponList.name)}
                   >
-                    {getLocale("ui_give_weapon")}
+                    {GetLocale("ui_give_weapon")}
                   </Button>
                   <Button
                     variant='light'
@@ -92,7 +91,7 @@ const Weapon: React.FC = () => {
                       setCopiedWeaponName(true)
                     }}
                   >
-                    {copiedWeaponName ? getLocale("ui_copied_name") : getLocale("ui_copy_name")}
+                    {copiedWeaponName ? GetLocale("ui_copied_name") : GetLocale("ui_copy_name")}
                   </Button>
                   {/* <Button
                     variant='light'
@@ -103,7 +102,7 @@ const Weapon: React.FC = () => {
                       setCopiedWeaponHash(true)
                     }}
                   >
-                    {copiedWeaponHash ? getLocale("ui_copied_hash") : getLocale("ui_copy_hash")}
+                    {copiedWeaponHash ? GetLocale("ui_copied_hash") : GetLocale("ui_copy_hash")}
                   </Button> */}
                 </Group>
                 
@@ -118,7 +117,7 @@ const Weapon: React.FC = () => {
                         size='xs'
                         onClick={() => fetchNui('flight_admin:giveWeaponAmmo', weaponList.ammoname)}
                       >
-                        {getLocale("ui_give_ammo")}
+                        {GetLocale("ui_give_ammo")}
                       </Button>
                       <Button
                         variant='light'
@@ -129,7 +128,7 @@ const Weapon: React.FC = () => {
                           setCopiedWeaponAmmoName(true)
                         }}
                       >
-                        {copiedWeaponAmmoName ? getLocale("ui_copied_ammoname") : getLocale("ui_copy_ammoname")}
+                        {copiedWeaponAmmoName ? GetLocale("ui_copied_ammoname") : GetLocale("ui_copy_ammoname")}
                       </Button>
                     </Group>
                   </>
@@ -144,7 +143,7 @@ const Weapon: React.FC = () => {
 
   return(
     <Stack>
-      <Text size={20}>{getLocale("ui_weapons")}</Text>
+      <Text size={20}>{GetLocale("ui_weapons")}</Text>
       <Group grow>
         <WeaponSearch/>
         <Button
@@ -154,7 +153,7 @@ const Weapon: React.FC = () => {
           color='blue.4'
           onClick={() => fetchNui('flight_admin:giveWeapon', searchWeaponValue)}
         >
-          {getLocale("ui_give_weapon_by_name")}
+          {GetLocale("ui_give_weapon_by_name")}
         </Button>
       </Group>
       
@@ -163,7 +162,7 @@ const Weapon: React.FC = () => {
           <Accordion variant='contained' radius='sm' value={currentAccordionItem} onChange={setAccordionItem}>
             {WeaponList ? WeaponList : 
               <Paper p='md'>
-                <Text size='md' weight={600} color='red.4'>{getLocale("ui_no_weapon_found")}</Text>
+                <Text size='md' weight={600} color='red.4'>{GetLocale("ui_no_weapon_found")}</Text>
               </Paper>
             }
             </Accordion>

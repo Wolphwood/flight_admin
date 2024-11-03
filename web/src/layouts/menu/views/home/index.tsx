@@ -2,25 +2,24 @@ import { Text, Stack, SimpleGrid, Button, Paper, Group, Space } from '@mantine/c
 import { openModal } from '@mantine/modals'
 import { useEffect, useState } from 'react'
 import { FiFastForward } from 'react-icons/fi'
-import { getInteriorData } from '../../../../atoms/interior'
-import { getLastLocation } from '../../../../atoms/location'
-import { useNuiEvent } from '../../../../hooks/useNuiEvent'
-import { fetchNui } from '../../../../utils/fetchNui'
+import { getInteriorData } from '@/atoms/interior'
+import { getLastLocation } from '@/atoms/location'
+import { useNuiEvent } from '@/hooks/useNuiEvent'
+import { fetchNui } from '@/utils/fetchNui'
 import CreateLocation from '../locations/components/modals/CreateLocation'
 import SendAnnouncement from './modals/SendAnnouncement'
-import { setClipboard } from '../../../../utils/setClipboard'
+import { setClipboard } from '@/utils/setClipboard'
 import SetCoords from './modals/SetCoords'
 import { useRecoilState } from 'recoil'
-import { positionAtom, groundPositionAtom } from '../../../../atoms/position'
-import { worldFreezeTimeAtom } from '../../../../atoms/world'
-import { useLocales } from '../../../../providers/LocaleProvider'
+import { positionAtom, groundPositionAtom } from '@/atoms/position'
+import { worldFreezeTimeAtom } from '@/atoms/world'
+import { GetLocale, GetForcedStringLocale } from '@/utils/Locale'
 import { FaMapMarkerAlt } from 'react-icons/fa'
 import {BsFillInfoCircleFill, BsFillPinMapFill} from 'react-icons/bs'
 import KickAll from './modals/KickAll'
 import WarnAll from './modals/WarnAll'
 
 const Home: React.FC = () => {
-  const { getLocale } = useLocales()
   const lastLocation = getLastLocation()
   const interior = getInteriorData()
   const [currentCoords, setCurrentCoords] = useRecoilState(positionAtom)
@@ -77,16 +76,16 @@ const Home: React.FC = () => {
         <Paper p='md'>
           
           <Group position='apart'>
-            <Text size={20} weight={600}>{getLocale("ui_general_tab")}</Text>
+            <Text size={20} weight={600}>{GetLocale("ui_general_tab")}</Text>
             <BsFillInfoCircleFill size={24}/>
           </Group>
           
           <Space h='sm' />
 
           <Group position='apart'>
-            <Group><Text>{getLocale("ui_players")}:</Text><Text color='blue.4' >{currentPlayers}</Text></Group>
-            <Group><Text>{getLocale("ui_uptime")}:</Text><Text color='blue.4'  >{0}</Text></Group>
-            <Group><Text>{getLocale("ui_schedRestart")}:</Text><Text color='blue.4' style={{ minWidth: '15px' }} >{0}</Text></Group>
+            <Group><Text>{GetLocale("ui_players")}:</Text><Text color='blue.4' >{currentPlayers}</Text></Group>
+            <Group><Text>{GetLocale("ui_uptime")}:</Text><Text color='blue.4'  >{0}</Text></Group>
+            <Group><Text>{GetLocale("ui_schedRestart")}:</Text><Text color='blue.4' style={{ minWidth: '15px' }} >{0}</Text></Group>
           </Group>
           
           <Space h='sm' />
@@ -98,12 +97,12 @@ const Home: React.FC = () => {
               size='xs'
               onClick={() =>
                 openModal({
-                  title: getLocale("ui_announcement_title"),
+                  title: GetLocale("ui_announcement_title"),
                   size: 'lg',
                   children: <SendAnnouncement />,
                 })
               }
-            >{getLocale("ui_announcement_title")}</Button>
+            >{GetLocale("ui_announcement_title")}</Button>
 
             <Button
               color='red.7'
@@ -111,12 +110,12 @@ const Home: React.FC = () => {
               size='xs'
               onClick={() =>
                 openModal({
-                  title: getLocale("ui_kickAll"),
+                  title: GetLocale("ui_kickAll"),
                   size: 'xs',
                   children: <KickAll />,
                 })
               }
-            >{getLocale("ui_kickAll")}</Button>
+            >{GetLocale("ui_kickAll")}</Button>
 
             <Button
               color='orange.7'
@@ -124,12 +123,12 @@ const Home: React.FC = () => {
               size='xs'
               onClick={() =>
               openModal({
-                  title: getLocale("ui_warnAll"),
+                  title: GetLocale("ui_warnAll"),
                   size: 'xs',
                   children: <WarnAll />,
                 })
               }
-            >{getLocale("ui_warnAll")}</Button>
+            >{GetLocale("ui_warnAll")}</Button>
 
           </Group>
         </Paper>
@@ -138,15 +137,15 @@ const Home: React.FC = () => {
         <Paper p='md'>
           
           <Group position='apart'>
-            <Text size={20} weight={600}>{getLocale("ui_current_coords")}</Text>
+            <Text size={20} weight={600}>{GetLocale("ui_current_coords")}</Text>
             <FaMapMarkerAlt size={24}/>
           </Group>
           
           <Space h='sm' />
 
           <Group position='apart'>
-            <Group><Text>{getLocale("ui.home.current_coords.coords")}</Text><Text color='blue.4' >{currentCoords}</Text></Group>
-            <Group><Text>{getLocale("ui.home.current_coords.heading")}</Text><Text color='blue.4' style={{ minWidth: '120px' }} >{currentHeading}</Text></Group>
+            <Group><Text>{GetLocale("ui.home.current_coords.coords")}</Text><Text color='blue.4' >{currentCoords}</Text></Group>
+            <Group><Text>{GetLocale("ui.home.current_coords.heading")}</Text><Text color='blue.4' style={{ minWidth: '120px' }} >{currentHeading}</Text></Group>
           </Group>
           
           <Space h='sm' />
@@ -162,7 +161,7 @@ const Home: React.FC = () => {
                   setCopiedCoords(true)
                 }}
               >
-                {copiedCoords ? getLocale("ui.home.current_coords.button.copied") : getLocale("ui.home.current_coords.button.copy")}
+                {copiedCoords ? GetLocale("ui.home.current_coords.button.copied") : GetLocale("ui.home.current_coords.button.copy")}
               </Button>
               <Button
                 color={copiedCoordsHeading ? 'teal' : 'blue.4'}
@@ -173,7 +172,7 @@ const Home: React.FC = () => {
                   setCopiedCoordsHeading(true)
                 }}
               >
-                {copiedCoords ? getLocale("ui.home.current_coords.button.copied") : getLocale("ui.home.current_coords.button.copy_heading")}
+                {copiedCoords ? GetLocale("ui.home.current_coords.button.copied") : GetLocale("ui.home.current_coords.button.copy_heading")}
               </Button>
             </Group>
 
@@ -186,12 +185,12 @@ const Home: React.FC = () => {
                 size='xs'
                 onClick={() =>
                 openModal({
-                    title: getLocale("ui.home.current_coords.modal.define.title"),
+                    title: GetLocale("ui.home.current_coords.modal.define.title"),
                     size: 'xs',
                     children: <SetCoords />,
                   })
                 }
-              >{getLocale("ui.home.current_coords.button.define")}</Button>
+              >{GetLocale("ui.home.current_coords.button.define")}</Button>
 
               <Button
                 color='blue.4'
@@ -199,19 +198,19 @@ const Home: React.FC = () => {
                 size='xs'
                 onClick={() =>
                   openModal({
-                    title: getLocale("ui.home.current_coords.modal.save.title"),
+                    title: GetLocale("ui.home.current_coords.modal.save.title"),
                     size: 'xs',
                     children: <CreateLocation />,
                   })
                 }
-              >{getLocale("ui.home.current_coords.button.save")}</Button>
+              >{GetLocale("ui.home.current_coords.button.save")}</Button>
             </Group>
           </Paper>
 
           <Space h='md' />
           
           <Group position='apart'>
-            <Group><Text>{getLocale("ui.home.current_coords.coords.ground")}</Text><Text color='blue.4' >{currentGroundCoords}</Text></Group>
+            <Group><Text>{GetLocale("ui.home.current_coords.coords.ground")}</Text><Text color='blue.4' >{currentGroundCoords}</Text></Group>
           </Group>
 
           <Space h="md" />
@@ -225,7 +224,7 @@ const Home: React.FC = () => {
                 setClipboard(currentGroundCoords)
                 setCopiedGroundCoords(true)
               }}
-            >{copiedGroundCoords ? getLocale("ui_copied_coords") : getLocale("ui.home.current_coords.button.copy.ground")}</Button>
+            >{copiedGroundCoords ? GetLocale("ui_copied_coords") : GetLocale("ui.home.current_coords.button.copy.ground")}</Button>
             <Button
               color={copiedGroundCoordsHeading ? 'teal' : 'blue.4'}
               variant='light'
@@ -234,7 +233,7 @@ const Home: React.FC = () => {
                 setClipboard(currentGroundCoords + ', ' + currentHeading)
                 setCopiedGroundCoordsHeading(true)
               }}
-            >{copiedGroundCoords ? getLocale("ui_copied_coords") : getLocale("ui.home.current_coords.button.copy_heading.ground")}</Button>
+            >{copiedGroundCoords ? GetLocale("ui_copied_coords") : GetLocale("ui.home.current_coords.button.copy_heading.ground")}</Button>
           </Group>
 
         </Paper>
@@ -242,7 +241,7 @@ const Home: React.FC = () => {
         {/* LAST LOCATION */}
         <Paper p='md'>
           <Group position='apart'>
-            <Text size={20} weight={600}>{getLocale("ui_last_location")}</Text>
+            <Text size={20} weight={600}>{GetLocale("ui_last_location")}</Text>
             <BsFillPinMapFill size={24} />
           </Group>
           
@@ -252,11 +251,11 @@ const Home: React.FC = () => {
             lastLocation
             ?
               <>
-                <Group><Text>{getLocale("ui_name")}</Text><Text color='blue.4' >{lastLocation.name}</Text></Group>
+                <Group><Text>{GetLocale("ui_name")}</Text><Text color='blue.4' >{lastLocation.name}</Text></Group>
                 
                 <Paper>
                   <Group>
-                    <Text>{getLocale("ui_coords")}</Text>
+                    <Text>{GetLocale("ui_coords")}</Text>
                     <Text color='blue.4' >{lastLocation.x.toFixed(3)}, {lastLocation.y.toFixed(3)}, {lastLocation.z.toFixed(3)}</Text>
                   </Group>
 
@@ -271,7 +270,7 @@ const Home: React.FC = () => {
                       }
                       value={lastLocation.name}
                     >
-                      {getLocale("ui_teleport")}
+                      {GetLocale("ui_teleport")}
                     </Button>
                     <Button
                       color='blue.4'
@@ -281,7 +280,7 @@ const Home: React.FC = () => {
                       }
                       value={lastLocation.name}
                     >
-                      {getLocale("ui_place_marker")}
+                      {GetLocale("ui_place_marker")}
                     </Button>
                   </Group>
                 </Paper>
@@ -289,7 +288,7 @@ const Home: React.FC = () => {
             :
               <>
                 <Space h='sm' />
-                <Text color='red.4'>{getLocale("ui_no_last_location")}</Text>
+                <Text color='red.4'>{GetLocale("ui_no_last_location")}</Text>
               </>
           }
         </Paper>
@@ -297,7 +296,7 @@ const Home: React.FC = () => {
         {/* CURRENT INTERIOR */}
         {/* <Paper p='md'>
           <Group position='apart'>
-            <Text size={20} weight={600}>{getLocale("ui_current_interior")}</Text>
+            <Text size={20} weight={600}>{GetLocale("ui_current_interior")}</Text>
             <RiHomeGearFill size={24} />
           </Group>
          
@@ -305,13 +304,13 @@ const Home: React.FC = () => {
             interior.interiorId > 0
             ? 
               <>
-                <Group><Text>{getLocale("ui_interior_id")}:</Text><Text color='blue.4' >{interior.interiorId}</Text></Group>
-                <Group><Text>{getLocale("ui_current_room")}:</Text><Text color='blue.4' >{interior.currentRoom?.index} - {interior.currentRoom?.name}</Text></Group>
+                <Group><Text>{GetLocale("ui_interior_id")}:</Text><Text color='blue.4' >{interior.interiorId}</Text></Group>
+                <Group><Text>{GetLocale("ui_current_room")}:</Text><Text color='blue.4' >{interior.currentRoom?.index} - {interior.currentRoom?.name}</Text></Group>
               </>
             : 
               <>
                 <Space h='sm' />
-                <Text color='red.4'>{getLocale("ui_not_in_interior")}</Text>
+                <Text color='red.4'>{GetLocale("ui_not_in_interior")}</Text>
               </>
           }
         </Paper> */}
@@ -319,7 +318,7 @@ const Home: React.FC = () => {
         {/* QUICK ACTIONS */}
         <Paper p='md'>
           <Group position='apart'>
-            <Text size={20} weight={600}>{getLocale("ui_quick_actions")}</Text>
+            <Text size={20} weight={600}>{GetLocale("ui_quick_actions")}</Text>
             <FiFastForward size={24} />
           </Group>
 
@@ -332,7 +331,7 @@ const Home: React.FC = () => {
               onClick={() =>
                 fetchNui('flight_admin:tpm', {})
               }
-            >{getLocale("ui_tpm")}</Button>
+            >{GetLocale("ui_tpm")}</Button>
             
             <Button
               color={noclipActive ? 'red.4' : 'blue.4'}
@@ -341,7 +340,7 @@ const Home: React.FC = () => {
                 setNoclip(!noclipActive)
                 fetchNui('flight_admin:noclip', !noclipActive)
               }}
-            >{noclipActive ? getLocale("ui_exit_noclip") : getLocale("ui_noclip") }</Button>
+            >{noclipActive ? GetLocale("ui_exit_noclip") : GetLocale("ui_noclip") }</Button>
 
             <Button
               color='blue.4'
@@ -349,7 +348,7 @@ const Home: React.FC = () => {
               onClick={() =>
                 fetchNui('flight_admin:revive')
               }
-            >{getLocale("ui_revive")}</Button>
+            >{GetLocale("ui_revive")}</Button>
           </Group>
 
           <Space h='sm' />
@@ -361,7 +360,7 @@ const Home: React.FC = () => {
               onClick={() =>
                 fetchNui('flight_admin:cleanZone', {})
               }
-            >{getLocale("ui_clean_zone")}</Button>
+            >{GetLocale("ui_clean_zone")}</Button>
             
             <Button
               color='blue.4'
@@ -369,7 +368,7 @@ const Home: React.FC = () => {
               onClick={() =>
                 fetchNui('flight_admin:cleanPed', {})
               }
-            >{getLocale("ui_clean_ped")}</Button>
+            >{GetLocale("ui_clean_ped")}</Button>
 
             <Button
               color='blue.4'
@@ -377,7 +376,7 @@ const Home: React.FC = () => {
               onClick={() =>
                 fetchNui('flight_admin:setMaxHealth')
               }
-            >{getLocale("ui_max_health")}</Button>
+            >{GetLocale("ui_max_health")}</Button>
 
           </Group>
 
@@ -390,7 +389,7 @@ const Home: React.FC = () => {
               onClick={() =>
                 fetchNui('flight_admin:repairVehicle', {})
               }
-            >{getLocale("ui_repair_vehicle")}</Button>
+            >{GetLocale("ui_repair_vehicle")}</Button>
 
             <Button
               color='blue.4'
@@ -398,7 +397,7 @@ const Home: React.FC = () => {
               onClick={() =>
                 fetchNui('flight_admin:deleteVehicle', {})
               }
-            >{getLocale("ui_delete_vehicle")}</Button>
+            >{GetLocale("ui_delete_vehicle")}</Button>
 
             <Button
               color='blue.4'
@@ -406,7 +405,7 @@ const Home: React.FC = () => {
               onClick={() =>
                 fetchNui('flight_admin:upgradeVehicle', {})
               }
-            >{getLocale("ui_upgrade_vehicle")}</Button>
+            >{GetLocale("ui_upgrade_vehicle")}</Button>
 
           </Group>
 
@@ -419,7 +418,7 @@ const Home: React.FC = () => {
               onClick={() =>
                 fetchNui('flight_admin:spawnFavoriteVehicle', {})
               }
-            >{getLocale("ui_spawn_vehicle")}</Button>
+            >{GetLocale("ui_spawn_vehicle")}</Button>
             
             <Button
               color={timeFrozen ? 'red.4' : 'blue.4'}
@@ -428,7 +427,7 @@ const Home: React.FC = () => {
                 setTimeFrozen(!timeFrozen)
                 fetchNui('flight_admin:freezeTime', !timeFrozen)
               }}
-            >{timeFrozen ? getLocale("ui_time_freeze") : getLocale("ui_time_not_freeze") }</Button>
+            >{timeFrozen ? GetLocale("ui_time_freeze") : GetLocale("ui_time_not_freeze") }</Button>
 
             <Button
               color='blue.4'
@@ -436,7 +435,7 @@ const Home: React.FC = () => {
               onClick={() =>
                 fetchNui('flight_admin:setDay', {})
               }
-            >{getLocale("ui_set_sunny_day")}</Button>
+            >{GetLocale("ui_set_sunny_day")}</Button>
           </Group>
         </Paper>
       </Stack>

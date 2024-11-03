@@ -1,10 +1,8 @@
 local isSpectating, bringback, goback = false, nil, nil
 
-TriggerServerEvent('flight_admin:log', 'Flight Admin is fully loaded :)')
+--TriggerServerEvent('flight_admin:log', 'Flight Admin is fully loaded :)')
 
-local function applyDrunkEffect(animation, duration, amplifier)
-    print(animation, duration, amplifier)
-    
+local function applyDrunkEffect(animation, duration, amplifier)    
     local playerPed = PlayerPedId()
     local isDrunk = true
 
@@ -169,6 +167,11 @@ end)
 RegisterNUICallback('flight_admin:revive', function(id, cb)
     cb(1)
     TriggerServerEvent("flight_admin:revive", id)
+end)
+
+RegisterNUICallback('flight_admin:openPlayerInventory', function(id, cb)
+    cb(1)
+    TriggerServerEvent("flight_admin:openPlayerInventory", id)
 end)
 
 RegisterNUICallback('flight_admin:warnAll', function(message, cb)
@@ -464,6 +467,13 @@ RegisterNUICallback('flight_admin:repairVehicle', function(_, cb)
     SetVehicleEngineHealth(vehicle, 1000.0)
     SetVehicleDirtLevel(vehicle, 0.0)
 end)
+
+RegisterNUICallback('flight_admin:playerSetJob', function(data, cb)
+    cb(1)
+    ExecuteCommand(('setjob %s %s %s'):format(data.player, data.job, data.grade));
+end)
+
+
 
 RegisterNUICallback('flight_admin:giveWeapon', function(weaponName, cb)
     cb(1)

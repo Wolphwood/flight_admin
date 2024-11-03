@@ -1,13 +1,12 @@
 import { Group, Paper, Select, Space, Text } from '@mantine/core'
 import { useState } from 'react'
-import { interiorAtom, timecycleListAtom } from '../../../../../atoms/interior'
-import { fetchNui } from '../../../../../utils/fetchNui'
-import { useLocales } from '../../../../../providers/LocaleProvider'
+import { interiorAtom, timecycleListAtom } from '@/atoms/interior'
+import { fetchNui } from '@/utils/fetchNui'
+import { GetLocale, GetForcedStringLocale } from '@/utils/Locale'
 import { useRecoilState, useRecoilValue } from 'recoil'
-import { useNuiEvent } from '../../../../../hooks/useNuiEvent'
+import { useNuiEvent } from '@/hooks/useNuiEvent'
 
 const RoomsElement: React.FC = () => {
-    const { getLocale } = useLocales()
     const interior = useRecoilValue(interiorAtom)
     const [timecycleList, setTimecycleList] = useRecoilState(timecycleListAtom)
     const [timecycle, setTimecycle] = useState<string | null>(interior.currentRoom?.timecycle ? interior.currentRoom?.timecycle.toString() : null)
@@ -22,17 +21,17 @@ const RoomsElement: React.FC = () => {
 
     return (
         <Paper p='md'>
-            <Text size={24} weight={600}>{getLocale("ui_current_room")}</Text>
+            <Text size={24} weight={600}>{GetLocale("ui_current_room")}</Text>
             <Space h='xs' />
             <Paper p='md'>
-                <Group><Text>{getLocale("ui_index")}:</Text><Text color='blue.4' > { interior.currentRoom?.index }</Text></Group>
-                <Group><Text>{getLocale("ui_name")}:</Text><Text color='blue.4' > { interior.currentRoom?.name }</Text></Group>
-                <Group><Text>{getLocale("ui_flag")}:</Text><Text color='blue.4' > { interior.currentRoom?.flags.total }</Text></Group>
+                <Group><Text>{GetLocale("ui_index")}:</Text><Text color='blue.4' > { interior.currentRoom?.index }</Text></Group>
+                <Group><Text>{GetLocale("ui_name")}:</Text><Text color='blue.4' > { interior.currentRoom?.name }</Text></Group>
+                <Group><Text>{GetLocale("ui_flag")}:</Text><Text color='blue.4' > { interior.currentRoom?.flags.total }</Text></Group>
                 <Group>
-                    <Text>{getLocale("ui_timecycle")}:</Text>
+                    <Text>{GetLocale("ui_timecycle")}:</Text>
                     {timecycle && <Select 
                         searchable
-                        nothingFound={getLocale("ui_no_timecycle_found")}
+                        nothingFound={GetLocale("ui_no_timecycle_found")}
                         data={timecycleList}
                         value={timecycle}
                         onChange={(value) => {

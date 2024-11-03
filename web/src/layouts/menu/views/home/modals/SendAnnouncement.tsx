@@ -1,16 +1,15 @@
 import { useState } from 'react'
 import { closeAllModals } from '@mantine/modals'
 import { Stack, Button, TextInput } from '@mantine/core'
-import { fetchNui } from '../../../../../utils/fetchNui'
-import { useLocales } from '../../../../../providers/LocaleProvider'
+import { fetchNui } from '@/utils/fetchNui'
+import { GetLocale, GetForcedStringLocale } from '@/utils/Locale'
 
 const SendAnnouncement: React.FC = () => {
-  const { getLocale } = useLocales()
   const [message, setMessage] = useState('')
 
   return (
     <Stack>
-      <TextInput label={getLocale("ui_announcement_name")} description={getLocale("ui_announcement_description")} value={message} onChange={(e) => setMessage(e.target.value)} />
+      <TextInput label={GetForcedStringLocale("ui_announcement_name")} description={GetLocale("ui_announcement_description")} value={message} onChange={(e) => setMessage(e.target.value)} />
       <Button
         uppercase
         disabled={message === ''}
@@ -21,7 +20,7 @@ const SendAnnouncement: React.FC = () => {
           fetchNui('flight_admin:Announce', message)
         }}
       >
-        {getLocale("ui_confirm")}
+        {GetLocale("ui_confirm")}
       </Button>
     </Stack>
   )

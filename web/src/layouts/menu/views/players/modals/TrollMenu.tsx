@@ -1,11 +1,9 @@
 import { useState } from 'react'
 import { closeAllModals } from '@mantine/modals'
 import { Stack, Group, Button, Select, NumberInput, TextInput, Divider, Accordion } from '@mantine/core'
-import { fetchNui } from '../../../../../utils/fetchNui'
-import { useLocales } from '../../../../../providers/LocaleProvider'
+import { fetchNui } from '@/utils/fetchNui'
+import { GetLocale, GetForcedStringLocale } from '@/utils/Locale'
 const TrollMenu = (props: {id: any}) => {
-  const { getLocale } = useLocales();
-
   type TrollArgument =
   | { type: 'number'; value: string; label: string; default?: number; }
   | { type: 'text'; value: string; label: string; default?: string; }
@@ -25,38 +23,38 @@ const TrollMenu = (props: {id: any}) => {
   const actions: TrollAction[] = [
     {
       value: 'ragdoll',
-      label: getLocale("ui_troll_action_ragdoll"),
+      label: GetForcedStringLocale("ui_troll_action_ragdoll"),
       arguments: [
-        { type: 'number', value: 'duration', label: getLocale("ui_troll_arg_duration_s"), default: 10 },
+        { type: 'number', value: 'duration', label: GetForcedStringLocale("ui_troll_arg_duration_s"), default: 10 },
       ],
     },
     {
       value: 'drunk',
-      label: getLocale("ui_troll_action_drunk"),
+      label: GetForcedStringLocale("ui_troll_action_drunk"),
       arguments: [
-        { type: 'number', value: 'duration', label: getLocale("ui_troll_arg_duration_s"), default: 10 },
-        { type: 'number', value: 'amplifier', label: getLocale("ui_troll_arg_amplifier"), default: 3 },
+        { type: 'number', value: 'duration', label: GetForcedStringLocale("ui_troll_arg_duration_s"), default: 10 },
+        { type: 'number', value: 'amplifier', label: GetForcedStringLocale("ui_troll_arg_amplifier"), default: 3 },
         {
           type: 'select',
           value: 'animation',
-          label: getLocale("ui_troll_arg_animation"),
+          label: GetForcedStringLocale("ui_troll_arg_animation"),
           options: [
-            { value: 'move_m@drunk@a', label: getLocale("ui_troll_arg_animation_anm_a"), selected: true },
-            { value: 'move_m@drunk@b', label: getLocale("ui_troll_arg_animation_anm_b") },
-            { value: 'move_m@drunk@c', label: getLocale("ui_troll_arg_animation_anm_c") },
-            { value: 'move_m@drunk@slightlydrunk', label: getLocale("ui_troll_arg_animation_anm_slightlydrunk") },
-            { value: 'move_m@drunk@moderatedrunk', label: getLocale("ui_troll_arg_animation_anm_moderatedrunk") },
-            { value: 'move_m@drunk@verydrunk', label: getLocale("ui_troll_arg_animation_anm_verydrunk") },
+            { value: 'move_m@drunk@a', label: GetForcedStringLocale("ui_troll_arg_animation_anm_a"), selected: true },
+            { value: 'move_m@drunk@b', label: GetForcedStringLocale("ui_troll_arg_animation_anm_b") },
+            { value: 'move_m@drunk@c', label: GetForcedStringLocale("ui_troll_arg_animation_anm_c") },
+            { value: 'move_m@drunk@slightlydrunk', label: GetForcedStringLocale("ui_troll_arg_animation_anm_slightlydrunk") },
+            { value: 'move_m@drunk@moderatedrunk', label: GetForcedStringLocale("ui_troll_arg_animation_anm_moderatedrunk") },
+            { value: 'move_m@drunk@verydrunk', label: GetForcedStringLocale("ui_troll_arg_animation_anm_verydrunk") },
           ],
         },
       ],
     },
     {
       value: 'teleport',
-      label: getLocale("ui_troll_action_teleport"),
+      label: GetForcedStringLocale("ui_troll_action_teleport"),
       arguments: [
-        { type: 'text', value: 'pos', label: getLocale("ui_troll_arg_position"), default: '~;~;~' },
-        { type: 'text', value: 'rot', label: getLocale("ui_troll_arg_rotation"), default: '~;~;~' },
+        { type: 'text', value: 'pos', label: GetForcedStringLocale("ui_troll_arg_position"), default: '~;~;~' },
+        { type: 'text', value: 'rot', label: GetForcedStringLocale("ui_troll_arg_rotation"), default: '~;~;~' },
       ],
     },
     // Ajoutez plus d'actions ici si nécessaire

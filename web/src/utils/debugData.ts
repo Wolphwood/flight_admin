@@ -1,4 +1,5 @@
-import {isEnvBrowser} from "./misc";
+import { isEnvBrowser } from "./misc";
+import { RegisterLocale } from '@/utils/Locale'
 
 interface DebugEvent<T = any> {
   action: string;
@@ -28,3 +29,15 @@ export const debugData = <P>(events: DebugEvent<P>[], timer = 1000): void => {
     }
   }
 };
+
+export function DebugImportLangFiles() {
+  const langFiles: Record<string, Function> = {
+    en: () => import('@/../../locales/en.json'),
+    fr: () => import('@/../../locales/fr.json'),
+    de: () => import('@/../../locales/de.json'),
+    pt: () => import('@/../../locales/pt.json'),
+  };
+  return Promise.all(["en", "fr", "de", "pt"].map((code) => {
+    return langFiles[code]().then((file: any) => RegisterLocale(code, file.default || file));
+  }));
+}

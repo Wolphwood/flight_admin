@@ -2,13 +2,12 @@ import { TextInput } from '@mantine/core'
 import { useDebouncedValue } from '@mantine/hooks'
 import { TbSearch } from 'react-icons/tb'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
-import { pedListSearchAtom, pedsActivePageAtom } from '../../../../../atoms/ped'
+import { pedListSearchAtom, pedsActivePageAtom } from '@/atoms/ped'
 import { useEffect, useState } from 'react'
-import { useLocales } from '../../../../../providers/LocaleProvider'
-import { fetchNui } from '../../../../../utils/fetchNui'
+import { GetLocale, GetForcedStringLocale } from '@/utils/Locale'
+import { fetchNui } from '@/utils/fetchNui'
 
 const PedSearch: React.FC = () => {
-  const { getLocale } = useLocales()
   const [searchPed, setSearchPed] = useState('')
   const setPedSearch = useSetRecoilState(pedListSearchAtom)
   const [debouncedPedSearch] = useDebouncedValue(searchPed, 200)
@@ -22,7 +21,7 @@ const PedSearch: React.FC = () => {
   return (
     <>
       <TextInput
-        placeholder={getLocale("ui_search")}
+        placeholder={GetForcedStringLocale("ui_search")}
         icon={<TbSearch size={20} />}
         value={searchPed}
         onChange={(e) => {

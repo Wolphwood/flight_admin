@@ -1,6 +1,6 @@
 import { Context, createContext, useContext, useEffect, useState } from 'react'
-import { useNuiEvent } from '../hooks/useNuiEvent'
-import { fetchNui } from '../utils/fetchNui' 
+import { useNuiEvent } from '@/hooks/useNuiEvent'
+import { fetchNui } from '@/utils/fetchNui' 
 
 // Typages des arguments et actions
 type TrollArgument =

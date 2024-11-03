@@ -1,11 +1,10 @@
 import { Button, NumberInput, Stack, Text, TextInput } from '@mantine/core'
 import { closeAllModals } from '@mantine/modals'
 import { useState } from 'react'
-import { useLocales } from '../../../../../providers/LocaleProvider'
-import { fetchNui } from '../../../../../utils/fetchNui'
+import { GetLocale, GetForcedStringLocale } from '@/utils/Locale'
+import { fetchNui } from '@/utils/fetchNui'
 
 const YeetPlayer = (props: {id: any, type: string}) => {
-    const { getLocale } = useLocales()
     const [reason, setReason] = useState("No Reason")
     const [duration, setDuration] = useState(1)
     // console.log(props.type);
@@ -33,7 +32,7 @@ const YeetPlayer = (props: {id: any, type: string}) => {
                         fetchNui('flight_admin:kickPlayer', { id: props.id, reason: reason })
                     }
                 }}
-            >{getLocale("ui_confirm")}</Button>
+            >{GetLocale("ui_confirm")}</Button>
         </Stack>
         )
     }

@@ -1,90 +1,12 @@
 local save, freeze, bringPlayer, gotoPlayer = {}, {}, {}, {}
 
-local function getFileData(path, file)
-    return json.decode(LoadResourceFile(RESOURCE_NAME, path .. '/' .. file))
-end
+lib.callback.register('flight_admin:getLangFiles', function(source)
+    return getLangFiles()
+end)
 
-local function updateFileData(path, file, data)
-    return SaveResourceFile(RESOURCE_NAME, path .. '/' .. file, json.encode(data, { indent=true }))
-end
-
-local function formatTimecycles(timecycles)
-    local formatedTimecycles = {}
-
-    for i=1, #timecycles do
-        local v = timecycles[i]
-        table.insert(formatedTimecycles, { label = v.Name, value = tostring(joaat(v.Name)) })
-    end
-
-    return formatedTimecycles
-end
-
-local function formatVanillaInteriors(vanillaInteriors)
-    local formatedLocations = {}
-    local count = 0
-
-    for i=1, #vanillaInteriors do
-        local v = vanillaInteriors[i]
-        if v.Locations[1] then
-            count += 1
-            formatedLocations[count] = {
-                name = v.Name,
-                x = math.floor(v.Locations[1].Position.X *10^2)/10^2,
-                y = math.floor(v.Locations[1].Position.Y *10^2)/10^2,
-                z = math.floor(v.Locations[1].Position.Z *10^2)/10^2,
-                heading = 0,
-                metadata = {
-                    dlc = v.DlcName,
-                    ytyp = v.FilePath,
-                    ymap = v.Locations[1].FilePath,
-                    totalEntitiesCount = v.TotalEntitiesCount
-                }
-            }
-        end
-    end
-
-    return formatedLocations
-end
-
-local function formatRadioStations(radioStations)
-    local formatedRadioStations = {}
-
-    for i=1, #radioStations do
-        local v = radioStations[i]
-        table.insert(formatedRadioStations, { label = v.RadioName, value = v.RadioName })
-    end
-
-    return formatedRadioStations
-end
-
-local function formatStaticEmitters(staticEmitters)
-    local formatedStaticEmitters = {}
-
-    for i=1, #staticEmitters do
-        local v = staticEmitters[i]
-        table.insert(formatedStaticEmitters, {
-            name = v.Name,
-            coords = vec3(v.Position.X, v.Position.Y, v.Position.Z),
-            flags = v.Flags,
-            interior = v.Interior,
-            room = v.Room,
-            radiostation = v.RadioStation
-        })
-    end
-
-    return formatedStaticEmitters
-end
-
-local function filterCustomLocations()
-    -- Filter custom locations to update 'locations.json'
-    local customLocations = {}
-    for _, v in ipairs(Server.locations) do
-        if v.custom then
-            customLocations[#customLocations+1] = v
-        end
-    end
-    return customLocations
-end
+lib.callback.register('flight_admin:getJobs', function(source)
+    return FlightGetJobs()
+end)
 
 lib.callback.register('flight_admin:getData', function()
     local data = {}
@@ -96,15 +18,6 @@ lib.callback.register('flight_admin:getData', function()
         table.insert(locations, v)
     end
     Server.locations = locations
-    
-    -- {
-    --     z= 28.0,
-    --     heading= 230.0,
-    --     custom= "true",
-    --     y= -1048.0,
-    --     x= -67.0,
-    --     name= "Location test 5",
-    -- }
 
     local oxShops = exports['ox_inventory']:getDataShops();    
     local formatedShopLocations = {}
@@ -145,8 +58,18 @@ lib.callback.register('flight_admin:getData', function()
     }
 end)
 
+lib.callback.register('flight_admin:getGroup', function(playerId)
+    local xPlayer = ESX.GetPlayerFromId(playerId)
+    
+    if xPlayer then
+        return xPlayer.getGroup()
+    else
+        return "NONE"
+    end
+end)
+
 RegisterNetEvent('flight_admin:tpIntoVeh', function(id)
-    if not Config.perimission('intovehicle') then return end
+    if not Config.perimission('intovehicle', source) then return end
     local admin = GetPlayerPed(source)
     local targetPed = GetPlayerPed(id)
     local vehicle = GetVehiclePedIsIn(targetPed,false)
@@ -175,8 +98,12 @@ lib.callback.register('flight_admin:getPlayerData', function()
     local data = {}
     local players = GetPlayers()
     for k, v in pairs(players) do
+        local xPlayer = ESX.GetPlayerFromId(v)
+
         local datastore = {
+            identifier = xPlayer.identifier,
             license = "none",
+            license2 = "none",
             discord = "none",
             steam = "none",
             fivem = "none",
@@ -192,12 +119,17 @@ lib.callback.register('flight_admin:getPlayerData', function()
             noclip = save[v],
             freeze = freeze[v],
             bringPlayer = bringPlayer[v],
-            gotoPlayer = gotoPlayer[source]
+            gotoPlayer = gotoPlayer[source],
+            job = xPlayer.getJob()
         }
+
         for i = 0, GetNumPlayerIdentifiers(v) - 1 do
             local identifier = GetPlayerIdentifier(v, i)
-            if identifier:find('license') and not datastore["license"] == "none" then
+            
+            if identifier:find('license') and not identifier:find('license2') then
                 datastore["license"] = identifier
+            elseif identifier:find('license2') then
+                datastore["license2"] = identifier
             elseif identifier:find('discord') then
                 datastore["discord"] = identifier
             elseif identifier:find('steam') then
@@ -371,16 +303,16 @@ RegisterCommand('flag', function(source, args)
         result[#result+1] = tostring(flag)
     end
 
-    print(json.encode(result , {indent=true}))
+    -- print(json.encode(result , {indent=true}))
 end)
 
 RegisterNetEvent('flight_admin:Announce', function(message)
-    if not Config.perimission('announce') then return end
+    if not Config.perimission('announce', source) then return end
     TriggerClientEvent("txAdmin:receiveAnnounce", -1, message, GetPlayerName(source))
 end)
 
 RegisterNetEvent('flight_admin:revive', function(id)
-    if not Config.perimission('revive') then return end
+    if not Config.perimission('revive', source) then return end
     
     if GetResourceState("ars_ambulancejob") == "started" then
         local data = {}
@@ -391,29 +323,34 @@ RegisterNetEvent('flight_admin:revive', function(id)
     end
 end)
 
+RegisterNetEvent('flight_admin:openPlayerInventory', function(id)
+    if not Config.perimission('openPlayerInventory', source) then return end    
+    exports.ox_inventory:forceOpenInventory(source, 'player', id)
+end)
+
 RegisterNetEvent('flight_admin:warnPlayer', function(id)
-    if not Config.perimission('warn') then return end
+    if not Config.perimission('warn', source) then return end
     if not id then return end
     print("Attempted to warn id: "..id.." Set your warn function here: server/main.lua")
 end)
 
 RegisterNetEvent('flight_admin:setMaxHealth', function(id)
-    if not Config.perimission('heal') then return end
+    if not Config.perimission('heal', source) then return end
     TriggerClientEvent("flight_admin:setMaxHealthPlayer", id)
 end)
 
 RegisterNetEvent('flight_admin:tpCoordsPlayer', function(data)
-    if not Config.perimission('tpCoords') then return end
+    if not Config.perimission('tpCoords', source) then return end
     TriggerClientEvent("flight_admin:tpCoordsPlayer", tonumber(data.id.id), data)
 end)
 
 RegisterNetEvent('flight_admin:tpMarkerPlayer', function(id)
-    if not Config.perimission('tpMarker') then return end
+    if not Config.perimission('tpMarker', source) then return end
     TriggerClientEvent("flight_admin:tpMarkerPlayer", tonumber(id))
 end)
 
 RegisterNetEvent('flight_admin:freezePlayer', function(player)
-    if not Config.perimission('freeze') then return end
+    if not Config.perimission('freeze', source) then return end
     frozen = not frozen
     freeze[player] = frozen
     FreezeEntityPosition(GetPlayerPed(player), frozen)
@@ -421,7 +358,7 @@ RegisterNetEvent('flight_admin:freezePlayer', function(player)
 end)
 
 RegisterNetEvent('flight_admin:killPlayer', function(player)
-    if not Config.perimission('kill') then return end
+    if not Config.perimission('kill', source) then return end
     TriggerClientEvent("flight_admin:killPlayer", tonumber(player))
 end)
 
@@ -446,8 +383,6 @@ end)
 
 
 RegisterNetEvent('flight_admin:trollPlayer', function(data)
-    -- print(tprint(data))
-
     local serverId = data.id
     local xPlayer = ESX.GetPlayerFromId(serverId)
 

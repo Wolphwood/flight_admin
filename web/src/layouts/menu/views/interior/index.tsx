@@ -1,11 +1,10 @@
 import { Stack, SimpleGrid, Paper, Text, Space } from '@mantine/core'
-import { getInteriorData } from '../../../../atoms/interior'
+import { getInteriorData } from '@/atoms/interior'
 import InteriorElement from './components/InteriorElement'
 import RoomsElement from './components/RoomsElement'
-import { useLocales } from '../../../../providers/LocaleProvider'
+import { GetLocale, GetForcedStringLocale } from '@/utils/Locale'
 
 const Interior: React.FC = () => {
-  const { getLocale } = useLocales()
   const interior = getInteriorData()
 
   return (
@@ -15,9 +14,9 @@ const Interior: React.FC = () => {
           interior?.interiorId <= 0
           ?
           <Paper p='md'>
-              <Text size={24} weight={600}>{getLocale("ui_current_interior")}</Text>
+              <Text size={24} weight={600}>{GetLocale("ui_current_interior")}</Text>
               <Space h='sm' />
-              <Text color='red.4'>{getLocale("ui_not_in_interior")}</Text>
+              <Text color='red.4'>{GetLocale("ui_not_in_interior")}</Text>
           </Paper>
           :
           <>

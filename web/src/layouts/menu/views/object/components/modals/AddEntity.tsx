@@ -1,12 +1,11 @@
 import { Stack, Button, TextInput } from '@mantine/core'
 import { closeAllModals } from '@mantine/modals'
 import { useRecoilState } from 'recoil'
-import { ObjectNameAtom } from '../../../../../../atoms/object'
-import { fetchNui } from '../../../../../../utils/fetchNui'
-import { useLocales } from '../../../../../../providers/LocaleProvider'
+import { ObjectNameAtom } from '@/atoms/object'
+import { fetchNui } from '@/utils/fetchNui'
+import { GetLocale, GetForcedStringLocale } from '@/utils/Locale'
 
 const AddEntity: React.FC = () => {
-  const { getLocale } = useLocales()
   const [entityName, setEntityName] = useRecoilState(ObjectNameAtom)
 
   return (
@@ -22,7 +21,7 @@ const AddEntity: React.FC = () => {
           fetchNui('flight_admin:addEntity', entityName)
         }}
       >
-        {getLocale("ui_confirm")}
+        {GetLocale("ui_confirm")}
       </Button>
     </Stack>
   )

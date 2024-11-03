@@ -614,6 +614,16 @@ FUNC.loadPage = function(listType, activePage, filter, checkboxes, spectateBool)
         filteredList = totalList
     end
 
+    if listType == 'players' then
+        SendNUIMessage({
+            action = 'setPageContent',
+            data = {
+                type = 'jobs',
+                content = lib.callback.await('flight_admin:getJobs')
+            }
+        })
+    end
+
     SendNUIMessage({
         action = 'setPageContent',
         data = {

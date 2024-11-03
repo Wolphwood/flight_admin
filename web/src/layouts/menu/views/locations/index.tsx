@@ -1,19 +1,18 @@
 import { Accordion, Badge, Button, Center, Checkbox, Group, Pagination, Paper, ScrollArea, Space, Stack, Text } from '@mantine/core'
 import { openModal } from '@mantine/modals'
 import CreateLocation from './components/modals/CreateLocation'
-import { Location, getSearchLocationInput, locationsActivePageAtom, locationCustomFilterAtom, locationShopFilterAtom, locationsPageCountAtom, locationVanillaFilterAtom, locationsPageContentAtom } from '../../../../atoms/location'
+import { Location, getSearchLocationInput, locationsActivePageAtom, locationCustomFilterAtom, locationShopFilterAtom, locationsPageCountAtom, locationVanillaFilterAtom, locationsPageContentAtom } from '@/atoms/location'
 import LocationSearch from './components/LocationSearch'
-import { setClipboard } from '../../../../utils/setClipboard'
+import { setClipboard } from '@/utils/setClipboard'
 import { useEffect, useState } from 'react'
 import RenameLocation from './components/modals/RenameLocation'
 import { useRecoilState } from 'recoil'
-import { fetchNui } from '../../../../utils/fetchNui'
-import { useNuiEvent } from '../../../../hooks/useNuiEvent'
+import { fetchNui } from '@/utils/fetchNui'
+import { useNuiEvent } from '@/hooks/useNuiEvent'
 import DeleteLocation from './components/modals/DeleteLocation'
-import { useLocales } from '../../../../providers/LocaleProvider'
+import { GetLocale, GetForcedStringLocale } from '@/utils/Locale'
 
 const Locations: React.FC = () => {
-  const { getLocale } = useLocales()
   const searchLocationValue = getSearchLocationInput()
   const [pageContent, setPageContent] = useRecoilState(locationsPageContentAtom)
   const [pageCount, setPageCount] = useRecoilState(locationsPageCountAtom)
@@ -48,9 +47,9 @@ const Locations: React.FC = () => {
           <Stack spacing={0}>
             <Group position='apart'>
               <Text color='blue.4' size='md' weight={500}>{location.name}</Text>
-              <Badge color={location.custom ? 'green.4' : location.shop ? 'indigo' : 'blue.4'}>{location.custom ? getLocale("ui_custom") : location.shop ? getLocale("ui_shop") : getLocale("ui_vanilla")}</Badge>
+              <Badge color={location.custom ? 'green.4' : location.shop ? 'indigo' : 'blue.4'}>{location.custom ? GetLocale("ui_custom") : location.shop ? GetLocale("ui_shop") : GetLocale("ui_vanilla")}</Badge>
             </Group>
-            <Text size='xs'>{getLocale("ui_coords")}: {location.x.toFixed(3)}, {location.y.toFixed(3)}, {location.z.toFixed(3)}</Text>
+            <Text size='xs'>{GetLocale("ui_coords")}: {location.x.toFixed(3)}, {location.y.toFixed(3)}, {location.z.toFixed(3)}</Text>
           </Stack>
         </Accordion.Control>
         <Accordion.Panel>
@@ -64,7 +63,7 @@ const Locations: React.FC = () => {
                   fetchNui('flight_admin:placeMarker', { x: location.x, y: location.y, z: location.z })
                 }}
               >
-                {getLocale("ui_place_marker")}
+                {GetLocale("ui_place_marker")}
               </Button>
               <Button
                 variant='light'
@@ -74,7 +73,7 @@ const Locations: React.FC = () => {
                   fetchNui('flight_admin:teleport', { name: location.name, x: location.x, y: location.y, z: location.z, heading: location.heading })
                 }
               >
-                {getLocale("ui_teleport")}
+                {GetLocale("ui_teleport")}
               </Button>
               <Button
                 variant='light'
@@ -85,7 +84,7 @@ const Locations: React.FC = () => {
                   setCopied(true)
                 }}
               >
-                {copied ? getLocale("ui_copied_coords") : getLocale("ui_copy_coords")}
+                {copied ? GetLocale("ui_copied_coords") : GetLocale("ui_copy_coords")}
               </Button>
             </Group>
             
@@ -100,13 +99,13 @@ const Locations: React.FC = () => {
                       size='xs'
                       onClick={() => {
                         openModal({
-                          title: getLocale("ui_rename"),
+                          title: GetLocale("ui_rename"),
                           children: <RenameLocation defaultName={location.name} />,
                           size: 'xs',
                         })
                       }}
                     >
-                      {getLocale("ui_rename")}
+                      {GetLocale("ui_rename")}
                     </Button>
                     <Button
                       variant='light'
@@ -114,14 +113,14 @@ const Locations: React.FC = () => {
                       size='xs'
                       onClick={() => {
                         openModal({
-                          title: getLocale("ui_delete"),
+                          title: GetLocale("ui_delete"),
                           children: <DeleteLocation name={location.name} />,
                           size: 'xs',
                         })
                         setAccordionItem(null)
                       }}
                     >
-                      {getLocale("ui_delete")}
+                      {GetLocale("ui_delete")}
                     </Button>
                   </Group>
                 </>
@@ -135,10 +134,10 @@ const Locations: React.FC = () => {
   return (
     <>
       <Stack>
-        <Text size={20}>{getLocale("ui_locations")}</Text>
+        <Text size={20}>{GetLocale("ui_locations")}</Text>
         <Group grow>            
           <Checkbox
-            label={getLocale("ui_show_custom_locations")}
+            label={GetForcedStringLocale("ui_show_custom_locations")}
             size='sm'
             color='blue.4'
             // disabled={!checkedVanilla}
@@ -150,7 +149,7 @@ const Locations: React.FC = () => {
             }}
           />
           <Checkbox
-            label={getLocale("ui_show_vanilla_locations")}
+            label={GetForcedStringLocale("ui_show_vanilla_locations")}
             size='sm'
             color='blue.4'
             // disabled={!checkedCustom}
@@ -162,7 +161,7 @@ const Locations: React.FC = () => {
             }}
           />
           <Checkbox
-            label={getLocale("ui_show_shop_locations")}
+            label={GetForcedStringLocale("ui_show_shop_locations")}
             size='sm'
             color='blue.4'
             // disabled={!checkedShop}
@@ -181,12 +180,12 @@ const Locations: React.FC = () => {
           color='blue.4'
           onClick={() =>
             openModal({
-              title: getLocale("ui_create_custom_location"),
+              title: GetLocale("ui_create_custom_location"),
               size: 'xs',
               children: <CreateLocation />,
             })
           }
-        >{getLocale("ui_create_custom_location")}</Button>
+        >{GetLocale("ui_create_custom_location")}</Button>
         
         <LocationSearch />
 
@@ -195,7 +194,7 @@ const Locations: React.FC = () => {
             <Accordion chevronPosition='left' variant='contained' radius='sm' value={currentAccordionItem} onChange={setAccordionItem}>
               {Locationlist ? Locationlist :
                 <Paper p='md'>
-                  <Text size='md' weight={600} color='red.4'>{getLocale("ui_no_location_found")}</Text>
+                  <Text size='md' weight={600} color='red.4'>{GetLocale("ui_no_location_found")}</Text>
                 </Paper>
               }
             </Accordion>

@@ -1,18 +1,17 @@
 import { Button, Group, Stack, Text } from '@mantine/core'
 import { closeAllModals } from '@mantine/modals'
 import { useSetRecoilState } from 'recoil'
-import { locationCustomFilterAtom } from '../../../../../../atoms/location'
-import { fetchNui } from '../../../../../../utils/fetchNui'
-import { useLocales } from '../../../../../../providers/LocaleProvider'
+import { locationCustomFilterAtom } from '@/atoms/location'
+import { fetchNui } from '@/utils/fetchNui'
+import { GetLocale, GetForcedStringLocale } from '@/utils/Locale'
 
 const DeleteLocation = (props: {name: string}) => {
-  const { getLocale } = useLocales()
   const { name } = props
   const setCustomLocationCheckbox = useSetRecoilState(locationCustomFilterAtom)
 
   return (
     <Stack>
-      <Text>{getLocale("ui_delete")} '{name}' ?</Text>
+      <Text>{GetLocale("ui_delete")} '{name}' ?</Text>
       <Group grow>
         <Button
           uppercase
@@ -24,7 +23,7 @@ const DeleteLocation = (props: {name: string}) => {
             setCustomLocationCheckbox(true)
           }}
         >
-          {getLocale("ui_confirm")}
+          {GetLocale("ui_confirm")}
         </Button>
         <Button
           uppercase
@@ -34,7 +33,7 @@ const DeleteLocation = (props: {name: string}) => {
             closeAllModals()
           }}
         >
-          {getLocale("ui_cancel")}
+          {GetLocale("ui_cancel")}
         </Button>
       </Group>
     </Stack>

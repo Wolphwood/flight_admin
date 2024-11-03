@@ -16,6 +16,131 @@
   "ui.home.current_coords.modal.define.title": "Définir les coordonnées",
   "ui.home.current_coords.modal.save.title": "Sauvegarder les coordonnées",
 
+  "component.button.copied": "Copié !",
+
+  "ui.players": "Joueurs",
+  "ui.player.button.revive": "Réanimer",
+  "ui.player.button.heal": "Soigner",
+  "ui.player.button.noclip": "Noclip",
+  "ui.player.button.tp_into_veh": "Se tp dans le véhicule",
+  "ui.player.button.warn": "Avertir",
+  "ui.player.button.tp_coords": "Téléporter aux coordonnées",
+  "ui.player.button.tpm": "Téléporter au marqueur",
+  "ui.player.button.spectate": "Espionner",
+  "ui.player.button.kill": "Tuer",
+  "ui.player.button.troll": "Troll",
+  "ui.player.button.bring": "Amener",
+  "ui.player.button.bring_back": "Renvoyer",
+  "ui.player.button.place_marker": "Définir un marqueur",
+  "ui.player.button.goto_back": "Revenir",
+  "ui.player.button.freeze": "Geler",
+  "ui.player.button.unfreeze": "Dégeler",
+  "ui.player.button.set_job": "Définir un métier",
+  "ui.player.button.goto": "Aller à",
+  "ui.player.button.kick": "Expulser",
+  "ui.player.button.ban": "Bannir",
+  "ui.player.button.open_inventory": "Ouvrir l'inventaire",
+  
+
+  
+  
+  
+  
+  "job.detective.name": "Détective privé",
+  "job.gang1.name": "Gang1",
+  "job.gang2.name": "Gang2",
+  "job.gang3.name": "Atomkraft",
+  "job.gangling.name": "Petite Frappe",
+  "job.magicshop.name": "Phantom's love Insight",
+  "job.mechanic.name": "Mecanicien",
+  
+  "job.reporter.name": "Reporter",
+  "job.restaurant.name": "Restaurant",
+  "job.winemaker.name": "Vigneron",
+  
+  "job.unemployed.name": "Sans Emplois",
+  "job.unemployed.rank.unemployed": "Sans Emplois",
+  
+  
+  "job.gangster.rank.gangster": "Petite frappe",
+  
+  "job.police.name": "LSPD",
+  "job.police.rank.commissaire": "Commandant LSPD",
+  "job.police.rank.lieutenant": "Lieutenant",
+  "job.police.rank.inspecteur": "Inspecteur",
+  "job.police.rank.officer": "Officer de police",
+  "job.police.rank.cadet": "Cadet",
+  
+  "job.ambulance.name": "EMS",
+  "job.ambulance.rank.directeur": "Directeur EMS",
+  "job.ambulance.rank.psychologue": "Psychologue",
+  "job.ambulance.rank.medecin": "Médecin",
+  "job.ambulance.rank.pompier": "Pompier",
+  "job.ambulance.rank.ambulancier": "Ambulancier",
+  
+  
+  "job.gang1.rank.boss": "Boss",
+  "job.gang1.rank.second": "Second",
+  "job.gang1.rank.membres": "Membres",
+  
+  
+  "job.gang2.rank.boss": "Boss",
+  "job.gang2.rank.second": "Second",
+  "job.gang2.rank.membres": "Membres",
+  
+  
+  "job.gang3.rank.boss": "Boss",
+  "job.gang3.rank.second": "Second",
+  "job.gang3.rank.membres": "Membres",
+  
+  
+  "job.reporter.rank.directeur": "Directeur",
+  "job.reporter.rank.redacteurchef": "Redacteur en chef",
+  "job.reporter.rank.journaliste": "Jounaliste",
+  
+
+  "job.bar.name": "Barman",
+  "job.bar.rank.patron": "Patron",
+  "job.bar.rank.barmaid": "Barmaid",
+  "job.bar.rank.apprenti": "Apprenti",
+  
+  
+  "job.restaurant.rank.patron": "Patron",
+  "job.restaurant.rank.barmaid": "Serveur",
+  "job.restaurant.rank.apprenti": "Apprenti",
+  
+  
+  "job.coffee.name": "Barista",
+  "job.coffee.rank.patron": "Patron",
+  "job.coffee.rank.barista": "Barista",
+  "job.coffee.rank.apprenti": "Apprenti",
+  
+  
+  "job.mechanic.rank.patron": "Patron",
+  "job.mechanic.rank.mecanicien": "Mécanicien",
+  
+  
+  "job.magicshop.rank.patron": "Patron",
+  "job.magicshop.rank.employe": "Employé",
+  
+  
+  "job.detective.rank.detective": "Détective privé",
+  
+  "job.church.name": "Pasteur",
+  "job.church.rank.church": "Pasteur",
+  
+  
+  "job.rallye.rank.patron": "Patron",
+  "job.rallye.rank.employe": "Organisateur d'événement",
+  
+
+  "job.rallye.name": "Organisateur d'èvénement",
+  "job.winemaker.rank.patron": "Patron",
+  "job.winemaker.rank.employe": "Vigneron",
+
+
+
+
 
 
   "cannot_goback": "Aucun dernier emplacement trouvé. Vous devez d'abord vous téléporter quelque part",
@@ -23,6 +148,7 @@
   "command_tpm": "%s Se téléporter au marqueur",
   "command_noclip": "%s Activer/désactiver noclip",
   "command_openui": "%s Ouvrir Flight Admin",
+  "command_advtarget": "%s Activer/désactiver l'advanced target",
   "command_weather_notfound": "Tentative de définir un type de météo invalide : %s",
   "teleport_invalid_coords": "Tentative de téléporter le joueur à des coordonnées invalides",
   "model_doesnt_exist": "Le modèle %s n'existe pas",

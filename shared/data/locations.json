@@ -1,42 +1,42 @@
 [
     {
-        "z": 27.5,
-        "name": "Location test 1",
+        "x": -1470.0,
+        "heading": 0.0,
         "custom": true,
-        "heading": 50.0,
-        "y": -1091.0,
-        "x": -68.0
+        "name": "Riche Old 2",
+        "z": 55.0,
+        "y": -44.0
     },
     {
-        "z": 28.0,
-        "name": "Location test 2",
+        "x": -1795.0,
+        "heading": 0.0,
         "custom": true,
-        "heading": 230.0,
-        "y": -1048.0,
-        "x": -67.0
+        "name": "Riche Old 1",
+        "z": 129.0,
+        "y": 435.0
     },
     {
-        "z": 28.0,
-        "name": "Location test 3",
+        "x": -522.0,
+        "heading": 28.0,
         "custom": true,
-        "heading": 230.0,
-        "y": -1048.0,
-        "x": -67.0
+        "name": "Riche Luxe 3",
+        "z": 112.0,
+        "y": 511.0
     },
     {
-        "z": 28.0,
-        "name": "Location test 4",
+        "x": -543.0,
+        "heading": 28.0,
         "custom": true,
-        "heading": 230.0,
-        "y": -1048.0,
-        "x": -67.0
+        "name": "Riche Luxe 2",
+        "z": 197.0,
+        "y": 811.0
     },
     {
-        "z": 28.0,
-        "name": "Location test 5",
+        "x": -708.0,
+        "heading": 0.0,
         "custom": true,
-        "heading": 230.0,
-        "y": -1048.0,
-        "x": -67.0
+        "name": "Riche Luxe 1",
+        "z": 155.0,
+        "y": 631.0
     }
 ]

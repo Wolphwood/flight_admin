@@ -1,16 +1,15 @@
 import { Accordion, Button, Group, Paper, ScrollArea, Stack, Text, Image, Center, Pagination } from '@mantine/core'
 import { useEffect, useState} from 'react'
 import { useRecoilState, useSetRecoilState } from 'recoil'
-import { getSearchVehicleInput, vehiclesPageCountAtom, vehiclesActivePageAtom, vehiclesPageContentAtom, VehicleProp } from '../../../../atoms/vehicle'
-import { displayImageAtom, imagePathAtom } from '../../../../atoms/imgPreview'
-import { setClipboard } from '../../../../utils/setClipboard'
+import { getSearchVehicleInput, vehiclesPageCountAtom, vehiclesActivePageAtom, vehiclesPageContentAtom, VehicleProp } from '@/atoms/vehicle'
+import { displayImageAtom, imagePathAtom } from '@/atoms/imgPreview'
+import { setClipboard } from '@/utils/setClipboard'
 import VehicleSearch from './components/vehicleListSearch'
-import { fetchNui } from '../../../../utils/fetchNui'
-import { useNuiEvent } from '../../../../hooks/useNuiEvent'
-import { useLocales } from '../../../../providers/LocaleProvider'
+import { fetchNui } from '@/utils/fetchNui'
+import { useNuiEvent } from '@/hooks/useNuiEvent'
+import { GetLocale, GetForcedStringLocale } from '@/utils/Locale'
 
 const Vehicle: React.FC = () => {
-  const { getLocale } = useLocales()
   const searchVehicleValue = getSearchVehicleInput()
   const [pageContent, setPageContent] = useRecoilState(vehiclesPageContentAtom)
   const [pageCount, setPageCount] = useRecoilState(vehiclesPageCountAtom)
@@ -47,7 +46,7 @@ const Vehicle: React.FC = () => {
       <Accordion.Item key={index} value={index.toString()}>
         <Accordion.Control>
           <Text size='md' weight={500}>• {vehicleList.name}</Text>
-          <Text size='xs'>{getLocale("ui_hash")}: {vehicleList.hash}</Text>
+          <Text size='xs'>{GetLocale("ui_hash")}: {vehicleList.hash}</Text>
         </Accordion.Control>
         <Accordion.Panel>
           <Group grow spacing='xs'> 
@@ -75,7 +74,7 @@ const Vehicle: React.FC = () => {
               size='xs'
               onClick={() => fetchNui('flight_admin:spawnVehicle', vehicleList.name)}
             >
-              {getLocale("ui_spawn")}
+              {GetLocale("ui_spawn")}
             </Button>
             <Button
               variant='light'
@@ -86,7 +85,7 @@ const Vehicle: React.FC = () => {
                 setCopiedVehicleName(true)
               }}
             >
-              {copiedVehicleName ? getLocale("ui_copied_name") : getLocale("ui_copy_name")}
+              {copiedVehicleName ? GetLocale("ui_copied_name") : GetLocale("ui_copy_name")}
             </Button>
             <Button
               variant='light'
@@ -97,7 +96,7 @@ const Vehicle: React.FC = () => {
                 setCopiedVehicleHash(true)
               }}
             >
-              {copiedVehicleHash ? getLocale("ui_copied_hash") : getLocale("ui_copy_hash")}
+              {copiedVehicleHash ? GetLocale("ui_copied_hash") : GetLocale("ui_copy_hash")}
             </Button>                     
           </Group>
         </Accordion.Panel>
@@ -106,7 +105,7 @@ const Vehicle: React.FC = () => {
 
   return(
     <Stack>
-      <Text size={20}>{getLocale("ui_vehicles")}</Text>
+      <Text size={20}>{GetLocale("ui_vehicles")}</Text>
       <Group grow>
         <VehicleSearch/>
         <Button
@@ -116,7 +115,7 @@ const Vehicle: React.FC = () => {
           color='blue.4'
           onClick={() => fetchNui('flight_admin:spawnVehicle', searchVehicleValue)}
         >
-          {getLocale("ui_spawn_by_name")}
+          {GetLocale("ui_spawn_by_name")}
         </Button>
       </Group>
       <ScrollArea style={{ height: 575 }} scrollbarSize={0}>

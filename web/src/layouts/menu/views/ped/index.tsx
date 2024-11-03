@@ -1,16 +1,15 @@
 import { Accordion, Button, Group, Paper, ScrollArea, Stack, Text, Image, Center, Pagination } from '@mantine/core'
 import { useEffect, useState} from 'react'
 import { useRecoilState, useSetRecoilState } from 'recoil'
-import { getSearchPedInput, PedProp, pedsActivePageAtom, pedsPageContentAtom, pedsPageCountAtom } from '../../../../atoms/ped'
-import { displayImageAtom, imagePathAtom } from '../../../../atoms/imgPreview'
-import { setClipboard } from '../../../../utils/setClipboard'
+import { getSearchPedInput, PedProp, pedsActivePageAtom, pedsPageContentAtom, pedsPageCountAtom } from '@/atoms/ped'
+import { displayImageAtom, imagePathAtom } from '@/atoms/imgPreview'
+import { setClipboard } from '@/utils/setClipboard'
 import PedSearch from './components/pedListSearch'
-import { fetchNui } from '../../../../utils/fetchNui'
-import { useNuiEvent } from '../../../../hooks/useNuiEvent'
-import { useLocales } from '../../../../providers/LocaleProvider'
+import { fetchNui } from '@/utils/fetchNui'
+import { useNuiEvent } from '@/hooks/useNuiEvent'
+import { GetLocale, GetForcedStringLocale } from '@/utils/Locale'
 
 const Ped: React.FC = () => {
-  const { getLocale } = useLocales()
   const searchPedValue = getSearchPedInput()
   const [pageContent, setPageContent] = useRecoilState(pedsPageContentAtom)
   const [pageCount, setPageCount] = useRecoilState(pedsPageCountAtom)
@@ -47,7 +46,7 @@ const Ped: React.FC = () => {
       <Accordion.Item key={index} value={index.toString()}>
         <Accordion.Control>
           <Text size='md' weight={500}>• {pedList.name}</Text>
-          <Text size='xs'>{getLocale("ui_hash")}: {pedList.hash}</Text>
+          <Text size='xs'>{GetLocale("ui_hash")}: {pedList.hash}</Text>
         </Accordion.Control>
         <Accordion.Panel>
           <Group grow spacing='xs'> 
@@ -75,7 +74,7 @@ const Ped: React.FC = () => {
               size='xs'
               onClick={() => { fetchNui('flight_admin:changePed', { name: pedList.name, hash: pedList.hash }) }}
             >
-              {getLocale("ui_set_ped")}
+              {GetLocale("ui_set_ped")}
             </Button>
             <Button
               variant='light'
@@ -86,7 +85,7 @@ const Ped: React.FC = () => {
                 setCopiedPedName(true)
               }}
             >
-              {copiedPedName ? getLocale("ui_copied_name") : getLocale("ui_copy_name")}
+              {copiedPedName ? GetLocale("ui_copied_name") : GetLocale("ui_copy_name")}
             </Button>
             <Button
               variant='light'
@@ -97,7 +96,7 @@ const Ped: React.FC = () => {
                 setCopiedPedHash(true)
               }}
             >
-              {copiedPedHash ? getLocale("ui_copied_hash") : getLocale("ui_copy_hash")}
+              {copiedPedHash ? GetLocale("ui_copied_hash") : GetLocale("ui_copy_hash")}
             </Button>                     
           </Group>
         </Accordion.Panel>
@@ -106,7 +105,7 @@ const Ped: React.FC = () => {
 
   return(
     <Stack>
-      <Text size={20}>{getLocale("ui_peds")}</Text>
+      <Text size={20}>{GetLocale("ui_peds")}</Text>
       <Group grow>
         <PedSearch/>
         <Button
@@ -116,7 +115,7 @@ const Ped: React.FC = () => {
           color='blue.4'
           onClick={() => { fetchNui('flight_admin:changePed', { name: `${searchPedValue}` }) }}
         >
-          {getLocale("ui_set_by_name")}
+          {GetLocale("ui_set_by_name")}
         </Button>
       </Group>
       <ScrollArea style={{ height: 575 }} scrollbarSize={0}>
@@ -124,7 +123,7 @@ const Ped: React.FC = () => {
           <Accordion variant='contained' radius='sm' value={currentAccordionItem} onChange={setAccordionItem}>
             {PedList ? PedList : 
               <Paper p='md'>
-                <Text size='md' weight={600} color='red.4'>{getLocale("ui_no_ped_found")}</Text>
+                <Text size='md' weight={600} color='red.4'>{GetLocale("ui_no_ped_found")}</Text>
               </Paper>
             }
             </Accordion>

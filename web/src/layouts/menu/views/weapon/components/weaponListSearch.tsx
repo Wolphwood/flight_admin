@@ -2,14 +2,13 @@ import { TextInput } from '@mantine/core'
 import { useDebouncedValue } from '@mantine/hooks'
 import { TbSearch } from 'react-icons/tb'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
-import { weaponsActivePageAtom, weaponsListSearchAtom } from '../../../../../atoms/weapon'
+import { weaponsActivePageAtom, weaponsListSearchAtom } from '@/atoms/weapon'
 import { useEffect, useState } from 'react'
-import { useLocales } from '../../../../../providers/LocaleProvider'
-import { useNuiEvent } from '../../../../../hooks/useNuiEvent'
-import { fetchNui } from '../../../../../utils/fetchNui'
+import { GetLocale, GetForcedStringLocale } from '@/utils/Locale'
+import { useNuiEvent } from '@/hooks/useNuiEvent'
+import { fetchNui } from '@/utils/fetchNui'
 
 const WeaponSearch: React.FC = () => {
-  const { getLocale } = useLocales()
   const [searchWeapon, setSearchWeapon] = useState('')
   const setWeaponSearch = useSetRecoilState(weaponsListSearchAtom)
   const [debouncedWeaponSearch] = useDebouncedValue(searchWeapon, 200)
@@ -23,7 +22,7 @@ const WeaponSearch: React.FC = () => {
   return (
     <>
       <TextInput
-        placeholder={getLocale("ui_search")}
+        placeholder={GetForcedStringLocale("ui_search")}
         icon={<TbSearch size={20} />}
         value={searchWeapon}
         onChange={(e) => {

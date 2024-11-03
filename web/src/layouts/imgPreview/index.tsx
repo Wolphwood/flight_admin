@@ -1,6 +1,6 @@
 import { Image, Paper, Transition } from '@mantine/core'
 import { useRecoilValue } from 'recoil'
-import { displayImageAtom, imagePathAtom } from '../../atoms/imgPreview'
+import { displayImageAtom, imagePathAtom } from '@/atoms/imgPreview'
 
 const ImgPreview: React.FC = () => {
   const isDisplayImage = useRecoilValue(displayImageAtom)

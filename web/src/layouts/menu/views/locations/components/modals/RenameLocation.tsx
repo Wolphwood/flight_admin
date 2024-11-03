@@ -1,23 +1,21 @@
 import { Button, Stack, TextInput } from '@mantine/core'
 import { closeAllModals } from '@mantine/modals'
 import { useState } from 'react'
-import { fetchNui } from '../../../../../../utils/fetchNui'
-import { useLocales } from '../../../../../../providers/LocaleProvider'
+import { fetchNui } from '@/utils/fetchNui'
+import { GetLocale, GetForcedStringLocale } from '@/utils/Locale'
 
 const RenameLocation = (props: {defaultName: string}) => {
-  const { getLocale } = useLocales()
   const { defaultName } = props
   const [newName, setNewName] = useState(defaultName)
 
   return (
     <Stack>
-      <TextInput label={getLocale("ui_location_name")} value={newName} onChange={(e) => setNewName(e.target.value)} />
+      <TextInput label={GetForcedStringLocale("ui_location_name")} value={newName} onChange={(e) => setNewName(e.target.value)} />
       <Button
         uppercase
         disabled={newName === '' || newName === defaultName}
         variant='light'
         color='blue.4'
-        placeholder={defaultName}
         onClick={() => {
           closeAllModals()
           if (newName !== '') {
@@ -25,7 +23,7 @@ const RenameLocation = (props: {defaultName: string}) => {
           }
         }}
       >
-        {getLocale("ui_confirm")}
+        {GetLocale("ui_confirm")}
       </Button>
     </Stack>
   )

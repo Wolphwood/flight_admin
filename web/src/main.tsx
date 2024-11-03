@@ -7,8 +7,8 @@ import { customTheme } from './theme'
 import { HashRouter } from 'react-router-dom'
 import { ModalsProvider } from '@mantine/modals'
 import { RecoilRoot } from 'recoil'
-import LocaleProvider from './providers/LocaleProvider'
 import { isEnvBrowser } from './utils/misc'
+
 
 if (isEnvBrowser()) {
   const root = document.getElementById('root')
@@ -22,22 +22,20 @@ if (isEnvBrowser()) {
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <HashRouter>
-      <LocaleProvider>
-        <MantineProvider withNormalizeCSS withGlobalStyles theme={customTheme}>
-          <RecoilRoot>
-            <ModalsProvider
-              modalProps={{
-                size: 'xs',
-                transition: 'slide-up',
-                // Modals would overflow the page with slide-up transition
-                styles: { inner: { overflow: 'hidden' } },
-              }}
-            >
-              <App />
-            </ModalsProvider>
-          </RecoilRoot>
-        </MantineProvider>
-      </LocaleProvider>
+      <MantineProvider withNormalizeCSS withGlobalStyles theme={customTheme}>
+        <RecoilRoot>
+          <ModalsProvider
+            modalProps={{
+              size: 'xs',
+              transition: 'slide-up',
+              // Modals would overflow the page with slide-up transition
+              styles: { inner: { overflow: 'hidden' } },
+            }}
+          >
+            <App />
+          </ModalsProvider>
+        </RecoilRoot>
+      </MantineProvider>
     </HashRouter>
   </React.StrictMode>
 )

@@ -2,6 +2,12 @@ import { Box, createStyles } from '@mantine/core'
 import { ThreeComponent } from './layouts/gizmo/ThreeComponent'
 import ImgPreview from './layouts/imgPreview'
 import Menu from './layouts/menu'
+import { isEnvBrowser } from './utils/misc'
+
+import { fetchNui } from './utils/fetchNui'
+
+import { DebugImportLangFiles } from './utils/debugData'
+import { RegisterLocale } from './utils/Locale'
 
 const useStyles = createStyles(() => ({
   container: {
@@ -13,8 +19,14 @@ const useStyles = createStyles(() => ({
   }
 }))
 
+if (isEnvBrowser()) {
+  DebugImportLangFiles()
+}
+
 const App: React.FC = () => {
   const { classes } = useStyles()  
+
+  fetchNui('getLocales').then(data => Object.keys(data).forEach(lang => RegisterLocale(lang, data[lang])));
 
   return (
     <>

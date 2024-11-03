@@ -1,12 +1,12 @@
 import { AppShell, Box, createStyles, Transition } from '@mantine/core'
 import { useRecoilState, useSetRecoilState } from 'recoil'
 import { Route, Routes } from 'react-router-dom'
-import { useNuiEvent } from '../../hooks/useNuiEvent'
-import { menuVisibilityAtom } from '../../atoms/visibility'
-import { Version, versionAtom } from '../../atoms/version'
-import { interiorAtom, InteriorData } from '../../atoms/interior'
-import { lastLocationsAtom, Location } from '../../atoms/location'
-import { positionAtom } from '../../atoms/position'
+import { useNuiEvent } from '@/hooks/useNuiEvent'
+import { menuVisibilityAtom } from '@/atoms/visibility'
+import { Version, versionAtom } from '@/atoms/version'
+import { interiorAtom, InteriorData } from '@/atoms/interior'
+import { lastLocationsAtom, Location } from '@/atoms/location'
+import { positionAtom } from '@/atoms/position'
 import HeaderGroup from './components/HeaderGroup'
 import Nav from './components/Nav'
 import Home from './views/home'
@@ -19,8 +19,8 @@ import Vehicle from './views/vehicles'
 import Weapon from './views/weapon'
 import Audio from './views/audio'
 import Players from './views/players'
-import { debugData } from '../../utils/debugData'
-import { useExitListener } from '../../hooks/useExitListener'
+import { debugData } from '@/utils/debugData'
+import { useExitListener } from '@/hooks/useExitListener'
 
 debugData([
   {
@@ -180,7 +180,6 @@ const Menu: React.FC = () => {
               <Route path='/vehicles' element={<Vehicle />} />
               <Route path='/weapon' element={<Weapon />} />
               <Route path='/audio' element={<Audio />} />
-              
             </Routes>
           </AppShell>
         </Box>

@@ -3,12 +3,11 @@ import { TextInput } from '@mantine/core'
 import { useDebouncedValue } from '@mantine/hooks'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 import { TbSearch } from 'react-icons/tb'
-import { playerListSearchAtom, playersActivePageAtom } from '../../../../../atoms/player'
-import { fetchNui } from '../../../../../utils/fetchNui'
-import { useLocales } from '../../../../../providers/LocaleProvider'
+import { playerListSearchAtom, playersActivePageAtom } from '@/atoms/player'
+import { fetchNui } from '@/utils/fetchNui'
+import { GetLocale, GetForcedStringLocale } from '@/utils/Locale'
 
 const playerListSearch: React.FC = () => {
-  const { getLocale } = useLocales()
   const [searchPlayer, setSearchPlayer] = useState('')
   const setPlayerSearch = useSetRecoilState(playerListSearchAtom)
   const [debouncedPlayerSearch] = useDebouncedValue(searchPlayer, 200)
@@ -22,7 +21,7 @@ const playerListSearch: React.FC = () => {
   return (
     <>
       <TextInput
-        placeholder={getLocale("ui_search")}
+        placeholder={GetForcedStringLocale("ui_search")}
         icon={<TbSearch size={20} />}
         value={searchPlayer}
         onChange={(e) => {

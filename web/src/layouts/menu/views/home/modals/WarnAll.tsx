@@ -1,16 +1,15 @@
 import { Button, Stack, Text, TextInput } from '@mantine/core'
 import { closeAllModals } from '@mantine/modals'
 import { useState } from 'react'
-import { useLocales } from '../../../../../providers/LocaleProvider'
-import { fetchNui } from '../../../../../utils/fetchNui'
+import { GetLocale, GetForcedStringLocale } from '@/utils/Locale'
+import { fetchNui } from '@/utils/fetchNui'
 
 const WarnAll: React.FC = () => {
-    const { getLocale } = useLocales()
     const [warnMessage, setWarnMessage] = useState('')
 
     return (
         <Stack>
-            <Text weight={500}>{getLocale("warn_message")}</Text>
+            <Text weight={500}>{GetLocale("warn_message")}</Text>
             <TextInput value={warnMessage} onChange={(e) => setWarnMessage(e.target.value)} />
             <Button
                 uppercase
@@ -21,7 +20,7 @@ const WarnAll: React.FC = () => {
                     closeAllModals()
                     fetchNui('flight_admin:warnAll', warnMessage)
                 }}
-            >{getLocale("ui_confirm")}</Button>
+            >{GetLocale("ui_confirm")}</Button>
         </Stack>
         )
     }

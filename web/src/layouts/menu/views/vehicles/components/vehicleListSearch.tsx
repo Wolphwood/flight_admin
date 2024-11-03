@@ -3,12 +3,11 @@ import { TextInput } from '@mantine/core'
 import { useDebouncedValue } from '@mantine/hooks'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 import { TbSearch } from 'react-icons/tb'
-import { vehicleListSearchAtom, vehiclesActivePageAtom } from '../../../../../atoms/vehicle'
-import { fetchNui } from '../../../../../utils/fetchNui'
-import { useLocales } from '../../../../../providers/LocaleProvider'
+import { vehicleListSearchAtom, vehiclesActivePageAtom } from '@/atoms/vehicle'
+import { fetchNui } from '@/utils/fetchNui'
+import { GetLocale, GetForcedStringLocale } from '@/utils/Locale'
 
 const VehicleSearch: React.FC = () => {
-  const { getLocale } = useLocales()
   const [searchVehicle, setSearchVehicle] = useState('')
   const setVehicleSearch = useSetRecoilState(vehicleListSearchAtom)
   const [debouncedVehicleSearch] = useDebouncedValue(searchVehicle, 200)
@@ -22,7 +21,7 @@ const VehicleSearch: React.FC = () => {
   return (
     <>
       <TextInput
-        placeholder={getLocale("ui_search")}
+        placeholder={GetForcedStringLocale("ui_search")}
         icon={<TbSearch size={20} />}
         value={searchVehicle}
         onChange={(e) => {
