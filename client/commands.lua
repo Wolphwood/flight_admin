@@ -1,8 +1,9 @@
-RegisterCommand('flight_admin:open', function()
+RegisterCommand('flight:open', function()
     if not Config.perimission('menu') then return end
     if  IsNuiFocused() or IsPauseMenuActive() then return end
     FUNC.openUI()
-end) RegisterKeyMapping('flight_admin:open', locale('command_openui', '~o~>~w~'), 'keyboard', Config.openMenuKey)
+end) RegisterKeyMapping('flight:open', locale('command_openui', '~o~>~w~'), 'keyboard', Config.openMenuKey)
+
 
 _oxtarget_enabledavdancedsettings = true
 RegisterCommand('oxadvtarget', function()
@@ -15,6 +16,7 @@ RegisterCommand('oxadvtarget', function()
         lib.notify({title = 'Flight Admin | oxTarget', description = "Enabled advanced settings", type = 'success'})
     end
 end) RegisterKeyMapping('oxadvtarget', locale("command_advtarget", '~o~>~w~'), 'keyboard', "")
+
 
 RegisterCommand('goback', function()
     if not Config.perimission('teleport') then return end

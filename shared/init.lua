@@ -53,7 +53,6 @@ function GetPlayerHeight(playerPed)
 end
 
 CreateThread(function()
-
     if IsDuplicityVersion() then
         Server = {}
     else
@@ -105,12 +104,6 @@ CreateThread(function()
                 action = 'setLocale',
                 data = json.decode(JSON)
             })
-        end)
-
-        -- Get Locales
-        RegisterNUICallback("getLocales", function(data, cb)
-            local locales = lib.callback.await('flight_admin:getLangFiles')
-            cb(locales)
         end)
 
         -- Load locale

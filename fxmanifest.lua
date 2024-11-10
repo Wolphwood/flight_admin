@@ -4,9 +4,9 @@ lua54 'yes'
 game 'gta5'
 
 name         'flight_admin'
-version      '1.2.0-b4'
+version      '1.2.0-b5'
 description  'The admin menu everyone needs'
-author       'Wolphwood (originally DevTheBully)'
+author       'Wolphwood' -- (originally DevTheBully)
 repository   'https://github.com/Wolphwood/flight_admin'
 
 shared_scripts {
@@ -15,6 +15,7 @@ shared_scripts {
     'shared/init.lua',
     'config.lua',
 }
+
 client_scripts {
     'client/freecam/utils.lua',
     'client/freecam/config.lua',

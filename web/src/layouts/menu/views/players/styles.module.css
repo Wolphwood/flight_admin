@@ -1,0 +1,19 @@
+.root {
+    padding: 0;
+    margin: 0;
+}
+
+.content {
+    padding: 0;
+    margin: 0;
+}
+
+.control {
+    padding: .2rem;
+    margin: 0;
+}
+
+.label {
+    padding: 0;
+    margin: .25rem;
+}

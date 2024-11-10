@@ -15,7 +15,10 @@ export default defineConfig({
     chunkSizeWarningLimit: 1500,
     outDir: 'build',
     rollupOptions: {
-      external: ['browser.js']
+      external: [
+        /\.\.\/locales\//,
+        'browser.js'
+      ]
     }
   },
   esbuild: {

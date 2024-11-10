@@ -1,6 +1,6 @@
 local isSpectating, bringback, goback = false, nil, nil
 
---TriggerServerEvent('flight_admin:log', 'Flight Admin is fully loaded :)')
+TriggerServerEvent('flight_admin:log', '['.. PlayerPedId() ..'] : Flight Admin is fully loaded :)')
 
 local function applyDrunkEffect(animation, duration, amplifier)    
     local playerPed = PlayerPedId()
@@ -235,6 +235,12 @@ RegisterNUICallback('flight_admin:exit', function(_, cb)
         data = {}
     })
     Client.gizmoEntity = nil
+end)
+
+-- Get Locales
+RegisterNUICallback("getLocales", function(data, cb)
+    local locales = lib.callback.await('flight_admin:getLangFiles')
+    cb(locales)
 end)
 
 RegisterNUICallback('flight_admin:changeLocationName', function(data, cb)

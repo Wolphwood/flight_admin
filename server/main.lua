@@ -59,6 +59,10 @@ lib.callback.register('flight_admin:getData', function()
 end)
 
 lib.callback.register('flight_admin:getGroup', function(playerId)
+    while ESX == nil do
+        Wait(100)
+    end
+    
     local xPlayer = ESX.GetPlayerFromId(playerId)
     
     if xPlayer then
@@ -101,7 +105,7 @@ lib.callback.register('flight_admin:getPlayerData', function()
         local xPlayer = ESX.GetPlayerFromId(v)
 
         local datastore = {
-            identifier = xPlayer.identifier,
+            identifier = (xPlayer and xPlayer.identifier or "none"),
             license = "none",
             license2 = "none",
             discord = "none",
@@ -120,7 +124,7 @@ lib.callback.register('flight_admin:getPlayerData', function()
             freeze = freeze[v],
             bringPlayer = bringPlayer[v],
             gotoPlayer = gotoPlayer[source],
-            job = xPlayer.getJob()
+            job = (xPlayer and xPlayer.getJob() or "none")
         }
 
         for i = 0, GetNumPlayerIdentifiers(v) - 1 do
@@ -324,8 +328,8 @@ RegisterNetEvent('flight_admin:revive', function(id)
 end)
 
 RegisterNetEvent('flight_admin:openPlayerInventory', function(id)
-    if not Config.perimission('openPlayerInventory', source) then return end    
-    exports.ox_inventory:forceOpenInventory(source, 'player', id)
+    if not Config.perimission('openPlayerInventory', source) then return end
+    exports.ox_inventory:forceOpenInventory(source, "player", tonumber(id))
 end)
 
 RegisterNetEvent('flight_admin:warnPlayer', function(id)

@@ -437,15 +437,18 @@ FUNC.rotationToDirection = function(rotation)
 end
 
 FUNC.initTarget = function()
-    if not Config.perimission('target') then return end
-
+    local havePermission = nil
     local function canSeeAdvancedSettings()
-        return _oxtarget_enabledavdancedsettings
+        if havePermission == nil then
+            havePermission = Config.perimission('target')
+        end
+
+        return _oxtarget_enabledavdancedsettings and havePermission
     end
 
-    exports.ox_target:addGlobalObject({
+    exports.ox_target:addGlobalOption({
         {
-            name = 'ox:option1',
+            name = 'ox:copy_coord',
             icon = 'fa-solid fa-clipboard-list',
             label = 'Copy coords',
             distance = 10,
@@ -455,6 +458,9 @@ FUNC.initTarget = function()
                 lib.notify({type='success', description=locale('copied_coords_clipboard')})
             end
         },
+    })
+
+    exports.ox_target:addGlobalObject({
         {
             name = 'ox:copy_entity_coords',
             icon = 'fa-solid fa-clipboard-list',
