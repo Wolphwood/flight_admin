@@ -1,4 +1,4 @@
-local save, freeze, bringPlayer, gotoPlayer = {}, {}, {}, {}
+local save, freeze, bringPlayer, gotoPlayer, tracking = {}, {}, {}, {}, {}
 
 lib.callback.register('flight_admin:getLangFiles', function(source)
     return getLangFiles()
@@ -101,8 +101,11 @@ end)
 lib.callback.register('flight_admin:getPlayerData', function()
     local data = {}
     local players = GetPlayers()
+
     for k, v in pairs(players) do
         local xPlayer = ESX.GetPlayerFromId(v)
+
+        print(tracking[v])
 
         local datastore = {
             identifier = (xPlayer and xPlayer.identifier or "none"),
@@ -123,6 +126,7 @@ lib.callback.register('flight_admin:getPlayerData', function()
             noclip = save[v],
             freeze = freeze[v],
             bringPlayer = bringPlayer[v],
+            tracking = tracking[v],
             gotoPlayer = gotoPlayer[source],
             job = (xPlayer and xPlayer.getJob() or "none")
         }
@@ -316,6 +320,14 @@ RegisterNetEvent('flight_admin:Announce', function(message)
 end)
 
 RegisterNetEvent('flight_admin:revive', function(id)
+    RevivePlayer(id)
+end)
+
+RegisterNetEvent('flight_admin:revive_me', function()
+    RevivePlayer(source)
+end)
+
+function RevivePlayer(id)
     if not Config.perimission('revive', source) then return end
     
     if GetResourceState("ars_ambulancejob") == "started" then
@@ -325,7 +337,7 @@ RegisterNetEvent('flight_admin:revive', function(id)
     else
         print("Attempted to revive id: "..id.." Use 'ars_ambulancejob' or Set your revive function here: server/main.lua")
     end
-end)
+end
 
 RegisterNetEvent('flight_admin:openPlayerInventory', function(id)
     if not Config.perimission('openPlayerInventory', source) then return end
@@ -345,12 +357,12 @@ end)
 
 RegisterNetEvent('flight_admin:tpCoordsPlayer', function(data)
     if not Config.perimission('tpCoords', source) then return end
-    TriggerClientEvent("flight_admin:tpCoordsPlayer", tonumber(data.id.id), data)
+    TriggerClientEvent("flight_admin:tpCoordsPlayer", tonumber(data.id), data)
 end)
 
-RegisterNetEvent('flight_admin:tpMarkerPlayer', function(id)
+RegisterNetEvent('flight_admin:tpPlayerToMarker', function(id)
     if not Config.perimission('tpMarker', source) then return end
-    TriggerClientEvent("flight_admin:tpMarkerPlayer", tonumber(id))
+    TriggerClientEvent("flight_admin:tpPlayerToMarker", tonumber(id))
 end)
 
 RegisterNetEvent('flight_admin:freezePlayer', function(player)
@@ -400,8 +412,22 @@ end)
 
 RegisterNetEvent('flight_admin:placeMarkerAtPlayer', function(player)
     local coords = GetEntityCoords(GetPlayerPed(player))
-    TriggerClientEvent("flight_admin:placeMarker", source, coords)
+    TriggerClientEvent("flight_admin:placeMarkerAtPlayer", source, coords)
 end)
+
+RegisterNetEvent('flight_admin:trackPlayer', function(player)    
+    tracking[tostring(source)] = player
+    TriggerClientEvent("flight_admin:trackPlayer", source, player)
+    TriggerClientEvent("flight_admin:updatePlayerData", source)
+end)
+RegisterNetEvent('flight_admin:untrackPlayer', function(player)
+    tracking[tostring(source)] = nil    
+    TriggerClientEvent("flight_admin:untrackPlayer", source)
+    TriggerClientEvent("flight_admin:updatePlayerData", source)
+end)
+
+
+
 
 RegisterNetEvent('flight_admin:bringPlayer', function(player, height)
     local coords = GetEntityCoords(GetPlayerPed(source))
@@ -443,3 +469,21 @@ RegisterNetEvent('flight_admin:banPlayer', function(data)
     -- data.duration | player ban duration
     print("Attempted to ban id: "..data.id.." Set your ban function here: server/main.lua")
 end)
+
+
+lib.callback.register('flight_admin:getPlayerPos', function(player_id)
+    return GetEntityCoords(GetPlayerPed(player_id))
+end)
+
+
+
+
+lib.callback.register('flight_admin:getPlayerMarker', function(player_id)
+    if GetPlayerPed(player_id) then
+        return lib.callback.await('flight_admin:RequestForMarker', player_id);
+    else
+        return nil
+    end
+end)
+
+

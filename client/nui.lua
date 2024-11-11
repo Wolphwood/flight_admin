@@ -169,6 +169,11 @@ RegisterNUICallback('flight_admin:revive', function(id, cb)
     TriggerServerEvent("flight_admin:revive", id)
 end)
 
+RegisterNUICallback('flight_admin:revive_me', function(_, cb)
+    cb(1)
+    TriggerServerEvent("flight_admin:revive_me")
+end)
+
 RegisterNUICallback('flight_admin:openPlayerInventory', function(id, cb)
     cb(1)
     TriggerServerEvent("flight_admin:openPlayerInventory", id)
@@ -376,9 +381,21 @@ end)
 
 
 
-RegisterNUICallback('flight_admin:tpMarkerPlayer', function(id, cb)
+RegisterNUICallback('flight_admin:tpPlayerToMarker', function(id, cb)
     cb(1)
-    TriggerServerEvent("flight_admin:tpMarkerPlayer", id)
+    TriggerServerEvent("flight_admin:tpPlayerToMarker", id)
+end)
+
+RegisterNUICallback('flight_admin:tpToPlayerMarker', function(id, cb)
+    cb(1)
+    
+    local coords = lib.callback.await('flight_admin:getPlayerMarker', id)
+    if coords ~= nil then
+        SetNewWaypoint(coords.x, coords.y)
+        FUNC.teleportPlayerToMarker()
+    else
+        lib.notify({title = 'Flight Admin', description = locale('no_marker'), type = 'error', position = 'top'})
+    end
 end)
 
 RegisterNUICallback('flight_admin:spectatePlayer', function(targetPed, cb)
@@ -433,9 +450,14 @@ RegisterNUICallback('flight_admin:placeMarkerAtPlayer', function(id, cb)
     TriggerServerEvent("flight_admin:placeMarkerAtPlayer", id)
 end)
 
-RegisterNUICallback('flight_admin:placeMarker', function(coords, cb)
+RegisterNUICallback('flight_admin:trackPlayer', function(data, cb)
     cb(1)
-    TriggerEvent("flight_admin:placeMarker", coords)
+    TriggerServerEvent("flight_admin:trackPlayer", data)
+end)
+
+RegisterNUICallback('flight_admin:untrackPlayer', function(data, cb)
+    cb(1)
+    TriggerServerEvent("flight_admin:untrackPlayer", data)
 end)
 
 RegisterNUICallback('flight_admin:bringBackPlayer', function(id, cb)
@@ -477,6 +499,7 @@ end)
 RegisterNUICallback('flight_admin:playerSetJob', function(data, cb)
     cb(1)
     ExecuteCommand(('setjob %s %s %s'):format(data.player, data.job, data.grade));
+    TriggerEvent('flight_admin:updatePlayerData')
 end)
 
 
@@ -521,24 +544,27 @@ end)
 
 RegisterNUICallback('flight_admin:setMaxHealth', function(id, cb)
     cb(1)
-    if id then
-        local playerPed = PlayerPedId()
-        SetEntityHealth(playerPed, GetEntityMaxHealth(playerPed))
-
-        lib.notify({
-            title = 'Flight Admin',
-            description = locale('max_health_set'),
-            type = 'success',
-            position = 'top'
-        })
-    else
-        TriggerServerEvent("flight_admin:setMaxHealth", id)
-    end
+    TriggerServerEvent("flight_admin:setMaxHealth", id)
 end)
+
+RegisterNUICallback('flight_admin:heal_me', function(id, cb)
+    cb(1)
+
+    local playerPed = PlayerPedId()
+    SetEntityHealth(playerPed, GetEntityMaxHealth(playerPed))
+
+    lib.notify({
+        title = 'Flight Admin',
+        description = locale('max_health_set'),
+        type = 'success',
+        position = 'top'
+    })
+end)
+
 
 RegisterNUICallback('flight_admin:spawnFavoriteVehicle', function(_, cb)
     cb(1)
-    FUNC.spawnVehicle('krieger')
+    FUNC.spawnVehicle('adder')
 end)
 
 RegisterNUICallback('flight_admin:noclip', function(bool, cb)
@@ -548,7 +574,7 @@ end)
 
 RegisterNUICallback('flight_admin:tpm', function(_, cb)
     cb(1)
-    FUNC.teleportPlayer()
+    FUNC.teleportPlayerToMarker()
 end)
 
 RegisterNUICallback('flight_admin:addEntity', function(modelName, cb)
@@ -564,7 +590,6 @@ RegisterNUICallback('flight_admin:addEntity', function(modelName, cb)
         return
     end
 
-    
     lib.requestModel(model)
 
     local distance = 5 -- Distance to spawn object from the camera
@@ -986,6 +1011,10 @@ end)
 
 RegisterNetEvent('flight_admin:tpCoordsPlayer', function(data)
     local formatedCoords
+
+    
+    TriggerServerEvent('flight_admin:tlog', data)
+    
     if data.coordString then
         local coordString = (data.coordString:gsub(',', '')):gsub('  ', ' ')
 
@@ -999,12 +1028,14 @@ RegisterNetEvent('flight_admin:tpCoordsPlayer', function(data)
         formatedCoords = vec3(data.coords.x, data.coords.y, data.coords.z)
     end
 
+    TriggerServerEvent('flight_admin:log', formatedCoords)
+
     if not formatedCoords then return end
     FUNC.teleportPlayer({ x = formatedCoords.x, y = formatedCoords.y, z = formatedCoords.z }, true)
 end)
 
-RegisterNetEvent('flight_admin:tpMarkerPlayer', function()
-    FUNC.teleportPlayer()
+RegisterNetEvent('flight_admin:tpPlayerToMarker', function()
+    FUNC.teleportPlayerToMarker()
 end)
 
 RegisterNetEvent('flight_admin:updatePlayerData', function()
@@ -1014,9 +1045,19 @@ RegisterNetEvent('flight_admin:updatePlayerData', function()
     end)
 end)
 
-RegisterNetEvent('flight_admin:placeMarker', function(coords)
+RegisterNetEvent('flight_admin:placeMarkerAtPlayer', function(coords)
     SetNewWaypoint(coords.x, coords.y)
 end)
+
+
+RegisterNetEvent('flight_admin:trackPlayer', function(player)
+    FUNC.trackPlayer(player)
+end)
+RegisterNetEvent('flight_admin:untrackPlayer', function(player)
+    FUNC.untrackPlayer()
+end)
+
+
 
 RegisterNetEvent('flight_admin:setNoClip', function(bool)
     FUNC.setNoClip(bool)
@@ -1058,4 +1099,13 @@ exports("removeGizmoEntity", function()
     Client.gizmoEntity = nil
     SetNuiFocus(false, false)
     SetNuiFocusKeepInput(false)
+end)
+
+lib.callback.register('flight_admin:RequestForMarker', function(target)
+    local blip = GetFirstBlipInfoId(8)
+    if DoesBlipExist(blip) then
+        return GetBlipCoords(blip)
+    else
+        return nil
+    end
 end)

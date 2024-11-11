@@ -5,7 +5,7 @@ RegisterCommand('flight:open', function()
 end) RegisterKeyMapping('flight:open', locale('command_openui', '~o~>~w~'), 'keyboard', Config.openMenuKey)
 
 
-_oxtarget_enabledavdancedsettings = true
+_oxtarget_enabledavdancedsettings = false
 RegisterCommand('oxadvtarget', function()
     if not Config.perimission('oxadvtarget') then return end
     if _oxtarget_enabledavdancedsettings then
@@ -34,41 +34,44 @@ end)
 
 RegisterCommand('tpm', function()
     if not Config.perimission('teleport') then return end
-    local marker = GetFirstBlipInfoId(8)
+    FUNC.teleportPlayerToMarker()
 
-    if marker == 0 then
-        lib.notify({title = 'Flight Admin', description = locale('no_marker'),
-            type = 'error', position = 'top'})
-    else
-        local coords = GetBlipInfoIdCoord(marker)
-        DoScreenFadeOut(100)
-        Wait(100)
+    -- local marker = GetFirstBlipInfoId(8)
 
-        local vehicle = cache.seat == -1 and cache.vehicle
-        Client.lastCoords = GetEntityCoords(cache.ped)
-        FUNC.freezePlayer(true, vehicle)
+    -- if marker == 0 then
+    --     lib.notify({title = 'Flight Admin', description = locale('no_marker'),
+    --         type = 'error', position = 'top'})
+    -- else
+    --     local coords = GetBlipInfoIdCoord(marker)
+    --     DoScreenFadeOut(100)
+    --     Wait(100)
 
-        local z, inc, int = 0.0, 20.0, 0
-        while z < 800.0 do
-            Wait(0)
+    --     local vehicle = cache.seat == -1 and cache.vehicle
+    --     Client.lastCoords = GetEntityCoords(cache.ped)
+    --     FUNC.freezePlayer(true, vehicle)
 
-            local found, groundZ = GetGroundZFor_3dCoord(coords.x, coords.y, z, false)
-            if int == 0 then
-                int = GetInteriorAtCoords(coords.x, coords.y, z)
-                if int ~= 0 then inc = 2.0 end
-            end
+    --     local z, inc, int = 0.0, 20.0, 0
+    --     while z < 800.0 do
+    --         Wait(0)
 
-            if found then FUNC.setPlayerCoords(vehicle, coords.x, coords.y, groundZ) break end
+    --         local found, groundZ = GetGroundZFor_3dCoord(coords.x, coords.y, z, false)
+    --         if int == 0 then
+    --             int = GetInteriorAtCoords(coords.x, coords.y, z)
+    --             if int ~= 0 then inc = 2.0 end
+    --         end
 
-            FUNC.setPlayerCoords(vehicle, coords.x, coords.y, z)
-            z += inc
-        end
+    --         if found then FUNC.setPlayerCoords(vehicle, coords.x, coords.y, groundZ) break end
 
-        FUNC.freezePlayer(false, vehicle)
-        SetGameplayCamRelativeHeading(0)
-        DoScreenFadeIn(750)
-    end
-end) RegisterKeyMapping('tpm', locale('command_tpm', '~o~>~w~'), 'keyboard', Config.teleportMarkerKey)
+    --         FUNC.setPlayerCoords(vehicle, coords.x, coords.y, z)
+    --         z += inc
+    --     end
+
+    --     FUNC.freezePlayer(false, vehicle)
+    --     SetGameplayCamRelativeHeading(0)
+    --     DoScreenFadeIn(750)
+    -- end
+end)
+RegisterKeyMapping('tpm', locale('command_tpm', '~o~>~w~'), 'keyboard', Config.teleportMarkerKey)
 
 RegisterCommand('noclip', function()
     if not Config.perimission('noclip') then return end

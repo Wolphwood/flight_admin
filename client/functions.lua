@@ -270,9 +270,62 @@ FUNC.setNoClip = function(bool)
     SetFreecamActive(Client.noClip)
 end
 
+-- Replace old function with that because ground finding doesn't work.
 FUNC.teleportPlayer = function(coords, updateLastCoords)
+    if updateLastCoords then
+        lastCoords = vec4(GetEntityCoords(cache.ped).xyz, GetEntityHeading(cache.ped))
+    end
+
+    FUNC.setPlayerCoords(vehicle, coords.x, coords.y, coords.z, coords.w or 0)
+end
+
+FUNC.teleportPlayerToMarker = function()
     local marker = GetFirstBlipInfoId(8)
+
+    if marker == 0 then
+        lib.notify({title = 'Flight Admin', description = locale('no_marker'),
+            type = 'error', position = 'top'})
+    else
+        if updateLastCoords then
+            lastCoords = vec4(GetEntityCoords(cache.ped).xyz, GetEntityHeading(cache.ped))
+        end    
+
+        local coords = GetBlipInfoIdCoord(marker)
+        DoScreenFadeOut(100)
+        Wait(100)
+
+        local vehicle = cache.seat == -1 and cache.vehicle
+        Client.lastCoords = GetEntityCoords(cache.ped)
+        FUNC.freezePlayer(true, vehicle)
+
+        local z, inc, int = 0.0, 20.0, 0
+        while z < 800.0 do
+            Wait(0)
+
+            local found, groundZ = GetGroundZFor_3dCoord(coords.x, coords.y, z, false)
+            if int == 0 then
+                int = GetInteriorAtCoords(coords.x, coords.y, z)
+                if int ~= 0 then inc = 2.0 end
+            end
+
+            if found then FUNC.setPlayerCoords(vehicle, coords.x, coords.y, groundZ) break end
+
+            FUNC.setPlayerCoords(vehicle, coords.x, coords.y, z)
+            z += inc
+        end
+
+        FUNC.freezePlayer(false, vehicle)
+        SetGameplayCamRelativeHeading(0)
+        DoScreenFadeIn(750)
+    end
+end
+
+
+FUNC._teleportPlayer = function(coords, updateLastCoords)
+    local marker = GetFirstBlipInfoId(8)
+    
     if not coords and marker == 0 then return end
+
     if not coords and marker then
         local mkr = GetBlipInfoIdCoord(marker)
         local vehicle = cache.seat == -1 and cache.vehicle
@@ -456,6 +509,24 @@ FUNC.initTarget = function()
             onSelect = function(data)
                 lib.setClipboard(data.coords.x .. ', ' .. data.coords.y .. ', ' .. data.coords.z)
                 lib.notify({type='success', description=locale('copied_coords_clipboard')})
+            end
+        },
+        {
+            name = 'ox:copy_hash_material',
+            icon = 'fa-solid fa-person-digging',
+            label = 'Get Ground Material Hash',
+            distance = 10,
+            canInteract = canSeeAdvancedSettings,
+            onSelect = function(data)
+                local rayHandle = StartShapeTestRay(data.coords.x, data.coords.y, data.coords.z + 1, data.coords.x, data.coords.y, data.coords.z - 5.0, 1, cache.ped, 0)
+                local _, hit, _, _, materialHash = GetShapeTestResultEx(rayHandle)
+                
+                if hit then
+                    lib.setClipboard(materialHash)
+                    lib.notify({type='success', description=locale('copied_material_hash_clipboard')})
+                else
+                    lib.notify({type='error', description=locale('cant_copy_coords_clipboard')})
+                end
             end
         },
     })
@@ -694,4 +765,22 @@ FUNC.assert = function(v, msg, value)
             position = 'top'
         })
     end
+end
+
+local isTracking = false
+FUNC.trackPlayer = function(player_id)
+    isTracking = true
+    
+    while (isTracking) do
+        local coords = lib.callback.await('flight_admin:getPlayerPos', player_id)
+        SetNewWaypoint(coords.x, coords.y)
+        
+        Wait(60)
+    end
+
+    SetWaypointOff()
+end
+
+FUNC.untrackPlayer = function(player_id)
+    isTracking = false
 end

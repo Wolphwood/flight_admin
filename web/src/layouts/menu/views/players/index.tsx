@@ -55,15 +55,16 @@ const Players: React.FC = () => {
   const [copiedLive,       setCopiedLive      ] = useState(false);
   const [copiedXbl,        setCopiedXbl       ] = useState(false);
 
-  const [pressHeal,       setPressHeal     ] = useState(false);
-  const [pressRevive,     setPressRevive   ] = useState(false);
-  const [pressNoClip,     setPressNoClip   ] = useState(false);
-  const [pressBring,      setPressBring    ] = useState(false);
-  const [pressGoTo,       setPressGoTo     ] = useState(false);
-  const [pressTpIntoVeh,  setPressTpIntoVeh] = useState(false);
-  const [pressTpMarker,   setPressTpMarker ] = useState(false);
-  const [pressFreeze,     setPressFreeze   ] = useState(false);
-  const [pressKill,       setPressKill     ] = useState(false);
+  const [pressHeal,        setPressHeal       ] = useState(false);
+  const [pressRevive,      setPressRevive     ] = useState(false);
+  const [pressNoClip,      setPressNoClip     ] = useState(false);
+  const [pressBring,       setPressBring      ] = useState(false);
+  const [pressGoTo,        setPressGoTo       ] = useState(false);
+  const [pressTpIntoVeh,   setPressTpIntoVeh  ] = useState(false);
+  const [pressTpIntoMyVeh, setPressTpIntoMyVeh] = useState(false);
+  const [pressTpMarker,    setPressTpMarker   ] = useState(false);
+  const [pressFreeze,      setPressFreeze     ] = useState(false);
+  const [pressKill,        setPressKill       ] = useState(false);
 
   const [currentAccordionItem, setAccordionItem] = useState<string|null>()
 
@@ -80,6 +81,7 @@ const Players: React.FC = () => {
   useEffect(() => { setTimeout(() => { if (pressHeal)      setPressHeal(false)     }, 1000)}, [pressHeal,      setPressHeal     ]);
   useEffect(() => { setTimeout(() => { if (pressRevive)    setPressRevive(false)   }, 1000)}, [pressRevive,    setPressRevive   ]);
   useEffect(() => { setTimeout(() => { if (pressTpIntoVeh) setPressTpIntoVeh(false)}, 1000)}, [pressTpIntoVeh, setPressTpIntoVeh]);
+  useEffect(() => { setTimeout(() => { if (pressTpIntoMyVeh) setPressTpIntoMyVeh(false)}, 1000)}, [pressTpIntoMyVeh, setPressTpIntoMyVeh]);
   useEffect(() => { setTimeout(() => { if (pressTpMarker)  setPressTpMarker(false) }, 1000)}, [pressTpMarker,  setPressTpMarker ]);
   useEffect(() => { setTimeout(() => { if (pressKill)      setPressKill(false)     }, 1000)}, [pressKill,      setPressKill     ]);
 
@@ -175,7 +177,7 @@ const Players: React.FC = () => {
                     {GetLocale("ui.player.button.tp_into_veh")}
                   </Button>
 
-                  <Button variant='light' color={pressTpIntoVeh ? 'teal.4' : 'blue.4'} size='xs' onClick={() => { fetchNui('flight_admin:tpIntoVehPlayer', player.id); setPressTpIntoVeh(true); }}>
+                  <Button variant='light' color={pressTpIntoMyVeh ? 'teal.4' : 'blue.4'} size='xs' onClick={() => { fetchNui('flight_admin:tpPlayerIntoMy', player.id); setPressTpIntoMyVeh(true); }}>
                     {GetLocale("ui.player.button.tp_into_my_veh")}
                   </Button>
                 </Group>
@@ -183,7 +185,7 @@ const Players: React.FC = () => {
                 <Space h='xs'/>
                 
                 <Group grow spacing='xs'>
-                  <Button variant='light' color={'blue.4'} size='xs' onClick={() => { openModal({ title: GetLocale("ui.player.button.tp_coords"), size: 'sm', children: <SetCoords id = {player.id}/> }); }}>
+                  <Button variant='light' color="blue.4" size='xs' onClick={() => { openModal({ title: GetLocale("ui.player.button.tp_coords"), size: 'sm', children: <SetCoords id = {player.id}/> }); }}>
                     {GetLocale("ui.player.button.tp_coords")}
                   </Button>
                 </Group>
@@ -191,19 +193,26 @@ const Players: React.FC = () => {
                 <Space h='xs'/>
                 
                 <Group grow spacing='xs'>
-                  <Button variant='light' color={'blue.4'} size='xs' onClick={() => { fetchNui('flight_admin:placeMarkerAtPlayer', player.id); }}>
+                  <Button variant='light' color="blue.4" size='xs' onClick={() => { fetchNui('flight_admin:placeMarkerAtPlayer', player.id); }}>
                     {GetLocale("ui.player.button.locate")}
                   </Button>
 
-                  <Button variant='light' color={'blue.4'} size='xs' onClick={() => { fetchNui('flight_admin:trackPlayer', player.id); }}>
-                    {GetLocale("ui.player.button.track")}
-                  </Button>
+                  {
+                    player.tracking
+                      ? (<Button variant='light' color="red.4" size='xs' onClick={() => { fetchNui('flight_admin:untrackPlayer', player.id); }}>
+                          {GetLocale("ui.player.button.untrack")}
+                        </Button>)
+                      : (<Button variant='light' color="blue.4" size='xs' onClick={() => { fetchNui('flight_admin:trackPlayer', player.id); }}>
+                          {GetLocale("ui.player.button.track")}
+                        </Button>)
+                  }
+                  
                 </Group>
                 
                 <Space h='xs'/>
                 
                 <Group grow spacing='xs'>
-                  <Button variant='light' color={'blue.4'} size='xs' onClick={() => { fetchNui('flight_admin:tpPlayerToMarker', player.id); }}>
+                  <Button variant='light' color="blue.4" size='xs' onClick={() => { fetchNui('flight_admin:tpPlayerToMarker', player.id); }}>
                     {GetLocale("ui.player.button.tpm")}
                   </Button>
 
@@ -215,10 +224,10 @@ const Players: React.FC = () => {
                 <Space h="xs"/>
 
                 <Group grow spacing='xs'> 
-                  <Button variant='light' color={'blue.4'} size='xs' onClick={() => { fetchNui('flight_admin:bringPlayer', player.id); }}>
+                  <Button variant='light' color="blue.4" size='xs' onClick={() => { fetchNui('flight_admin:bringPlayer', player.id); }}>
                       {GetLocale("ui.player.button.bring")}
                   </Button>
-                  <Button disabled={!player.bringPlayer} variant='light' color={'red.4'} size='xs' onClick={() => { fetchNui('flight_admin:bringBackPlayer', player.id); }}>
+                  <Button disabled={!player.bringPlayer} variant='light' color="red.4" size='xs' onClick={() => { fetchNui('flight_admin:bringBackPlayer', player.id); }}>
                     {GetLocale("ui.player.button.bring_back")}
                   </Button>
                 </Group>
@@ -226,10 +235,10 @@ const Players: React.FC = () => {
                 <Space h="xs"/>
 
                 <Group grow spacing='xs'>
-                  <Button variant='light' color={'blue.4'} size='xs' onClick={() => { fetchNui('flight_admin:gotoPlayer', player.id); }}>
+                  <Button variant='light' color="blue.4" size='xs' onClick={() => { fetchNui('flight_admin:gotoPlayer', player.id); }}>
                     {GetLocale("ui.player.button.goto")}
                   </Button>
-                  <Button disabled={!player.gotoPlayer} variant='light' color={'red.4'} size='xs' onClick={() => { fetchNui('flight_admin:goBackPlayer', player.id); }}>
+                  <Button disabled={!player.gotoPlayer} variant='light' color="red.4" size='xs' onClick={() => { fetchNui('flight_admin:goBackPlayer', player.id); }}>
                     {GetLocale("ui.player.button.goto_back")}
                   </Button> 
                 </Group>
@@ -264,7 +273,7 @@ const Players: React.FC = () => {
                     {GetLocale("ui.player.button.kick")}
                   </Button>
                   
-                  <Button variant='light' color={'red.4'} size='xs' onClick={() => openModal({ title: GetLocale("ui.ban"), size: 'sm', children: <YeetPlayer id = {player.id} type = "ban"/> })}>
+                  <Button variant='light' color="red.4" size='xs' onClick={() => openModal({ title: GetLocale("ui.ban"), size: 'sm', children: <YeetPlayer id = {player.id} type = "ban"/> })}>
                     {GetLocale("ui.player.button.ban")}
                   </Button>
                 </Group>
@@ -289,11 +298,11 @@ const Players: React.FC = () => {
                 <Space h="xs"/>
 
                 <Group grow spacing='xs'>
-                  <Button variant='light' color={'blue.4'} size='xs' onClick={() => { fetchNui('flight_admin:openPlayerInventory', player.id); }}>
+                  <Button variant='light' color="blue.4" size='xs' onClick={() => { fetchNui('flight_admin:openPlayerInventory', player.id); }}>
                     {GetLocale("ui.player.button.open_inventory")}
                   </Button>
                   
-                  <Button variant='light' color={'blue.4'} size='xs' onClick={() => { openModal({ title: GetLocale("ui.trolls"), size: 'sm', children: <TrollMenu id={player.id}/>}); }}>
+                  <Button variant='light' color="blue.4" size='xs' onClick={() => { openModal({ title: GetLocale("ui.trolls"), size: 'sm', children: <TrollMenu id={player.id}/>}); }}>
                     {GetLocale("ui.player.button.troll")}
                   </Button>
                 </Group>

@@ -172,7 +172,7 @@ const Home: React.FC = () => {
                   setCopiedCoordsHeading(true)
                 }}
               >
-                {copiedCoords ? GetLocale("ui.home.current_coords.button.copied") : GetLocale("ui.home.current_coords.button.copy_heading")}
+                {copiedCoordsHeading ? GetLocale("ui.home.current_coords.button.copied") : GetLocale("ui.home.current_coords.button.copy_heading")}
               </Button>
             </Group>
 
@@ -224,7 +224,10 @@ const Home: React.FC = () => {
                 setClipboard(currentGroundCoords)
                 setCopiedGroundCoords(true)
               }}
-            >{copiedGroundCoords ? GetLocale("ui_copied_coords") : GetLocale("ui.home.current_coords.button.copy.ground")}</Button>
+            >
+              {copiedGroundCoords ? GetLocale("ui_copied_coords") : GetLocale("ui.home.current_coords.button.copy.ground")}
+            </Button>
+            
             <Button
               color={copiedGroundCoordsHeading ? 'teal' : 'blue.4'}
               variant='light'
@@ -233,7 +236,9 @@ const Home: React.FC = () => {
                 setClipboard(currentGroundCoords + ', ' + currentHeading)
                 setCopiedGroundCoordsHeading(true)
               }}
-            >{copiedGroundCoords ? GetLocale("ui_copied_coords") : GetLocale("ui.home.current_coords.button.copy_heading.ground")}</Button>
+            >
+              {copiedGroundCoordsHeading ? GetLocale("ui_copied_coords") : GetLocale("ui.home.current_coords.button.copy_heading.ground")}
+            </Button>
           </Group>
 
         </Paper>
@@ -346,7 +351,7 @@ const Home: React.FC = () => {
               color='blue.4'
               variant='light'
               onClick={() =>
-                fetchNui('flight_admin:revive')
+                fetchNui('flight_admin:revive_me')
               }
             >{GetLocale("ui_revive")}</Button>
           </Group>
@@ -374,7 +379,7 @@ const Home: React.FC = () => {
               color='blue.4'
               variant='light'
               onClick={() =>
-                fetchNui('flight_admin:setMaxHealth')
+                fetchNui('flight_admin:heal_me')
               }
             >{GetLocale("ui_max_health")}</Button>
 

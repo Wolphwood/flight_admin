@@ -18,6 +18,7 @@ export interface PlayerInfo {
   freeze: boolean,
   bringPlayer: boolean,
   gotoPlayer: boolean,
+  tracking: any,
   job: {
     name: string,
     grade: string | number
@@ -54,6 +55,7 @@ const mockPlayerList: PlayerInfo[] = [
       freeze: true,
       bringPlayer: true,
       gotoPlayer: true,
+      tracking: 12,
       job: {
         name: 'job1',
         grade: 0
@@ -77,6 +79,7 @@ const mockPlayerList: PlayerInfo[] = [
       freeze: false,
       bringPlayer: false,
       gotoPlayer: false,
+      tracking: 45,
       job: {
         name: 'job2',
         grade: 1
@@ -100,6 +103,7 @@ const mockPlayerList: PlayerInfo[] = [
       freeze: false,
       bringPlayer: false,
       gotoPlayer: false,
+      tracking: 45,
       job: {
         name: 'job3',
         grade: 3
@@ -123,6 +127,7 @@ const mockPlayerList: PlayerInfo[] = [
       freeze: false,
       bringPlayer: false,
       gotoPlayer: false,
+      tracking: 45,
       job: {
         name: 'job1',
         grade: 0
@@ -146,6 +151,7 @@ const mockPlayerList: PlayerInfo[] = [
       freeze: false,
       bringPlayer: false,
       gotoPlayer: false,
+      tracking: 45,
       job: {
         name: 'job1',
         grade: 2
@@ -169,6 +175,7 @@ const mockPlayerList: PlayerInfo[] = [
       freeze: false,
       bringPlayer: false,
       gotoPlayer: false,
+      tracking: 45,
       job: {
         name: 'job2',
         grade: 4
