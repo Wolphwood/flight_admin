@@ -105,8 +105,6 @@ lib.callback.register('flight_admin:getPlayerData', function()
     for k, v in pairs(players) do
         local xPlayer = ESX.GetPlayerFromId(v)
 
-        print(tracking[v])
-
         local datastore = {
             identifier = (xPlayer and xPlayer.identifier or "none"),
             license = "none",
@@ -432,7 +430,7 @@ end)
 RegisterNetEvent('flight_admin:bringPlayer', function(player, height)
     local coords = GetEntityCoords(GetPlayerPed(source))
     SetEntityCoords(GetPlayerPed(tonumber(player)), coords.x, coords.y, coords.z - (height / 2))
-    bringPlayer[tostring(player)] = coords
+    bringPlayer[tostring(player)] = GetEntityCoords(GetPlayerPed(player))
     TriggerClientEvent("flight_admin:updatePlayerData", source)
 end)
 

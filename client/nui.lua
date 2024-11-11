@@ -1011,9 +1011,6 @@ end)
 
 RegisterNetEvent('flight_admin:tpCoordsPlayer', function(data)
     local formatedCoords
-
-    
-    TriggerServerEvent('flight_admin:tlog', data)
     
     if data.coordString then
         local coordString = (data.coordString:gsub(',', '')):gsub('  ', ' ')
@@ -1027,8 +1024,6 @@ RegisterNetEvent('flight_admin:tpCoordsPlayer', function(data)
     elseif data.coords then
         formatedCoords = vec3(data.coords.x, data.coords.y, data.coords.z)
     end
-
-    TriggerServerEvent('flight_admin:log', formatedCoords)
 
     if not formatedCoords then return end
     FUNC.teleportPlayer({ x = formatedCoords.x, y = formatedCoords.y, z = formatedCoords.z }, true)
